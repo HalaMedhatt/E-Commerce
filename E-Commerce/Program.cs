@@ -15,6 +15,70 @@ namespace E_Commerce
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
             });
+            // Sara (19-33)
+            //1
+            //2
+            //3
+            //4
+            //5
+            //6
+            //7
+            //8
+            //9
+            //10
+            //11
+            //12
+            //13
+            //14
+            //15
+            // Rania (35-49)
+            //1
+            //2
+            //3
+            //4
+            //5
+            //6
+            //7
+            //8
+            //9
+            //10
+            //11
+            //12
+            //13
+            //14
+            //15
+            // Arwa (51-65)
+            //1
+            //2
+            //3
+            //4
+            //5
+            //6
+            //7
+            //8
+            //9
+            //10
+            //11
+            //12
+            //13
+            //14
+            //15
+            // Hala (67-81)
+            //1
+            //2
+            //3
+            //4
+            //5
+            //6
+            //7
+            //8
+            //9
+            //10
+            //11
+            //12
+            //13
+            //14
+            //15
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
