@@ -1,3 +1,5 @@
+using E_Commerce.IRepository;
+using E_Commerce.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce
@@ -48,8 +50,8 @@ namespace E_Commerce
             //14
             //15
             // Arwa (51-65)
-            //1
-            //2
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             //3
             //4
             //5
