@@ -1,0 +1,478 @@
+/* ===================================
+   Authentication Pages Styles
+   =================================== */
+
+/* Auth Section */
+.auth-section {
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url('../img/avatar.jpg');
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 50px 0;
+}
+
+/* Auth Card */
+.auth-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 40px;
+}
+
+/* Form Controls */
+.auth-card .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+}
+
+.auth-card .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-card .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #FEA116;
+    box-shadow: 0 0 15px rgba(254, 161, 22, 0.3);
+    color: #fff;
+}
+
+.auth-card label,
+.auth-card .form-label {
+    color: #fff;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Auth Title & Subtitle */
+.auth-title {
+    color: #FEA116;
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.auth-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 30px;
+}
+
+/* Auth Button */
+.btn-auth {
+    background: #FEA116;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+.btn-auth:hover {
+    background: #e8920e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(254, 161, 22, 0.4);
+}
+
+/* Auth Link */
+.auth-link {
+    color: #FEA116;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.auth-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 25px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.divider span {
+    padding: 0 15px;
+}
+
+/* Social Login */
+.social-login {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.social-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.social-btn:hover {
+    background: #FEA116;
+    border-color: #FEA116;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+/* Form Check */
+.form-check-input:checked {
+    background-color: #FEA116;
+    border-color: #FEA116;
+}
+
+.form-check-label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Password Toggle */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: #FEA116;
+}
+
+.input-group {
+    position: relative;
+}
+
+/* Password Strength */
+.password-strength {
+    height: 5px;
+    border-radius: 3px;
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+.strength-weak { width: 33%; background: #dc3545; }
+.strength-medium { width: 66%; background: #ffc107; }
+.strength-strong { width: 100%; background: #28a745; }
+
+/* Reset/Success Icons */
+.reset-icon,
+.success-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+}
+
+.reset-icon {
+    background: rgba(254, 161, 22, 0.2);
+}
+
+.reset-icon i {
+    font-size: 40px;
+    color: #FEA116;
+}
+
+.success-icon {
+    background: rgba(40, 167, 69, 0.2);
+}
+
+.success-icon i {
+    font-size: 40px;
+    color: #28a745;
+}
+
+/* Profile Page Styles */
+.profile-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #FEA116;
+    object-fit: cover;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.avatar-edit {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #FEA116;
+    border: 3px solid #0F172B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.avatar-edit:hover {
+    transform: scale(1.1);
+}
+
+.profile-name {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.profile-email {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #FEA116;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+/* Profile Navigation */
+.profile-nav {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.profile-nav .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 15px 25px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s;
+}
+
+.profile-nav .nav-link:hover {
+    background: rgba(254, 161, 22, 0.1);
+    color: #FEA116;
+}
+
+.profile-nav .nav-link.active {
+    background: #FEA116;
+    color: #fff;
+}
+
+.profile-nav .nav-link i {
+    width: 20px;
+}
+
+/* Content Card */
+.content-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.content-title {
+    color: #FEA116;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Buttons */
+.btn-save {
+    background: #FEA116;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-save:hover {
+    background: #e8920e;
+    transform: translateY(-2px);
+    color: #fff;
+}
+
+.btn-outline-custom {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 12px 30px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    background: transparent;
+}
+
+.btn-outline-custom:hover {
+    border-color: #FEA116;
+    color: #FEA116;
+}
+
+/* Reservation Item */
+.reservation-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.reservation-item:hover {
+    border-color: #FEA116;
+}
+
+.reservation-date {
+    color: #FEA116;
+    font-weight: 600;
+}
+
+.reservation-details {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-confirmed {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+}
+
+.status-pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.status-cancelled {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+/* Logout Link */
+.logout-link {
+    color: #dc3545 !important;
+}
+
+.logout-link:hover {
+    background: rgba(220, 53, 69, 0.1) !important;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+/* Form Select */
+.form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+}
+
+.form-select option {
+    background: #0F172B;
+    color: #fff;
+}
+
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #FEA116;
+    box-shadow: 0 0 15px rgba(254, 161, 22, 0.3);
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .profile-stats {
+        gap: 20px;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .auth-card {
+        padding: 25px;
+    }
+
+    .auth-title {
+        font-size: 2rem;
+    }
+}

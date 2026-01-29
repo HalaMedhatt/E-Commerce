@@ -1,5 +1,7 @@
 using E_Commerce.IRepository;
+using E_Commerce.Models;
 using E_Commerce.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce
@@ -35,6 +37,11 @@ namespace E_Commerce
             //15
             // Rania (35-49)
             //1
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ECommerceDbContext>()
+                .AddDefaultTokenProviders();
+            builder.Services.AddControllersWithViews();
+
             //2
             //3
             //4
@@ -90,6 +97,8 @@ namespace E_Commerce
             }
             app.UseRouting();
 
+            // Rania🤨
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
