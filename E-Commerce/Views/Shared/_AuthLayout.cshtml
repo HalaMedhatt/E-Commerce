@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - HoneyHive Store</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Auth CSS -->
+    <link rel="stylesheet" href="~/css/auth.css" />
+
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+<div class="auth-container">
+    <!-- Left Side - Branding -->
+    <div class="auth-branding">
+        <div class="honeycomb-pattern"></div>
+        <div class="branding-content">
+            <div class="logo">
+                <i class="fas fa-jar"></i>
+                <span>Honey Store</span>
+            </div>
+            <h1 class="tagline">Pure Honey, Pure Happiness</h1>
+            <p class="description">
+                Experience nature's golden treasure. Our organic honey is harvested
+                with care from sustainable apiaries around the world.
+            </p>
+
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-leaf"></i>
+                    <span>100% Organic</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-truck"></i>
+                    <span>Free Shipping</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-award"></i>
+                    <span>Premium Quality</span>
+                </div>
+            </div>
+
+            <div class="bee-animation">
+                <div class="bee bee-1">🐝</div>
+                <div class="bee bee-2">🐝</div>
+                <div class="bee bee-3">🐝</div>
+            </div>
+            
+            
+        </div>
+
+        <div class="decorative-honeycombs">
+            <div class="honeycomb h1"></div>
+            <div class="honeycomb h2"></div>
+            <div class="honeycomb h3"></div>
+            <div class="honeycomb h4"></div>
+            <div class="honeycomb h5"></div>
+        </div>
+    </div>
+
+    <!-- Right Side - Auth Form -->
+    <div class="auth-form-section">
+        <div class="auth-form-wrapper">
+            @* <!-- Back to Home --> *@
+            @* <a href="/" class="back-home"> *@
+            @*     <i class="fas fa-arrow-left"></i> *@
+            @*     Back to Store *@
+            @* </a> *@
+
+            <!-- Main Content -->
+            @RenderBody()
+
+            <!-- Footer -->
+            <div class="auth-footer">
+                <p>&copy; @DateTime.Now.Year Honey Store. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy Policy</a>
+                    <span class="divider">•</span>
+                    <a href="/terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dripping Honey Effect -->
+<div class="honey-drip">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path class="drip-path" d="M0,0 C150,100 350,0 500,50 C650,100 800,20 1000,60 C1200,100 1350,30 1440,0 L1440,0 L0,0 Z"></path>
+    </svg>
+</div>
+
+@RenderSection("Scripts", required: false)
+</body>
+</html>
