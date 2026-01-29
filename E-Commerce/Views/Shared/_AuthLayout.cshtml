@@ -1,65 +1,102 @@
-@{
-    Layout = null;
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>@ViewData["Title"] - Restoran</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - HoneyHive Store</title>
 
-    <!-- Favicon -->
-    <link href="~/img/favicon.ico" rel="icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Auth CSS -->
+    <link rel="stylesheet" href="~/css/auth.css" />
 
-    <!-- Libraries Stylesheet -->
-    <link href="~/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="~/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="~/css/style.css" rel="stylesheet">
-
-    <!-- Auth Stylesheet -->
-    <link href="~/css/auth.css" rel="stylesheet">
-
-    @await RenderSectionAsync("Styles", required: false)
+    @RenderSection("Styles", required: false)
 </head>
 <body>
-    <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
+<div class="auth-container">
+    <!-- Left Side - Branding -->
+    <div class="auth-branding">
+        <div class="honeycomb-pattern"></div>
+        <div class="branding-content">
+            <div class="logo">
+                <i class="fas fa-jar"></i>
+                <span>Honey Store</span>
+            </div>
+            <h1 class="tagline">Pure Honey, Pure Happiness</h1>
+            <p class="description">
+                Experience nature's golden treasure. Our organic honey is harvested
+                with care from sustainable apiaries around the world.
+            </p>
+
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-leaf"></i>
+                    <span>100% Organic</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-truck"></i>
+                    <span>Free Shipping</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-award"></i>
+                    <span>Premium Quality</span>
+                </div>
+            </div>
+
+            <div class="bee-animation">
+                <div class="bee bee-1">🐝</div>
+                <div class="bee bee-2">🐝</div>
+                <div class="bee bee-3">🐝</div>
+            </div>
+            
+            
+        </div>
+
+        <div class="decorative-honeycombs">
+            <div class="honeycomb h1"></div>
+            <div class="honeycomb h2"></div>
+            <div class="honeycomb h3"></div>
+            <div class="honeycomb h4"></div>
+            <div class="honeycomb h5"></div>
         </div>
     </div>
-    <!-- Spinner End -->
 
-    @RenderBody()
+    <!-- Right Side - Auth Form -->
+    <div class="auth-form-section">
+        <div class="auth-form-wrapper">
+            @* <!-- Back to Home --> *@
+            @* <a href="/" class="back-home"> *@
+            @*     <i class="fas fa-arrow-left"></i> *@
+            @*     Back to Store *@
+            @* </a> *@
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/wow/wow.min.js"></script>
-    <script src="~/lib/easing/easing.min.js"></script>
-    <script src="~/lib/waypoints/waypoints.min.js"></script>
-    <script src="~/lib/counterup/counterup.min.js"></script>
-    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+            <!-- Main Content -->
+            @RenderBody()
 
-    <!-- Template Javascript -->
-    <script src="~/js/main.js"></script>
+            <!-- Footer -->
+            <div class="auth-footer">
+                <p>&copy; @DateTime.Now.Year Honey Store. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy Policy</a>
+                    <span class="divider">•</span>
+                    <a href="/terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    @await RenderSectionAsync("Scripts", required: false)
+<!-- Dripping Honey Effect -->
+<div class="honey-drip">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path class="drip-path" d="M0,0 C150,100 350,0 500,50 C650,100 800,20 1000,60 C1200,100 1350,30 1440,0 L1440,0 L0,0 Z"></path>
+    </svg>
+</div>
+
+@RenderSection("Scripts", required: false)
 </body>
 </html>
