@@ -6,10 +6,6 @@ namespace E_Commerce.Controllers
 {
     public class CartController(ICartRepository cartRepository) : Controller
     {
-       // public IActionResult Index()
-       // {
-           // var cart = cartRepository.GetCartByUserId();
-           // return View(cart);
-        //}
+        
     }
 }

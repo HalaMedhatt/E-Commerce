@@ -7,6 +7,7 @@
         List<T> GetAll();
         void Save();
         void Edit(T item);
+        void Delete(int id);
 
     }
 }
