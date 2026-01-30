@@ -1,5 +1,6 @@
 ﻿using E_Commerce.IRepository;
 using E_Commerce.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Repository
 {
@@ -28,12 +29,18 @@ namespace E_Commerce.Repository
 
         public  List<Product> GetAll()
         {
-            return _context.Products.ToList();
+            return _context.Products
+                .Include(Product => Product.Category)
+                .ToList();
         }
 
         public Product GetById(int id)
         {
-            return _context.Products.Find(id);
+            return _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefault(p=>p.Id==id);
+                
+
         }
 
         public void Save()
