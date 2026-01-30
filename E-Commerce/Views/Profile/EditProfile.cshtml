@@ -1,0 +1,342 @@
+@model E_Commerce.ViewModels.ProfileViewModel
+
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "_Profile";
+}
+
+<!-- Page Header Start -->
+@* <div class="container-fluid page-header py-5"> *@
+@*     <h1 class="text-center text-white display-6">Edit Profile</h1> *@
+@*     <ol class="breadcrumb justify-content-center mb-0"> *@
+@*         <li class="breadcrumb-item"><a href="/">Home</a></li> *@
+@*         <li class="breadcrumb-item"><a href="@Url.Action("GetProfile", "Profile")">Profile</a></li> *@
+@*         <li class="breadcrumb-item active text-white">Edit</li> *@
+@*     </ol> *@
+@* </div> *@
+<!-- Page Header End -->
+
+<!-- Edit Profile Section Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <!-- Sidebar -->
+            @* <div class="col-lg-3 col-md-4"> *@
+            @*     <!-- Account Menu --> *@
+            @*     <div class="bg-light rounded p-4 mb-4"> *@
+            @*         <h4 class="text-primary mb-4">Account Menu</h4> *@
+            @*         <div class="d-flex flex-column"> *@
+            @*             <a asp-controller="Profile" asp-action="GetProfile" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
+            @*                 <i class="fas fa-user me-2"></i>My Profile *@
+            @*             </a> *@
+            @*             <a asp-controller="Profile" asp-action="EditProfile" class="btn btn-primary rounded-pill py-2 px-4 mb-2"> *@
+            @*                 <i class="fas fa-edit me-2"></i>Edit Profile *@
+            @*             </a> *@
+            @*             <a asp-controller="Order" asp-action="MyOrders" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
+            @*                 <i class="fas fa-shopping-bag me-2"></i>My Orders *@
+            @*             </a> *@
+            @*             <a asp-controller="Wishlist" asp-action="Index" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
+            @*                 <i class="fas fa-heart me-2"></i>Wishlist *@
+            @*             </a> *@
+            @*             <a asp-controller="Account" asp-action="ChangePassword" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
+            @*                 <i class="fas fa-lock me-2"></i>Change Password *@
+            @*             </a> *@
+            @*             <a asp-controller="Account" asp-action="LogOut" class="btn border border-danger rounded-pill py-2 px-4 text-danger"> *@
+            @*                 <i class="fas fa-sign-out-alt me-2"></i>Logout *@
+            @*             </a> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* *@
+            @*     <!-- Tips Card --> *@
+            @*     <div class="bg-light rounded p-4"> *@
+            @*         <h4 class="text-primary mb-4"> *@
+            @*             <i class="fas fa-lightbulb me-2"></i>Tips *@
+            @*         </h4> *@
+            @*         <ul class="list-unstyled mb-0"> *@
+            @*             <li class="mb-2"> *@
+            @*                 <i class="fas fa-check-circle text-success me-2"></i> *@
+            @*                 Use a valid email address *@
+            @*             </li> *@
+            @*             <li class="mb-2"> *@
+            @*                 <i class="fas fa-check-circle text-success me-2"></i> *@
+            @*                 Keep your phone number updated *@
+            @*             </li> *@
+            @*             <li class="mb-2"> *@
+            @*                 <i class="fas fa-check-circle text-success me-2"></i> *@
+            @*                 Username must be unique *@
+            @*             </li> *@
+            @*             <li> *@
+            @*                 <i class="fas fa-check-circle text-success me-2"></i> *@
+            @*                 All fields are required *@
+            @*             </li> *@
+            @*         </ul> *@
+            @*     </div> *@
+            @* </div> *@
+
+            <!-- Main Edit Form -->
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="bg-light rounded overflow-hidden">
+                    <!-- Form Header -->
+                    <div class="bg-primary p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="btn-square bg-white rounded-circle me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-user-edit fa-2x text-primary d-flex align-items-center justify-content-center h-100"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-white mb-1">Edit Your Profile</h3>
+                                <p class="text-white-50 mb-0">Update your personal information</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Body -->
+                    <div class="p-4">
+                        <!-- Success Message -->
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- Validation Summary -->
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Please correct the following errors:</strong>
+                                <ul class="mb-0 mt-2">
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <form asp-action="EditProfile" asp-controller="Profile" method="post">
+                            @Html.AntiForgeryToken()
+
+                            <div class="row g-4">
+                                <!-- First Name -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold">
+                                            First Name
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="fas fa-user text-primary"></i>
+                                            </span>
+                                            <input asp-for="FirstName" 
+                                                   class="form-control border-start-0 py-3" 
+                                                   placeholder="Enter your first name">
+                                        </div>
+                                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold">
+                                            Last Name
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="fas fa-user text-primary"></i>
+                                            </span>
+                                            <input asp-for="LastName" 
+                                                   class="form-control border-start-0 py-3" 
+                                                   placeholder="Enter your last name">
+                                        </div>
+                                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Username -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold">
+                                            Username
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="fas fa-at text-primary"></i>
+                                            </span>
+                                            <input asp-for="UserName" 
+                                                   class="form-control border-start-0 py-3" 
+                                                   placeholder="Enter your username">
+                                        </div>
+                                        <span asp-validation-for="UserName" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold">
+                                            Email Address
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="fas fa-envelope text-primary"></i>
+                                            </span>
+                                            <input asp-for="Email" 
+                                                   type="email"
+                                                   class="form-control border-start-0 py-3" 
+                                                   placeholder="Enter your email address">
+                                        </div>
+                                        <span asp-validation-for="Email" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold">
+                                            Phone Number
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="fas fa-phone text-primary"></i>
+                                            </span>
+                                            <input asp-for="Phone" 
+                                                   type="tel"
+                                                   class="form-control border-start-0 py-3" 
+                                                   placeholder="Enter your phone number">
+                                        </div>
+                                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Profile Picture Placeholder (Optional) -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label fw-bold">
+                                              Profile Picture
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="fas fa-image text-primary"></i>
+                                            </span>
+                                            <input type="file" 
+                                                   class="form-control border-start-0 py-3" 
+                                                   accept="image/*"
+                                                   disabled>
+                                        </div>
+                                        <small class="text-muted">Coming soon...</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="row mt-5">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <button type="submit" class="btn btn-primary border-2 border-secondary rounded-pill w-100 py-3">
+                                        <i class="fas fa-save me-2"></i>Save Changes
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <a asp-controller="Profile" asp-action="GetProfile" class="btn border border-secondary rounded-pill w-100 py-3 text-primary">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Additional Info Card -->
+                <div class="bg-light rounded p-4 mt-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="text-primary mb-2">
+                                <i class="fas fa-lock me-2"></i>Want to change your password?
+                            </h5>
+                            <p class="text-muted mb-0">
+                                Keep your account secure by updating your password regularly.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <a asp-controller="Profile" asp-action="ChangePassword" class="btn border border-secondary rounded-pill px-4 py-2 text-primary">
+                                <i class="fas fa-key me-2"></i>Change Password
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Account Card (Optional) -->
+                <div class="bg-light rounded p-4 mt-4 border border-danger border-opacity-25">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            @* <h5 class="text-danger mb-2"> *@
+                            @*     <i class="fas fa-exclamation-triangle me-2"></i>Danger Zone *@
+                            @* </h5> *@
+                            <p class="text-muted mb-0">
+                                Once you delete your account, there is no going back. Please be certain.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <button type="button" class="btn btn-outline-danger rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                <i class="fas fa-trash me-2"></i>Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Profile Section End -->
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteAccountModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Delete Account
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="fas fa-user-times fa-4x text-danger mb-3"></i>
+                <h4>Are you sure?</h4>
+                <p class="text-muted">
+                    This action cannot be undone. All your data will be permanently deleted.
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn border border-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </button>
+                <form asp-controller="Account" asp-action="DeleteAccount" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger rounded-pill px-4">
+                        <i class="fas fa-trash me-2"></i>Yes, Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Add focus effect to input groups
+        document.querySelectorAll('.form-control').forEach(function(input) {
+            input.addEventListener('focus', function() {
+                this.closest('.input-group').classList.add('border-primary', 'shadow-sm');
+            });
+            input.addEventListener('blur', function() {
+                this.closest('.input-group').classList.remove('border-primary', 'shadow-sm');
+            });
+        });
+    </script>
+}
