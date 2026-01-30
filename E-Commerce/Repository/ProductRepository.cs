@@ -16,6 +16,11 @@ namespace E_Commerce.Repository
             _context.Products.Add(item);
         }
 
+        public void Delete(int id)
+        {
+            _context.Products.Remove(GetById(id));
+        }
+
         public void Edit(Product item)
         {
             _context.Products.Update(item);

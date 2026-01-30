@@ -1,5 +1,6 @@
 using E_Commerce.IRepository;
 using E_Commerce.Models;
+using E_Commerce.Reposiory;
 using E_Commerce.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -73,20 +74,16 @@ namespace E_Commerce
             //14
             //15
             // Hala (67-81)
-            //1
-            //2
-            //3
-            //4
-            //5
-            //6
-            //7
-            //8
-            //9
-            //10
-            //11
-            //12
-            //13
-            //14
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(7);
+                //options.Cookie.HttpOnly = true;
+               // options.Cookie.IsEssential = true;
+            });
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             //15
             var app = builder.Build();
 
