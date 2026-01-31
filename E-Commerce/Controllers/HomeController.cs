@@ -10,18 +10,22 @@ namespace E_Commerce.Controllers
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IReviewRepository _reviewRepository;
         public HomeController(IProductRepository productRepository,
             ICategoryRepository categoryRepository,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IReviewRepository reviewRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
             _webHostEnvironment = webHostEnvironment;
+            _reviewRepository = reviewRepository;
         }
         public IActionResult Index()
         {
             var categories = _categoryRepository.GetAll();
             ViewBag.Products = _productRepository.GetAll();
+            ViewBag.Reviews = _reviewRepository.GetAll();
             return View(categories);
         }
 
