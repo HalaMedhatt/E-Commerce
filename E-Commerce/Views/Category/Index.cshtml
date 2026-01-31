@@ -1,0 +1,40 @@
+﻿@model IEnumerable<E_Commerce.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section categoryIndexView{
+
+    <a asp-action="Create">
+        Add New Category
+    </a>
+    <div class="col-lg-8 text-end">
+        <ul class="nav nav-pills d-inline-flex text-center mb-5">
+        @foreach (var category in Model)
+        {
+            
+                <li class="nav-item">
+                    <a class="d-flex m-2 py-2 bg-light rounded-pill active"
+                    data-bs-toggle="pill" 
+                       asp-action="Details"
+                       asp-controller="Category"
+                       asp-route-Id="@category.Id">
+                        <span class="text-dark" style="width: 130px;">@category.Name</span>
+
+                    </a>
+                </li>
+
+
+   
+        }
+        </ul>
+
+
+    </div>
+
+
+
+}

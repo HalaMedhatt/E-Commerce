@@ -1,10 +1,236 @@
-﻿@{
+﻿@model List<Category>
+
+@{
     ViewData["Title"] = "Home Page";
-    // Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    
-    @* <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+<!-- Shop Start-->
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <div class="tab-class text-center">
+
+            <!-- Tabs Header -->
+            <div class="row g-4">
+                <div class="col-lg-4 text-start">
+                    <h1>Our Organic Products</h1>
+                </div>
+
+                <div class="col-lg-8 text-end">
+                    <ul class="nav nav-pills d-inline-flex text-center mb-5">
+
+                        <!-- All Products -->
+                        <li class="nav-item">
+                            <a class="d-flex m-2 py-2 bg-light rounded-pill active"
+                               data-bs-toggle="pill"
+                               href="#tab-all">
+                                <span class="text-dark" style="width:130px;">
+                                    All Products
+                                </span>
+                            </a>
+                        </li>
+
+                        <!-- Categories -->
+                        @foreach (var category in Model)
+                        {
+                            <li class="nav-item">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill"
+                                   data-bs-toggle="pill"
+                                   href="#tab-@category.Id">
+                                    <span class="text-dark" style="width:130px;">
+                                        @category.Name
+                                    </span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tabs Content -->
+            <div class="tab-content">
+
+                <!-- All Products Tab -->
+                <div id="tab-all" class="tab-pane fade show active p-0">
+                    <div class="row g-4">
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="rounded position-relative fruite-item">
+                                    <div class="fruite-img">
+                                        <img src="/img/fruite-item-5.jpg"
+                                             class="img-fluid w-100 rounded-top">
+                                    </div>
+                                    @* <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">@ViewBag.Category.Name</div> *@
+
+                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                        <h4>@product.Name</h4>
+                                        <p>@product.Description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Category Tabs -->
+                @foreach (var category in Model)
+                {
+                    <div id="tab-@category.Id" class="tab-pane fade p-0">
+                        <div class="row g-4">
+
+                            @foreach (var product in ViewBag.Products)
+                            {
+                                if (product.CategoryId == category.Id)
+                                {
+                                    <div class="col-md-6 col-lg-4 col-xl-3">
+                                        <div class="rounded position-relative fruite-item">
+                                            <div class="fruite-img">
+                                                <img src="/img/fruite-item-5.jpg"
+                                                     class="img-fluid w-100 rounded-top">
+                                            </div>
+
+                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                <h4>@product.Name</h4>
+                                                <p>@product.Description</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<!-- Service Section -->
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="row g-4 justify-content-center">
+            @foreach (var product in ((IEnumerable<Product>)ViewBag.Products).Take(3))
+            {
+                <div class="col-md-6 col-lg-4">
+                    <a href="#">
+                        <div class="service-item bg-secondary rounded border border-secondary">
+                            <img src="/img/featur-1.jpg" class="img-fluid rounded-top w-100" alt="">
+                            <div class="px-4 rounded-bottom">
+                                <div class="service-content bg-primary text-center p-4 rounded">
+                                    <h5 class="text-white">@product.Name</h5>
+                                    <h3 class="mb-0">20% OFF</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Honey Section -->
+<div class="container-fluid vesitable py-5">
+    <div class="container py-5">
+        <h1 class="mb-0 text-start">Pure Organic Honey</h1>
+        <p class="text-muted mb-4">Discover our finest collection of natural honey and bee products.</p>
+        <div class="owl-carousel vegetable-carousel justify-content-center">
+            @foreach (var product in ViewBag.Products)
+            {
+                <div class="border border-primary rounded position-relative vesitable-item">
+                    <div class="vesitable-img">
+                        <img src="/img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="Honey Product">
+                    </div>
+                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">@product.Category.Name</div>
+                    <div class="p-4 rounded-bottom">
+                        <h4>@product.Name</h4>
+                        <p>@product.Description</p>
+                        <div class="d-flex justify-content-between flex-lg-wrap">
+                            <p class="text-dark fs-5 fw-bold mb-0">$12.99 / jar</p>
+                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Honey Banner Section -->
+<div class="container-fluid banner bg-secondary my-5">
+    <div class="container py-5">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <div class="py-4">
+                    <h1 class="display-3 text-white">Fresh Natural Honey</h1>
+                    <p class="fw-normal display-3 text-dark mb-4">Directly from our hives</p>
+                    <p class="mb-4 text-dark">Enjoy the pure taste and health benefits of our organic honey products.</p>
+                    <a href="#" class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BUY NOW</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="/img/p4-removebg-preview.png" class="img-fluid w-100 rounded" alt="Honey Banner">
+                    <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
+                        <h1 style="font-size: 100px;">1</h1>
+                        <div class="d-flex flex-column">
+                            <span class="h2 mb-0">50$</span>
+                            <span class="h4 text-muted mb-0">jar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Reviews Section-->
+<div class="container-fluid testimonial py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h5 class="text-primary text-uppercase">Our Testimonial</h5>
+            <h1 class="display-5">Our Client Saying!</h1>
+        </div>
+
+        <div class="row g-4">
+
+            @foreach (var review in ((IEnumerable<ProductReview>)ViewBag.Reviews).Take(3))
+            {
+
+                <!-- Testimonial Item -->
+                <div class="col-lg-6">
+                    <div class="testimonial-item">
+                        <p class="testimonial-text">
+                           @review.Comment
+                        </p>
+
+                        <div class="testimonial-footer">
+                            <img src="img/testimonial-1.jpg" alt="">
+                            <div class="ms-3">
+                                <h5 class="mb-1">Client Name</h5>
+                                <span>Profession</span>
+                                <div class="testimonial-rating">
+                                    ★★★★★
+                                </div>
+                            </div>
+                            <i class="fa fa-quote-right quote-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+}
+
+
+
+

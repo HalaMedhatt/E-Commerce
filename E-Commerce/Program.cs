@@ -60,6 +60,7 @@ namespace E_Commerce
             // Arwa (51-65)
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             //3
             //4
             //5

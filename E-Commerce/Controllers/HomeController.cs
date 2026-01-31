@@ -1,3 +1,4 @@
+using E_Commerce.IRepository;
 using E_Commerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,14 +7,36 @@ namespace E_Commerce.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IReviewRepository _reviewRepository;
+        public HomeController(IProductRepository productRepository,
+            ICategoryRepository categoryRepository,
+            IWebHostEnvironment webHostEnvironment,
+            IReviewRepository reviewRepository)
+        {
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _webHostEnvironment = webHostEnvironment;
+            _reviewRepository = reviewRepository;
+        }
         public IActionResult Index()
         {
-           // return RedirectToAction("Login", "Account");
-           return View();
+            var categories = _categoryRepository.GetAll();
+            ViewBag.Products = _productRepository.GetAll();
+            ViewBag.Reviews = _reviewRepository.GetAll();
+            return View(categories);
         }
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+        public IActionResult Categories()
+        {
+            //var categories = _categoryRepository.GetAll();
+            //ViewBag.Products = _productRepository.GetAll();
             return View();
         }
 
