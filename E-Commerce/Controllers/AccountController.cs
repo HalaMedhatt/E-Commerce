@@ -34,6 +34,8 @@ public class AccountController : Controller
             ApplicationUser newUser = new ApplicationUser()
             {
                 UserName = model.UserName,
+                FirstName =  model.FirstName,
+                LastName = model.LastName,
                 Email = model.Email,
                 PasswordHash = model.Password,
                 //   Address = model.Address,
@@ -44,7 +46,7 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
-                // await userManager.AddToRoleAsync(newUser, "Admin");
+                 //await userManager.AddToRoleAsync(newUser, "Admin");
                 await userManager.AddToRoleAsync(newUser, "User");
                 await signInManager.SignInAsync(newUser, false);
                 return RedirectToAction("Index", "Home");
