@@ -1,0 +1,198 @@
+﻿@model Cart
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_cart";
+}
+<!-- Cart Page Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        @if (Model == null || !Model.CartItems.Any())
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-shopping-cart fa-5x text-muted mb-4"></i>
+                <h3 class="mb-3">Your cart is empty</h3>
+                <p class="mb-4">Add some delicious products to your cart!</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-shopping-bag me-2"></i> Start Shopping
+                </a>
+            </div>
+        }
+         else{
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Products</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach(CartItem item in Model.CartItems){
+                           <tr>
+                            <th scope="row">
+                                <div class="d-flex align-items-center">
+                                            <img src="@item?.ProductVariant?.Product?.Images?.First().ImageUrl"
+                                                 class="img-fluid me-5 rounded-circle"
+                                                 style="width: 80px; height: 80px; object-fit: cover;"
+                                                 alt="@item.ProductVariant.Product.Name">
+                                </div>
+                            </th>
+                            <td>
+                                <p class="mb-0 mt-4">@item.ProductVariant.Product.Name</p>
+                            </td>
+                            <td>
+                                <p class="mb-0 mt-4">@item.ProductVariant.Size</p>
+                            </td>
+                            <td>
+                                <p class="mb-0 mt-4">@item.ProductVariant.Price</p>
+                            </td>
+                            <td>
+                                <form asp-action="UpdateQuantity" method="post">
+                                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                                    <div class="input-group quantity mt-4" style="width: 140px;">
+                                        <div class="input-group-btn">
+                                            <button type="submit"
+                                                    name="quantity"
+                                                    value="@(item.Quantity - 1)"
+                                                    class="btn btn-sm btn-minus rounded-circle bg-light border"
+                                                    @(item.Quantity <= 1 ? "disabled" : "")>
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm text-center border-0"
+                                                value="@item.Quantity" readonly>
+                                        <div class="input-group-btn">
+                                            <button type="submit"
+                                                    name="quantity"
+                                                    value="@(item.Quantity + 1)"
+                                                    class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <p class="mb-0 mt-4">@(item.ProductVariant.Price * item.Quantity)</p>
+                            </td>
+                            <td>
+                                <form asp-action="RemoveFromCart" method="post" class="d-inline">
+                                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                                    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4">
+                                        <i class="fa fa-times text-danger"></i>
+                                    </button>
+                                </form>
+                            </td>
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+      
+
+        <!-- Cart Summary -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                <div class="bg-light rounded shadow-sm">
+                    <div class="p-4">
+                        <h1 class="display-6 mb-4 text-center">
+                            <i class="fas fa-receipt text-primary me-2"></i>
+                            Cart <span class="fw-normal">Summary</span>
+                        </h1>
+                
+                        <!-- Subtotal -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">
+                                <i class="fas fa-shopping-cart text-muted me-2"></i>
+                                Subtotal:
+                            </h5>
+                            <p class="mb-0 fs-5">
+                                @((Model?.CartItems?.Sum(ci => ci.ProductVariant.Price * ci.Quantity) ?? 0).ToString("C"))
+                            </p>
+                        </div>
+                
+                        <!-- Shipping -->
+                        @{
+                            var subtotal = Model?.CartItems?.Sum(ci => ci.ProductVariant.Price * ci.Quantity) ?? 0;
+                            var shipping = 95;
+                        }
+                
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">
+                                <i class="fas fa-shipping-fast text-muted me-2"></i>
+                                Shipping:
+                            </h5>
+                            <div class="text-end">
+                             
+                                  <p class="mb-0">50</p>
+                                
+                            </div>
+                        </div>
+                
+               
+                    </div>
+            
+                    <!-- Total -->
+                    <div class="py-4 border-top border-bottom bg-white">
+                        <div class="d-flex justify-content-between align-items-center px-4">
+                            <h3 class="mb-0">
+                                <i class="fas fa-dollar-sign text-primary me-2"></i>
+                                Total:
+                            </h3>
+                            <h2 class="mb-0 text-primary">
+                                @((subtotal + shipping).ToString("C"))
+                            </h2>
+                        </div>
+                    </div>
+            
+                    <!-- Checkout Button -->
+                    <div class="p-4 text-center">
+                        @if (Model?.CartItems?.Any() == true)
+                        {
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Order" 
+                                   asp-action="Checkout" 
+                                   class="btn btn-primary btn-lg w-100 rounded-pill py-3">
+                                    <i class="fas fa-lock me-2"></i>
+                                    Proceed to Secure Checkout
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="mb-3">
+                                        <a asp-controller="Account" asp-action="LogIn"
+                                       asp-route-returnUrl="@Context.Request.Path"
+                                       class="btn btn-primary btn-lg w-100 rounded-pill py-3 mb-2">
+                                        <i class="fas fa-sign-in-alt me-2"></i>
+                                        Login to Checkout
+                                    </a>
+                                    <small class="text-muted">
+                                            Or <a asp-controller="Account" asp-action="Regiser">create an account</a>
+                                    </small>
+                                </div>
+                            }
+                        }
+                
+                        <!-- Continue Shopping -->
+                        <a asp-controller="Home" 
+                           asp-action="Index" 
+                           class="btn btn-outline-secondary w-100 rounded-pill py-3 mt-3">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+    </div>
+</div>
