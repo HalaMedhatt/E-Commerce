@@ -77,16 +77,17 @@ namespace E_Commerce
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromDays(7);
-                //options.Cookie.HttpOnly = true;
-               // options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            //15
-            var app = builder.Build();
+            builder.Services.AddHttpContextAccessor();
 
+            var app = builder.Build();
+            app.UseSession();
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

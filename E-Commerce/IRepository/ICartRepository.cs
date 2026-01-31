@@ -6,7 +6,7 @@ namespace E_Commerce.IRepository
     public interface ICartRepository: IRepository<Cart>
     {
         Cart GetCartByUserId(string userId);
-        void AddToCart(string userId, int productId, int quantity);
+        bool AddToCart(string userId, int productId, int quantity);
         void RemoveFromCart(int cartItemId);
         void UpdateCartItemQuantity(int cartItemId, int quantity);
         void ClearCart(string userId);
