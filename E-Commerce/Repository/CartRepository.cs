@@ -9,7 +9,7 @@ namespace E_Commerce.Repository
     {
         public void Add(Cart item)
         {
-            throw new NotImplementedException();
+            context.Carts.Add(item);
         }
 
         public bool AddToCart(string userId, int productVariantId, int quantity = 1)

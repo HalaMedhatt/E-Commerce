@@ -1,48 +1,142 @@
 ﻿using E_Commerce.IRepository;
 using E_Commerce.Models;
+using E_Commerce.Models.Enum;
+using E_Commerce.Repository;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace E_Commerce.Reposiory
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository(ECommerceDbContext context, ICartRepository cartRepository) : IOrderRepository
     {
-        public int CreateOrderFromCart(string userId, string street, string city, string paymentMethod)
+        public void Add(Order item)
         {
-            throw new NotImplementedException();
+            context.Orders.Add(item);
+        }
+        public int CreateOrderFromCart(string userId, int shippingAddressId)
+        {
+            var cart = cartRepository.GetCartByUserId(userId);
+
+            if (cart == null || !cart.CartItems.Any())
+            {
+                throw new InvalidOperationException("Cart is Empty!!!");
+            }
+
+            
+            var order = new Order
+            {
+                UserId = userId,
+                ShippingAddressId = shippingAddressId,
+                Status = OrderStatus.Pending,
+                TotalCost = cartRepository.GetCartTotal(userId)
+            };
+
+            Add(order);
+            Save();
+            foreach (var cartItem in cart.CartItems)
+            {
+                var orderItem = new OrderItem
+                {
+                    OrderId = order.Id,
+                    ProductVariantId = cartItem.ProductVariantId,
+                    Quantity = cartItem.Quantity,
+                    UnitPrice = cartItem.ProductVariant.Price
+                };
+                context.OrderItems.Add(orderItem);
+            }
+
+            Save();
+            cartRepository.ClearCart(userId);
+            return order.Id;
         }
 
-        public Order GetOrderById(int id)
+        public bool UpdateOrderStatus(int orderId, OrderStatus status)
         {
-            throw new NotImplementedException();
+            var order = GetById(orderId);
+            if (order == null)
+            {
+                return false;
+            }
+
+            order.Status = status;
+            context.Orders.Update(order);
+            Save();
+
+            return true;
         }
 
-        public int GetOrderCountByDate(DateTime date)
+        public bool CancelOrder(int orderId, string userId)
         {
-            throw new NotImplementedException();
+            var order = GetById(orderId);
+            if (order == null || order.UserId != userId)
+            {
+                return false;
+            }
+
+            if (order.Status == OrderStatus.Pending)
+            {
+                order.Status = OrderStatus.Cancelled;
+                Edit(order);
+                Save();
+                return true;
+            }
+
+            return false;
+        }
+        public void Delete(int id)
+        {
+            var order = GetById(id);
+            if (order != null)
+            {
+                context.Orders.Remove(order);
+            }
         }
 
-        public List<Order> GetOrdersByStatus(string status)
+        public void Edit(Order item)
         {
-            throw new NotImplementedException();
+            context.Orders.Update(item);
         }
 
-        public List<Order> GetOrdersByUserId(string userId)
+        public List<Order> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderItems)
+                .Include(o => o.Payment)
+                .ToList();
         }
 
-        public decimal GetTotalRevenue(DateTime startDate, DateTime endDate)
+        public Order GetById(int id)
         {
-            throw new NotImplementedException();
+            return context.Orders
+               .Include(o => o.User)
+               .Include(o => o.ShippingAddress)
+               .Include(o => o.OrderItems)
+                   .ThenInclude(oi => oi.ProductVariant)
+                       .ThenInclude(pv => pv.Product)
+               .Include(o => o.Payment)
+               .FirstOrDefault(o => o.Id == id);
         }
 
-        public void UpdateOrderStatus(int orderId, string status)
+        public List<Order> GetByUserId(string userId)
         {
-            throw new NotImplementedException();
+           
+            return context.Orders
+               .Include(o => o.ShippingAddress)
+               .Include(o => o.OrderItems)
+                   .ThenInclude(oi => oi.ProductVariant)
+                       .ThenInclude(pv => pv.Product)
+               .Include(o => o.Payment)
+               .Where(o => o.UserId == userId)
+               .OrderByDescending(o => o.CreatedAt)
+               .ToList();
         }
 
-        public void UpdatePaymentStatus(int orderId, string paymentStatus)
+        public void Save()
         {
-            throw new NotImplementedException();
+            context.SaveChanges();
         }
+
+       
     }
 }

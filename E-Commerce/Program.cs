@@ -85,7 +85,7 @@ namespace E_Commerce
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddHttpContextAccessor();
+
 
             var app = builder.Build();
             app.UseSession();
