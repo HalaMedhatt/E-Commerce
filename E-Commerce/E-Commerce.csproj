@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\CategoryVM\" />
+    <Folder Include="Views\Order\" />
   </ItemGroup>
 
 </Project>

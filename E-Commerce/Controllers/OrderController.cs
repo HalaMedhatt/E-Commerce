@@ -2,6 +2,7 @@
 using E_Commerce.Models;
 using E_Commerce.Models.Enum;
 using E_Commerce.Reposiory;
+using E_Commerce.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,14 +29,30 @@ namespace E_Commerce.Controllers
             }
             return View(order);
         }
+        [HttpGet]
+        public IActionResult Checkout()
+        {
+            var userId = GetCurrentUserId().Result;
+            var addresses = context.Addresses
+                .Where(a => a.UserId == userId)
+                .ToList();
+
+            var checkoutVM = new CheckoutViewModel
+            {
+                Addresses = addresses
+            };
+
+            return View("Checkout", checkoutVM);
+
+        }
 
         [HttpPost]
-        public IActionResult CreateFromCart(int shippingAddressId)
+        public IActionResult Checkout(CheckoutViewModel checkoutVM)
         {
             try
             {
                 var userId = GetCurrentUserId().Result;
-                var orderId = orderRepository.CreateOrderFromCart(userId, shippingAddressId);
+                var orderId = orderRepository.CreateOrderFromCart(userId, checkoutVM);
 
                 return RedirectToAction("Details", new { id = orderId });
             }

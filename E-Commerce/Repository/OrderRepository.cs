@@ -2,6 +2,7 @@
 using E_Commerce.Models;
 using E_Commerce.Models.Enum;
 using E_Commerce.Repository;
+using E_Commerce.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -13,7 +14,7 @@ namespace E_Commerce.Reposiory
         {
             context.Orders.Add(item);
         }
-        public int CreateOrderFromCart(string userId, int shippingAddressId)
+        public int CreateOrderFromCart(string userId, CheckoutViewModel checkoutVM)
         {
             var cart = cartRepository.GetCartByUserId(userId);
 
@@ -23,16 +24,28 @@ namespace E_Commerce.Reposiory
             }
 
             
-            var order = new Order
+            Order order = new Order
             {
                 UserId = userId,
-                ShippingAddressId = shippingAddressId,
+                ShippingAddressId = checkoutVM.ShippingAddressId,
                 Status = OrderStatus.Pending,
                 TotalCost = cartRepository.GetCartTotal(userId)
             };
+            Payment payment = new Payment
+            {
+                PaymentMethod = checkoutVM.PaymentMethod,
+                PaymentStatus = PaymentStatus.Pending,
+                PaymentDate = DateTime.UtcNow,
+                OrderId = order.Id
 
+            };
             Add(order);
             Save();
+            if(checkoutVM.PaymentMethod == PaymentMethod.Cash)
+            {
+                payment.TransactionRef = Guid.NewGuid().ToString();
+            }
+            context.Payments.Add(payment);   
             foreach (var cartItem in cart.CartItems)
             {
                 var orderItem = new OrderItem
