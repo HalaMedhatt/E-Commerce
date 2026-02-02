@@ -38,6 +38,7 @@ namespace E_Commerce.Repository
         {
             return _context.Categories
                 .Include(c => c.Products)
+                
                 .FirstOrDefault(c => c.Id == id);
         }
 

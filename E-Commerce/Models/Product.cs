@@ -13,6 +13,13 @@ namespace E_Commerce.Models
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }= DateTime.UtcNow;
 
+        //New property 
+
+        public string DefualtImageUrl { get; set; }
+
+        public string BriefDescription { get; set; }
+
+
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 

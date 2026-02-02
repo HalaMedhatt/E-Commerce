@@ -17,6 +17,12 @@ namespace E_Commerce.Models
 
         public DateTime CreatedAt { get; set; }= DateTime.UtcNow;
 
+        // New Property
+        public string Avatar { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
+
+
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Order> Orders { get; set; }
         public Cart Cart { get; set; }

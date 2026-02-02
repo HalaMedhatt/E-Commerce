@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- Shop Start-->
@@ -39,6 +40,7 @@
                                     <span class="text-dark" style="width:130px;">
                                         @category.Name
                                     </span>
+
                                 </a>
                             </li>
                         }
@@ -151,7 +153,7 @@
                         <p>@product.Description</p>
                         <div class="d-flex justify-content-between flex-lg-wrap">
                             <p class="text-dark fs-5 fw-bold mb-0">$12.99 / jar</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                            <a href="#"  class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Continue Adding Variants";
+}
+
+<h2 class="mb-4">✅ Variant Added Successfully</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<p>What would you like to do next?</p>
+
+<form asp-action="AddAnother" method="post" class="d-inline">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="productId" value="@ViewBag.ProductId" />
+    <button type="submit" class="btn btn-primary">
+        ➕ Add Another Variant
+    </button>
+</form>
+
+<form asp-action="Finish" method="post" class="d-inline ms-2">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="productId" value="@ViewBag.ProductId" />
+    <button type="submit" class="btn btn-success">
+        ✅ Finish & Go to Products
+    </button>
+</form>

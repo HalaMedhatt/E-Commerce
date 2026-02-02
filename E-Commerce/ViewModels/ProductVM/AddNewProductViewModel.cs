@@ -10,11 +10,16 @@ namespace E_Commerce.ViewModels.ProductVM
         [MinLength(3, ErrorMessage = "Minimum lenght 3")]
         public string Name { get; set; }
         public string? Description { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
         public int CategoryId { get; set; }
-        public List<Category> Categories { get; set; }
+        //public List<Category> Categories { get; set; }
+        public List<ProductVariant> Variants { get; set; }
+        public List<ProductImage> Images { get; set; }
+
+        //public string Size { get; set; }
+
+        //public decimal Price { get; set; }
+        //public decimal? SalePrice { get; set; }
+        //public int StockQuantity { get; set; }
 
 
 

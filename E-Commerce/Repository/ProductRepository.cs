@@ -31,6 +31,8 @@ namespace E_Commerce.Repository
         {
             return _context.Products
                 .Include(Product => Product.Category)
+                .Include(p => p.Variants)
+                .Include(p => p.Images)
                 .ToList();
         }
 
@@ -38,6 +40,8 @@ namespace E_Commerce.Repository
         {
             return _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.Variants)
+                .Include(p => p.Images)
                 .FirstOrDefault(p=>p.Id==id);
                 
 
