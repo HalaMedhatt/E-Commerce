@@ -2,53 +2,58 @@
 
 @{
     ViewData["Title"] = "Add Variant";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
 
-<h2 class="mb-4">
-    Add Variant for: <span class="text-primary">@ViewBag.ProductName</span>
-</h2>
+<div class="d-flex justify-content-center mt-4">
+    <div class="col-lg-8">
 
-<form asp-action="AddVariant" method="post">
-    <div asp-validation-summary="All"></div>
+        <h2 class="mb-4">
+            Add Variant for: <span class="text-primary">@ViewBag.ProductName</span>
+        </h2>
 
-    @Html.AntiForgeryToken()
+        <form asp-action="AddVariant" method="post">
+            <div asp-validation-summary="All"></div>
 
-    <!-- نخزن ProductId -->
-    <input type="hidden" name="productId" value="@ViewBag.ProductId" />
+            @Html.AntiForgeryToken()
 
-    <div class="mb-3">
-        <label asp-for="Size" class="form-label"></label>
-        <input asp-for="Size" class="form-control" />
-        <span asp-validation-for="Size" class="text-danger"></span>
+            <!-- نخزن ProductId -->
+            <input type="hidden" name="productId" value="@ViewBag.ProductId" />
+
+            <div class="mb-3">
+                <label asp-for="Size" class="form-label"></label>
+                <input asp-for="Size" class="form-control" />
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="SalePrice" class="form-label"></label>
+                <input asp-for="SalePrice" class="form-control" />
+                <span asp-validation-for="SalePrice" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StockQuantity" class="form-label"></label>
+                <input asp-for="StockQuantity" class="form-control" />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                Save Variant
+            </button>
+
+            <a asp-controller="Product"
+               asp-action="Index"
+               class="btn btn-secondary ms-2">
+                Cancel
+            </a>
+        </form>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Price" class="form-label"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="SalePrice" class="form-label"></label>
-        <input asp-for="SalePrice" class="form-control" />
-        <span asp-validation-for="SalePrice" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="StockQuantity" class="form-label"></label>
-        <input asp-for="StockQuantity" class="form-control" />
-        <span asp-validation-for="StockQuantity" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        💾 Save Variant
-    </button>
-
-    <a asp-controller="Product"
-       asp-action="Index"
-       class="btn btn-secondary ms-2">
-        Cancel
-    </a>
-</form>
-
+</div>
 

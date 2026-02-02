@@ -15,7 +15,7 @@ namespace E_Commerce.Models
 
         //New property 
 
-        public string DefualtImageUrl { get; set; }
+        public string? DefualtImageUrl { get; set; }
 
         public string BriefDescription { get; set; }
 

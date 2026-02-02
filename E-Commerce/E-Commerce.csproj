@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="ViewModels\CategoryVM\" />
     <Folder Include="Views\Order\" />
+    <Folder Include="wwwroot\images\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -16,48 +16,7 @@ namespace E_Commerce.Controllers
             _productRepository = productRepository;
         }
 
-        //public IActionResult Index()
-        //{
 
-
-        //    return View();
-        //}
-        //[HttpGet]
-        //    public IActionResult Create(int productId)
-        //    {
-        //        ViewBag.ProductId = productId;
-        //        return View();
-        //    }
-
-
-        //    [HttpPost]
-        //    public IActionResult Create(int productId , ProductVariant productVariant)
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            try
-        //            {
-        //                var newVariant = new ProductVariant
-        //                {
-        //                    Size = productVariant.Size,
-        //                    Price = productVariant.Price,
-        //                    SalePrice = productVariant.SalePrice,
-        //                    StockQuantity = productVariant.StockQuantity,
-        //                    ProductId = productId
-        //                };
-        //                _productVariantRepository.Add(newVariant);
-        //                _productVariantRepository.Save();
-        //                return RedirectToAction("Index");
-        //            }
-        //            catch (Exception ex)
-        //            {
-
-        //                ModelState.AddModelError("exception", ex.InnerException.Message);
-        //            }
-        //        }
-
-        //            return View(productVariant);
-        //    }
 
 
 
@@ -73,17 +32,14 @@ namespace E_Commerce.Controllers
             ViewBag.ProductName = product.Name;
             ViewBag.ProductId = productId;
 
-            // إنشاء نموذج جديد
             return View(new ProductVariant());
         }
 
-        // POST: حفظ المتغيرات
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddVariant(int productId, ProductVariant variant)
         {
-            ModelState.Remove("Product"); // إزالة التحقق من صحة معرف المتغير
-            // البحث عن المنتج
+            ModelState.Remove("Product"); 
             var product = _productRepository.GetById(productId);
             if (product == null)
             {
@@ -94,32 +50,26 @@ namespace E_Commerce.Controllers
             {
                 try
                 {
-                    // ربط المتغير بالمنتج
                     variant.ProductId = productId;
 
-                    // إضافة المتغير
                     _productVariantRepository.Add(variant);
                     _productVariantRepository.Save();
 
-                    // رسالة نجاح
-                    TempData["SuccessMessage"] = "✅ تم إضافة المتغير بنجاح!";
+                    TempData["SuccessMessage"] = "New Product Added SuccessFuly";
 
-                    // عرض خيارات للمستخدم
                     return RedirectToAction("ContinueAdding", new { productId });
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", $"❌ حدث خطأ: {ex.Message}");
+                    ModelState.AddModelError("", $"Error Happened: {ex.Message}");
                 }
             }
 
-            // في حالة الخطأ، إعادة تعبئة البيانات
             ViewBag.ProductName = product.Name;
             ViewBag.ProductId = productId;
 
             return View(variant);
         }
-        // GET: صفحة الاستمرار في الإضافة
         [HttpGet]
         public IActionResult ContinueAdding(int productId)
         {
@@ -127,7 +77,6 @@ namespace E_Commerce.Controllers
             return View();
         }
 
-        // POST: إضافة متغير آخر
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddAnother(int productId)
@@ -135,7 +84,6 @@ namespace E_Commerce.Controllers
             return RedirectToAction("AddVariant", new { productId });
         }
 
-        // POST: إنهاء وعرض المنتجات
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Finish(int productId)
