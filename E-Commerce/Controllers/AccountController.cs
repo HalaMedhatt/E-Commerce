@@ -38,7 +38,6 @@ public class AccountController : Controller
                 LastName = model.LastName,
                 Email = model.Email,
                 PasswordHash = model.Password,
-                //   Address = model.Address,
                 PhoneNumber = model.PhoneNumber,
             };
 
