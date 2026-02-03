@@ -49,16 +49,17 @@
 
                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                         <h4>@product.Name</h4>
-                        <p>@product.Description</p>
+                        <p>@product.BriefDescription</p>
 
                         <div class="d-flex justify-content-between">
-                            @foreach (var price in product.Variants)
+                            @if (product.Variants != null && product.Variants.Any())
                             {
                                 <p class="text-dark fs-5 fw-bold mb-0">
-                                    @price.Price $
+                                    @product.Variants.Min(v => v.Price) $
                                 </p>
                             }
                         </div>
+
                     </div>
                 </a>
             </div>
