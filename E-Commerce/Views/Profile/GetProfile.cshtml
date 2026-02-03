@@ -1,4 +1,3 @@
-@* Views/Profile/GetProfile.cshtml *@
 @model E_Commerce.ViewModels.ProfileViewModel
 @{
     ViewData["Title"] = "My Profile";
@@ -11,60 +10,21 @@
 <div class="container-fluid py-5">
     <div class="container py-5">
         <div class="row g-5">
-            <!-- Sidebar -->
-            @* <div class="col-lg-3 col-md-4"> *@
-                <!-- Account Menu -->
-                @* <div class="bg-light rounded p-4 mb-4"> *@
-                @*     <h4 class="text-primary mb-4">Account Menu</h4> *@
-                @*     <div class="d-flex flex-column"> *@
-                @*         <a href="@Url.Action("GetProfile", "Profile")" class="btn btn-primary rounded-pill py-2 px-4 mb-2"> *@
-                @*             <i class="fas fa-user me-2"></i>My Profile *@
-                @*         </a> *@
-                @*         <a href="@Url.Action("EditProfile", "Profile")" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
-                @*             <i class="fas fa-edit me-2"></i>Edit Profile *@
-                @*         </a> *@
-                @*         <a href="@Url.Action("MyOrders", "Order")" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
-                @*             <i class="fas fa-shopping-bag me-2"></i>My Orders *@
-                @*         </a> *@
-                @*         <a href="@Url.Action("Index", "Wishlist")" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
-                @*             <i class="fas fa-heart me-2"></i>Wishlist *@
-                @*         </a> *@
-                @*         <a href="@Url.Action("ChangePassword", "Account")" class="btn border border-secondary rounded-pill py-2 px-4 mb-2 text-primary"> *@
-                @*             <i class="fas fa-lock me-2"></i>Change Password *@
-                @*         </a> *@
-                @*         <a href="@Url.Action("LogOut", "Account")" class="btn border border-danger rounded-pill py-2 px-4 text-danger"> *@
-                @*             <i class="fas fa-sign-out-alt me-2"></i>Logout *@
-                @*         </a> *@
-                @*     </div> *@
-                @* </div> *@
-
-                <!-- Quick Stats -->
-                @* <div class="bg-light rounded p-4"> *@
-                @*     <h4 class="text-primary mb-4">Quick Stats</h4> *@
-                @*     <div class="d-flex justify-content-between align-items-center mb-3"> *@
-                @*         <span><i class="fas fa-shopping-cart text-primary me-2"></i>Total Orders</span> *@
-                @*         <span class="badge bg-primary rounded-pill">12</span> *@
-                @*     </div> *@
-                @*     <div class="d-flex justify-content-between align-items-center mb-3"> *@
-                @*         <span><i class="fas fa-heart text-danger me-2"></i>Wishlist</span> *@
-                @*         <span class="badge bg-danger rounded-pill">5</span> *@
-                @*     </div> *@
-                @*     <div class="d-flex justify-content-between align-items-center"> *@
-                @*         <span><i class="fas fa-star text-warning me-2"></i>Reviews</span> *@
-                @*         <span class="badge bg-warning rounded-pill text-dark">8</span> *@
-                @*     </div> *@
-                @* </div> *@
-            @* </div> *@
-
             <!-- Main Profile Content -->
-            
             <div class="col-lg-8 col-md-10 mx-auto">
                 <!-- Profile Card -->
                 <div class="bg-light rounded overflow-hidden">
-                    <!-- Profile Header -->
+                    <!-- Profile Header with Avatar -->
                     <div class="bg-primary p-4 text-center">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-3" style="width: 120px; height: 120px;">
-                            <i class="fas fa-user fa-4x text-primary"></i>
+                        <!-- Avatar Display -->
+                        <div class="position-relative d-inline-block mb-3">
+                            
+                            <img src="~/img/Avatar/@Model.Avatar"                                 
+                                 alt="@Model.FirstName's Avatar"
+                                 class="rounded-circle border border-4 border-white shadow"
+                                 style="width: 120px; height: 120px; object-fit: cover;">
+                            
+
                         </div>
                         <h3 class="text-white mb-1">@Model.FirstName @Model.LastName</h3>
                         <p class="text-white-50 mb-0">
@@ -77,8 +37,8 @@
                         <div class="row g-4">
                             <!-- First Name -->
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center bg-white rounded p-3">
-                                    <div class="btn-square bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
+                                <div class="d-flex align-items-center bg-white rounded p-3 shadow-sm">
+                                    <div class="btn-square bg-primary rounded-circle me-3" style="width: 50px; height: 50px;">
                                         <i class="fas fa-user text-white d-flex align-items-center justify-content-center h-100"></i>
                                     </div>
                                     <div>
@@ -90,8 +50,8 @@
 
                             <!-- Last Name -->
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center bg-white rounded p-3">
-                                    <div class="btn-square bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
+                                <div class="d-flex align-items-center bg-white rounded p-3 shadow-sm">
+                                    <div class="btn-square bg-primary rounded-circle me-3" style="width: 50px; height: 50px;">
                                         <i class="fas fa-user text-white d-flex align-items-center justify-content-center h-100"></i>
                                     </div>
                                     <div>
@@ -103,34 +63,34 @@
 
                             <!-- Username -->
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center bg-white rounded p-3">
-                                    <div class="btn-square bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
+                                <div class="d-flex align-items-center bg-white rounded p-3 shadow-sm">
+                                    <div class="btn-square bg-info rounded-circle me-3" style="width: 50px; height: 50px;">
                                         <i class="fas fa-at text-white d-flex align-items-center justify-content-center h-100"></i>
                                     </div>
                                     <div>
                                         <small class="text-muted text-uppercase">Username</small>
-                                        <h6 class="mb-0 fw-bold">@Model.UserName</h6>
+                                        <h6 class="mb-0 fw-bold">@@@Model.UserName</h6>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Email -->
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center bg-white rounded p-3">
-                                    <div class="btn-square bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
+                                <div class="d-flex align-items-center bg-white rounded p-3 shadow-sm">
+                                    <div class="btn-square bg-success rounded-circle me-3" style="width: 50px; height: 50px;">
                                         <i class="fas fa-envelope text-white d-flex align-items-center justify-content-center h-100"></i>
                                     </div>
                                     <div>
                                         <small class="text-muted text-uppercase">Email Address</small>
-                                        <h6 class="mb-0 fw-bold">@Model.Email</h6>
+                                        <h6 class="mb-0 fw-bold text-break">@Model.Email</h6>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Phone -->
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center bg-white rounded p-3">
-                                    <div class="btn-square bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
+                                <div class="d-flex align-items-center bg-white rounded p-3 shadow-sm">
+                                    <div class="btn-square bg-warning rounded-circle me-3" style="width: 50px; height: 50px;">
                                         <i class="fas fa-phone text-white d-flex align-items-center justify-content-center h-100"></i>
                                     </div>
                                     <div>
@@ -142,36 +102,46 @@
                                 </div>
                             </div>
 
-                            <!-- Member Since -->
+                            <!-- Avatar Info -->
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center bg-white rounded p-3">
+                                <div class="d-flex align-items-center bg-white rounded p-3 shadow-sm">
                                     <div class="btn-square bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;">
-                                        <i class="fas fa-calendar-check text-white d-flex align-items-center justify-content-center h-100"></i>
+                                        @if (!string.IsNullOrEmpty(Model.Avatar))
+                                        {
+                                            <img src="~/img/Avatar/@Model.Avatar" 
+                                                 alt="Avatar" 
+                                                 class="rounded-circle"
+                                                 style="width: 50px; height: 50px; object-fit: cover;">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/img/Avatar/default.jpg" 
+                                                 alt="Avatar" 
+                                                 class="rounded-circle"
+                                                 style="width: 50px; height: 50px; object-fit: cover;">
+                                        }
                                     </div>
                                     <div>
-                                        <small class="text-muted text-uppercase">Member Since</small>
-                                        <h6 class="mb-0 fw-bold">January 2024</h6>
+                                        <small class="text-muted text-uppercase">Profile Avatar</small>
+                                        <h6 class="mb-0 fw-bold">
+                                            @(string.IsNullOrEmpty(Model.Avatar) ? "Default" : "Custom Avatar")
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="row mt-4 ">
-                            <div class="col-md-3 mb-3 mb-md-0 mx-auto">
+                        <div class="row mt-4">
+                            <div class="col-md-4 mb-3 mb-md-0 mx-auto">
                                 <a href="@Url.Action("EditProfile", "Profile")" class="btn btn-primary border-2 border-secondary rounded-pill w-100 py-3">
                                     <i class="fas fa-edit me-2"></i>Edit Profile
                                 </a>
                             </div>
-                            @* <div class="col-md-6"> *@
-                            @*     <a href="@Url.Action("ChangePassword", "Account")" class="btn border border-secondary rounded-pill w-100 py-3 text-primary"> *@
-                            @*         <i class="fas fa-lock me-2"></i>Change Password *@
-                            @*     </a> *@
-                            @* </div> *@
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Recent Orders -->
                 <div class="bg-light rounded p-4 mt-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -240,3 +210,25 @@
     </div>
 </div>
 <!-- Profile Section End -->
+
+<style>
+    /* Avatar hover effect */
+    .position-relative:hover .position-absolute {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+    }
+    
+    .position-absolute {
+        transition: transform 0.2s ease;
+    }
+    
+    /* Card hover effect */
+    .bg-white.rounded.p-3 {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .bg-white.rounded.p-3:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+</style>
