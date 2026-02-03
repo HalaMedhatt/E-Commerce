@@ -18,7 +18,7 @@ namespace E_Commerce.Controllers
         public IActionResult AddToCart(int productVariantId, int quantity = 1)
         {
             cartRepository.AddToCart(null, productVariantId, quantity);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
         [HttpPost]
         public IActionResult RemoveFromCart(int cartItemId)

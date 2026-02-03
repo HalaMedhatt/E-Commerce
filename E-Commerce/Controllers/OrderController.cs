@@ -12,10 +12,10 @@ namespace E_Commerce.Controllers
 {
     public class OrderController(ECommerceDbContext context,IOrderRepository orderRepository, UserManager<ApplicationUser> userManager) : Controller
     {
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            string userId = GetCurrentUserId().Result;
-            var orders = orderRepository.GetByUserId(userId);
+            var orders = orderRepository.GetAll();
             return View(orders);
         }
         public IActionResult Details(int id)

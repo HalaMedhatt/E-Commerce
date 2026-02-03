@@ -36,7 +36,7 @@ namespace E_Commerce.Repository
             }
 
            
-            CartItem? cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductVariantId == productVariantId);
+            CartItem? cartItem = cart.CartItems?.FirstOrDefault(ci => ci.ProductVariantId == productVariantId);
             
             if (cartItem != null)
             {
@@ -64,11 +64,13 @@ namespace E_Commerce.Repository
                         return false;
                     }
                 }
-                cart.CartItems.Add(new CartItem
+                CartItem cartItem1=new CartItem()
                 {
+                    CartId = cart.Id,
                     ProductVariantId = productVariantId,
                     Quantity = quantity,
-                });
+                };
+                context.CartItems.Add(cartItem1);
             }
             Save();
             return true;
