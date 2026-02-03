@@ -31,6 +31,8 @@ namespace E_Commerce.Reposiory
                 Status = OrderStatus.Pending,
                 TotalCost = cartRepository.GetCartTotal(userId)
             };
+            Add(order);
+            Save();
             Payment payment = new Payment
             {
                 PaymentMethod = checkoutVM.PaymentMethod,
@@ -39,8 +41,6 @@ namespace E_Commerce.Reposiory
                 OrderId = order.Id
 
             };
-            Add(order);
-            Save();
             if(checkoutVM.PaymentMethod == PaymentMethod.Cash)
             {
                 payment.TransactionRef = Guid.NewGuid().ToString();
