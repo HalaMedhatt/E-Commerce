@@ -33,10 +33,15 @@ namespace E_Commerce.Controllers
         {
             return View();
         }
+        public IActionResult IndexAdmin()
+        {
+            var categories = _categoryRepository.GetAll();
+            ViewBag.Products = _productRepository.GetAll();
+            return View(categories);
+        }
         public IActionResult Categories()
         {
-            //var categories = _categoryRepository.GetAll();
-            //ViewBag.Products = _productRepository.GetAll();
+
             return View();
         }
 
