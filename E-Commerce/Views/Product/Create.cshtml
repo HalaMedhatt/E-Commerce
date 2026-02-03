@@ -2,48 +2,64 @@
 
 @{
     ViewData["Title"] = "Create Product";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
+<div class="d-flex justify-content-center mt-4">
+    <div class="col-lg-8">
 
-<h2 class="mb-4">➕ Create New Product</h2>
+        <h2 class="mb-4">Create New Product</h2>
 
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="All" ></div>
-    @Html.AntiForgeryToken()
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" ></div>
+            @Html.AntiForgeryToken()
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Product Image</label>
+                <input type="file" name="image" class="form-control" />
+                <span asp-validation-for="DefualtImageUrl" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="BriefDescription" class="form-label"></label>
+                <input asp-for="BriefDescription" class="form-control" />
+                <span asp-validation-for="BriefDescription" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="IsActive" class="form-check-label"></label>
+                <input asp-for="IsActive" class="form-check-input ms-2" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label">Category</label>
+                <select asp-for="CategoryId"
+                        asp-items="ViewBag.Categories"
+                        class="form-select">
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+
+            <button type="submit" class="btn btn-success">
+                Add Variant
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                Cancel
+            </a>
+        </form>
+
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="CategoryId" class="form-label">Category</label>
-        <select asp-for="CategoryId"
-                asp-items="ViewBag.Categories"
-                class="form-select">
-            <option value="">-- Select Category --</option>
-        </select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="IsActive" class="form-check-label"></label>
-        <input asp-for="IsActive" class="form-check-input ms-2" />
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        💾 Save Product & Add Variant
-    </button>
-
-    <a asp-action="Index" class="btn btn-secondary ms-2">
-        Cancel
-    </a>
-</form>
-
+</div>
 

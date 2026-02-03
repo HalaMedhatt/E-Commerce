@@ -50,10 +50,10 @@
     <div class="container-fluid fixed-top">
         <div class="container topbar bg-primary d-none d-lg-block">
             <div class="d-flex justify-content-between">
-                <div class="top-info ps-2">
+                @* <div class="top-info ps-2">
                     <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
                     <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
-                </div>
+                </div> *@
                 <div class="top-link pe-2">
                     <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
                     <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
@@ -65,13 +65,13 @@
             @* <nav class="navbar navbar-light bg-white navbar-expand-xl sticky-top"> *@
             <nav class="navbar navbar-expand-lg sticky-top">
 
-                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Honey Hive</h1></a>
+                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
                         <a asp-controller="Product" asp-action="Index" class="nav-item nav-link">Shop</a>
                         <a href="cart.html" class="nav-item nav-link">Shop Cart</a>
                         <a href="chackout.html" class="nav-item nav-link">Chackout</a>
@@ -131,13 +131,10 @@
     <!-- Navbar End -->
     <!-- Modal Search Start -->
     <!-- Modal Search Start -->
-    
-    <br />
+
+
     <main class="mt-5 pt-5">
-
         @RenderBody()
-        
-
     </main>
 
 

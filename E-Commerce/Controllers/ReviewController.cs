@@ -1,47 +1,76 @@
-﻿using E_Commerce;
+﻿using E_Commerce.IRepository;
 using E_Commerce.Models;
+using E_Commerce.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 public class ReviewController : Controller
 {
-    private readonly ECommerceDbContext _context;
+    private readonly IReviewRepository _reviewRepository;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public ReviewController(ECommerceDbContext context)
+    public ReviewController(
+        IReviewRepository reviewRepository,
+        UserManager<ApplicationUser> userManager)
     {
-        _context = context;
+        _reviewRepository = reviewRepository;
+        _userManager = userManager;
     }
 
-    // فتح صفحة الإضافة
+    // ================= GET =================
     [HttpGet]
+    [Authorize]
     public IActionResult Create(int productId)
     {
-        var review = new ProductReview
+        var model = new ReviewViewModel
         {
             ProductId = productId
         };
 
-        return View(review);
+        return View("Create",model);
     }
 
-    // استقبال الفورم
+
+    // ================= POST =================
     [HttpPost]
+    [Authorize]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(ProductReview review)
+    public IActionResult Create(ReviewViewModel model)
     {
-        if (ModelState.IsValid)
+        // لو البيانات غلط
+        if (!ModelState.IsValid)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                review.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            }
-
-            _context.ProductReviews.Add(review);
-            _context.SaveChanges();
-
-            return RedirectToAction("Details", "Product", new { id = review.ProductId });
+            return View("Create", model);
         }
 
-        return View(review);
+        // نجيب اليوزر الحالي
+        var userId = _userManager.GetUserId(User);
+
+        // أمان زيادة
+        if (userId == null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        // نكوّن الريفيو
+        var review = new ProductReview
+        {
+            ProductId = model.ProductId,
+            Rating = model.Rating,
+            Comment = model.Comment,
+            UserId = userId,
+            CreatedAt = DateTime.Now
+        };
+
+        // نحفظ
+        _reviewRepository.Add(review);
+
+        // نرجع لصفحة المنتج
+        return RedirectToAction(
+            "Details",
+            "Product",
+            new { id = model.ProductId }
+        );
     }
 }

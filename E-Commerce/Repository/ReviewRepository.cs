@@ -1,4 +1,5 @@
 ﻿using E_Commerce.IRepository;
+using Microsoft.EntityFrameworkCore;
 using E_Commerce.Models;
 
 namespace E_Commerce.Repository
@@ -12,32 +13,48 @@ namespace E_Commerce.Repository
         }
         public void Add(ProductReview item)
         {
-            throw new NotImplementedException();
+            _context.ProductReviews.Add(item);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _context.ProductReviews.Remove(GetById(id));
         }
 
         public void Edit(ProductReview item)
         {
-            throw new NotImplementedException();
+            _context.ProductReviews.Update(item);
         }
 
         public List<ProductReview> GetAll()
         {
-            return _context.ProductReviews.ToList();
+            return _context.ProductReviews
+                .Include(p =>p.Product)
+                .Include(u => u.User)
+                .ToList();
         }
 
         public ProductReview GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.ProductReviews
+                .Include(p => p.Product)
+                .Include(u => u.User)
+                .FirstOrDefault(p => p.Id == id);
+        }
+        public IEnumerable<ProductReview> GetReviewsByProductId(int productId)
+        {
+            return _context.ProductReviews
+                .Include(r => r.Product)
+                .Include(r => r.User)
+                .Where(r => r.ProductId == productId)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList(); 
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }
