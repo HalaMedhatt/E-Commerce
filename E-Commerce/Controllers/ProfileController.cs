@@ -188,5 +188,11 @@ public class ProfileController : Controller
     
 
     #endregion
+
+    #region Add Avatar
+
+    
+
+    #endregion
    
 }
