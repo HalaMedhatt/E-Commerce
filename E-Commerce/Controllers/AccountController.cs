@@ -39,6 +39,7 @@ public class AccountController : Controller
                 Email = model.Email,
                 PasswordHash = model.Password,
                 PhoneNumber = model.PhoneNumber,
+                Avatar = "default.jpg" 
             };
 
             IdentityResult result = await userManager.CreateAsync(newUser, model.Password);
@@ -47,7 +48,10 @@ public class AccountController : Controller
             {
                  //await userManager.AddToRoleAsync(newUser, "Admin");
                 await userManager.AddToRoleAsync(newUser, "User");
-                await signInManager.SignInAsync(newUser, false);
+                
+                await signInManager.SignInWithClaimsAsync(newUser, false, 
+                    new[] { new Claim("Avatar", newUser.Avatar ?? "default.jpg") });
+                
                 return RedirectToAction("Index", "Home");
             }
             foreach (var error in result.Errors)
@@ -83,7 +87,10 @@ public class AccountController : Controller
                 bool correct = await userManager.CheckPasswordAsync(user, model.Password);
                 if (correct)
                 {
-                    await signInManager.SignInAsync(user, model.RememberMe);
+                    
+                    await signInManager.SignInWithClaimsAsync(user, model.RememberMe, 
+                        new List<Claim> { new Claim("Avatar", user.Avatar ?? "default.jpg") });
+                    
                     return RedirectToAction("Index", "Home");
                 }
             }

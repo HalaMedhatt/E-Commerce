@@ -19,7 +19,8 @@ public class ProfileViewModel
     [Required]
     [DataType(DataType.Password)]
     public string CurrentPassword { get; set; }
-    public string? ProfileAvatar { get; set; }
+    public string? Avatar { get; set; }
+    public List<string> Avatars { get; set; }
     public DateTime? DateJoined { get; set; }
     
 
