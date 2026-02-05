@@ -34,6 +34,7 @@
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/MyStyle.css" />
 
 
 </head>
@@ -50,8 +51,6 @@
         <div class="container topbar bg-primary d-none d-lg-block">
             <div class="d-flex justify-content-between">
                 <div class="top-info ps-2">
-                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
-                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
                 </div>
                 <div class="top-link pe-2">
                     <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
@@ -64,13 +63,13 @@
             @* <nav class="navbar navbar-light bg-white navbar-expand-xl sticky-top"> *@
             <nav class="navbar navbar-expand-lg sticky-top">
 
-                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Honey Hive</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
                         <a asp-controller="Product" asp-action="Index" class="nav-item nav-link">Shop</a>
                         <a href="cart.html" class="nav-item nav-link">Shop Cart</a>
                         <a href="chackout.html" class="nav-item nav-link">Chackout</a>
@@ -129,38 +128,8 @@
         </div>
     </div>
     <!-- Navbar End -->
-    <!-- Modal Search Start -->
-    <!-- Modal Search Start -->
-    <div class="modal fade" id="searchModal" tabindex="-1">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content rounded-0">
-                <div class="modal-header">
-                    <h5 class="modal-title">Search by keyword</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
 
-                <div class="modal-body d-flex align-items-center">
-                    <form asp-controller="Product"
-                          asp-action="SearchProducts"
-                          method="get"
-                          class="input-group w-75 mx-auto d-flex">
 
-                        <input type="search"
-                               name="searchTerm"
-                               class="form-control p-3"
-                               placeholder="keywords" />
-
-                        <button type="submit" class="input-group-text p-3">
-                            <i class="fa fa-search"></i>
-                        </button>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Search End -->
-    <!-- Modal Search End -->
     <!-- Hero Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
         <div class="container py-5">
@@ -168,10 +137,10 @@
                 <div class="col-md-12 col-lg-7">
                     <h4 class="mb-3 text-secondary">100% Organic Bee Products</h4>
                     <h1 class="mb-5 display-3 text-primary">Organic Honey & Bee Products</h1>
-                    <div class="position-relative mx-auto">
+                    @* <div class="position-relative mx-auto">
                         <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
                         <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
-                    </div>
+                    </div> *@
                 </div>
                 <div class="col-md-12 col-lg-5">
                     <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
@@ -200,7 +169,7 @@
     </div>
     <!-- Hero End -->
     <!-- Featurs Section Start -->
-    <div class="container-fluid featurs py-5">
+    @* <div class="container-fluid featurs py-5">
         <div class="container py-5">
             <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
@@ -249,13 +218,14 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *@
     <!-- Featurs Section End -->
     <!-- Fruits Shop Start-->
     <!-- Fruits Shop Start-->
 
     <main class="mt-5 pt-5">
         @RenderBody()
+
     </main>
 
 
@@ -289,7 +259,7 @@
                             <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
                             <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
                             <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
-/                        </div>
+                       </div>
                     </div>
                 </div>
             </div>

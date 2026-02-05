@@ -51,28 +51,44 @@
             <!-- Tabs Content -->
             <div class="tab-content">
 
-                <!-- All Products Tab -->
                 <div id="tab-all" class="tab-pane fade show active p-0">
-                    <div class="row g-4">
+                    <div class="row g-3">
+
                         @foreach (var product in ViewBag.Products)
                         {
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="rounded position-relative fruite-item">
-                                    <div class="fruite-img">
-                                        <img src="/img/fruite-item-5.jpg"
-                                             class="img-fluid w-100 rounded-top">
-                                    </div>
-                                    @* <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">@ViewBag.Category.Name</div> *@
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <a asp-controller="Product"
+                                   asp-action="Details"
+                                   asp-route-id="@product.Id"
+                                   class="text-decoration-none text-dark h-100 d-block">
 
-                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                        <h4>@product.Name</h4>
-                                        <p>@product.Description</p>
+                                    <div class="product-card h-100 position-relative">
+
+                                        <div class="product-image">
+                                            <img src="/images/@product.DefualtImageUrl" />
+                                        </div>
+                                        <span class="badge bg-secondary position-absolute"
+                                              style="top:10px; left:10px;">
+                                            @product.Category.Name
+                                        </span>
+
+                                        <div class="product-content">
+                                            <h4>@product.Name</h4>
+                                            <p>@product.BriefDescription</p>
+
+                                        </div>
+                                       
+                                        
+
                                     </div>
-                                </div>
+                                </a>
                             </div>
+
                         }
+
                     </div>
                 </div>
+
 
                 <!-- Category Tabs -->
                 @foreach (var category in Model)
@@ -84,18 +100,31 @@
                             {
                                 if (product.CategoryId == category.Id)
                                 {
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="/img/fruite-item-5.jpg"
-                                                     class="img-fluid w-100 rounded-top">
-                                            </div>
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                        <a asp-controller="Product"
+                                           asp-action="Details"
+                                           asp-route-id="@product.Id"
+                                           class="text-decoration-none text-dark d-block h-100">
 
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>@product.Name</h4>
-                                                <p>@product.Description</p>
+                                            <div class="product-card h-100 position-relative">
+
+                                                <div class="product-image">
+                                                    <img src="/images/@product.DefualtImageUrl" />
+                                                </div>
+
+                                                <span class="badge bg-secondary position-absolute"
+                                                      style="top:10px; left:10px;">
+                                                    @category.Name
+                                                </span>
+
+                                                <div class="product-content">
+                                                    <h4>@product.Name</h4>
+                                                    <p>@product.Description</p>
+                                                </div>
+
+
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 }
                             }
@@ -103,6 +132,7 @@
                         </div>
                     </div>
                 }
+
 
             </div>
         </div>
@@ -118,15 +148,25 @@
             @foreach (var product in ((IEnumerable<Product>)ViewBag.Products).Take(3))
             {
                 <div class="col-md-6 col-lg-4">
-                    <a href="#">
-                        <div class="service-item bg-secondary rounded border border-secondary">
-                            <img src="/img/featur-1.jpg" class="img-fluid rounded-top w-100" alt="">
-                            <div class="px-4 rounded-bottom">
+                    <a href="#" class="text-decoration-none">
+                        <div class="service-item bg-secondary rounded border border-secondary h-100">
+
+                            <!-- Image Wrapper -->
+                            <div class="service-img">
+                                <img src="/images/@product.DefualtImageUrl"
+                                     alt="@product.Name">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="service-footer">
                                 <div class="service-content bg-primary text-center p-4 rounded">
                                     <h5 class="text-white">@product.Name</h5>
-                                    <h3 class="mb-0">20% OFF</h3>
+                                    <h3 class="mb-0 text-white">
+                                        @product.Variants.Min(x => x.SalePrice)
+                                    </h3>
                                 </div>
                             </div>
+
                         </div>
                     </a>
                 </div>
@@ -135,28 +175,31 @@
     </div>
 </div>
 
+
 <!-- Honey Section -->
 <div class="container-fluid vesitable py-5">
     <div class="container py-5">
         <h1 class="mb-0 text-start">Pure Organic Honey</h1>
         <p class="text-muted mb-4">Discover our finest collection of natural honey and bee products.</p>
         <div class="owl-carousel vegetable-carousel justify-content-center">
-            @foreach (var product in ViewBag.Products)
+            @foreach (var product in ((IEnumerable<Product>)ViewBag.Products).Take(10))
             {
-                <div class="border border-primary rounded position-relative vesitable-item">
+                <div class="vesitable-item">
                     <div class="vesitable-img">
-                        <img src="/img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="Honey Product">
+                        <img src="/images/@product.DefualtImageUrl" alt="Potatoes">
+                        <div class="badge position-absolute" style="top:10px; right:10px; background:#8bc34a; color:white; padding:3px 8px; border-radius:5px; font-size:0.75rem;">Vegetable</div>
                     </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">@product.Category.Name</div>
-                    <div class="p-4 rounded-bottom">
+                    <div class="p-4">
                         <h4>@product.Name</h4>
-                        <p>@product.Description</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$12.99 / jar</p>
-                            <a href="#"  class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
+                        <p>@product.BriefDescription</p>
+                        @* <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p> *@
+
+                        @* <div class="price"> @product.Variants.Min(x => x.Price)</div> *@
+                        <a asp-action="Details" asp-route-id="@product.Id" asp-controller="Product" class="add-to-cart"><i class="fa fa-shopping-bag"></i> Add to cart</a>
+                        
                     </div>
                 </div>
+
             }
         </div>
     </div>

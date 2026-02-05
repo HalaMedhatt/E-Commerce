@@ -35,6 +35,7 @@
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="/css/MyStyle.css" />
 
 
 </head>
@@ -65,13 +66,13 @@
             @* <nav class="navbar navbar-light bg-white navbar-expand-xl sticky-top"> *@
             <nav class="navbar navbar-expand-lg sticky-top">
 
-                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Honey Hive</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a asp-controller="Home" asp-action="Index" class="nav-item nav-link active">Home</a>
                         <a asp-controller="Product" asp-action="Index" class="nav-item nav-link">Shop</a>
                         <a href="cart.html" class="nav-item nav-link">Shop Cart</a>
                         <a href="chackout.html" class="nav-item nav-link">Chackout</a>
@@ -152,12 +153,12 @@
                             <p class="text-secondary mb-0">Fresh products</p>
                         </a>
                     </div>
-                    <div class="col-lg-6">
+                    @* <div class="col-lg-6">
                         <div class="position-relative mx-auto">
                             <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
                             <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
                         </div>
-                    </div>
+                    </div> *@
                     <div class="col-lg-3">
                         <div class="d-flex justify-content-end pt-3">
 
@@ -165,10 +166,10 @@
                                href="https://wa.me/201028781595" target="_blank">
                                 <i class="fab fa-whatsapp"></i>
                             </a>
-                            <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
+                            @* <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
                             <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
-                            /
+                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a> *@
+                            
                         </div>
                     </div>
                 </div>

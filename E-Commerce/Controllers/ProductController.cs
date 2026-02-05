@@ -6,6 +6,7 @@ using E_Commerce.ViewModels.ProductVM;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace E_Commerce.Controllers
@@ -27,18 +28,45 @@ namespace E_Commerce.Controllers
             _productVariantRepository = productVariantRepository;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    var products = _productRepository.GetAll();  
+        //    var categories = _categoryRepository.GetAll(); 
+
+        //    var model = new HomeViewModel
+        //    {
+        //        Products = products,
+        //        Categories = categories
+        //    };
+        //    return View(model);
+
+        //}
+        public IActionResult Index(string? search)
         {
-            var products = _productRepository.GetAll();  
-            var categories = _categoryRepository.GetAll(); 
+            var model = new HomeViewModel();
 
-            var model = new HomeViewModel
+            model.Categories = _categoryRepository.GetAll() ;
+            var productsQuery = _productRepository.GetAll().AsQueryable() ;
+
+
+
+
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                Products = products,
-                Categories = categories
-            };
-            return View(model);
+                productsQuery = productsQuery.Where(x =>
+                    x.Name != null &&
+                    x.BriefDescription != null &&
+                    (
+                        x.Name.ToLower().Contains(search.ToLower()) ||
+                        x.BriefDescription.ToLower().Contains(search.ToLower())
+                    )
+                );
+            }
 
+
+            model.Products = productsQuery.ToList();
+
+            return View(model);
         }
 
         public IActionResult Details(int id)

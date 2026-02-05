@@ -87,10 +87,8 @@
 
 
             <!-- Add To Cart -->
-            <a asp-action="Create" class="btn btn-success px-4 py-2">
-                <i class="fa fa-shopping-bag me-2"></i>
-                Add to cart
-            </a>
+            <a  asp-route-id="@Model.Id" class="add-to-cart new-style-btn"><i class="fa fa-shopping-bag"></i> Add to cart</a>
+
         </div>
     </div>
 

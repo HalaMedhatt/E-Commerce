@@ -322,7 +322,7 @@
 
 
 /*** vesitable Start ***/
-.vesitable .vesitable-item {
+/*.vesitable .vesitable-item {
     height: 100%;
     transition: 0.5s;
 }
@@ -382,7 +382,7 @@
 .vesitable .owl-nav .owl-next:hover {
     background: var(--bs-secondary);
     color: var(--bs-white);
-}
+}*/
 /*** vesitable End ***/
 
 
