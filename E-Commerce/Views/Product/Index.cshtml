@@ -28,43 +28,42 @@
 }
 @section shopContent 
 {
-    @foreach(var product in Model.Products)
+    @foreach (var product in Model.Products)
     {
-        <div class="col-md-6 col-lg-6 col-xl-4">
-            <div class="rounded position-relative fruite-item h-100">
-                <a asp-controller="Product"
-                   asp-action="Details"
-                   asp-route-id="@product.Id"
-                   class="text-decoration-none text-dark">
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <a asp-controller="Product"
+               asp-action="Details"
+               asp-route-id="@product.Id"
+               class="text-decoration-none text-dark d-block h-100">
 
-                    <div class="fruite-img">
-                        <img src="/images/@product.DefualtImageUrl"
-                             class="img-fluid w-100 rounded-top" />
+                <div class="product-card h-100 position-relative">
+
+                    <div class="product-image">
+                        <img src="/images/@product.DefualtImageUrl" />
                     </div>
 
-                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                         style="top: 10px; left: 10px;">
+                    <span class="badge bg-secondary position-absolute"
+                          style="top:10px; left:10px;">
                         @product.Category.Name
-                    </div>
+                    </span>
 
-                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                    <div class="product-content">
                         <h4>@product.Name</h4>
-                        <p>@product.Description</p>
+                        <p>@product.BriefDescription</p>
 
-                        <div class="d-flex justify-content-between">
-                            @foreach (var price in product.Variants)
-                            {
-                                <p class="text-dark fs-5 fw-bold mb-0">
-                                    @price.Price $
-                                </p>
-                            }
-                        </div>
+                        @if (product.Variants != null && product.Variants.Any())
+                        {
+                            <div class="product-price">
+                                @product.Variants.Min(v => v.Price) $
+                            </div>
+                        }
                     </div>
-                </a>
-            </div>
-        </div>
 
+                </div>
+            </a>
+        </div>
     }
+
 
 }
 
