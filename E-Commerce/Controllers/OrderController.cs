@@ -23,7 +23,7 @@ namespace E_Commerce.Controllers
             var order = orderRepository.GetById(id);
             var userId = GetCurrentUserId().Result;
 
-            if (order == null || order.UserId != userId)
+            if (order == null || (order.UserId != userId && !User.IsInRole("Admin")))
             {
                 return NotFound();
             }
