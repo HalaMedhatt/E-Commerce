@@ -1,8 +1,10 @@
+using System.Security.Claims;
 using E_Commerce.Models;
 using E_Commerce.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace E_Commerce.Controllers;
@@ -22,8 +24,11 @@ public class ProfileController : Controller
 
     public async Task<IActionResult> GetProfile()
     {
-        ApplicationUser user = await userManager.GetUserAsync(User);
-
+        // ApplicationUser user = await userManager.GetUserAsync(User);
+    
+        ApplicationUser user = await userManager.Users
+            .FirstOrDefaultAsync(u => u.Id == userManager.GetUserId(User));
+    
         if (user == null)
             return RedirectToAction("Login", "Account");
         
@@ -34,11 +39,13 @@ public class ProfileController : Controller
             UserName =  user.UserName,
             Email = user.Email,
             Phone = user.PhoneNumber,
+            Avatar    = user.Avatar
             
         };
-
+    
         return View("GetProfile", uservm);
     }
+
 
     #endregion
 
@@ -48,10 +55,18 @@ public class ProfileController : Controller
     [HttpGet]
     public async Task<IActionResult> EditProfile()
     {
-        ApplicationUser user = await userManager.GetUserAsync(User);
-
+        // ApplicationUser user = await userManager.GetUserAsync(User);
+        
+        ApplicationUser user = await userManager.Users
+            .FirstOrDefaultAsync(u => u.Id == userManager.GetUserId(User));
+        
         if (user == null)
             return RedirectToAction("Login", "Account");
+
+        var avatarPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar/");
+        ViewBag.Avatars = Directory.GetFiles(avatarPath)
+            .Select(Path.GetFileName)
+            .ToList();
 
         ProfileViewModel uservm = new ProfileViewModel
         {
@@ -59,11 +74,14 @@ public class ProfileController : Controller
             LastName  = user.LastName,
             UserName  = user.UserName,
             Email     = user.Email,
-            Phone     = user.PhoneNumber
+            Phone     = user.PhoneNumber,
+            Avatar    = user.Avatar
         };
 
         return View("EditProfile", uservm);
     }
+
+
 
     #endregion
 
@@ -73,25 +91,45 @@ public class ProfileController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditProfile(ProfileViewModel uservm)
     {
+        
         ModelState.Remove("Password");
         ModelState.Remove("ConfirmPassword");
+        ModelState.Remove("CurrentPassword");
+        ModelState.Remove("Avatars");
+
+
+        var avatarPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar/");
+        ViewBag.Avatars = Directory.GetFiles(avatarPath)
+            .Select(Path.GetFileName)
+            .ToList();
+
+        
+        if (!string.IsNullOrEmpty(uservm.Avatar) && !ViewBag.Avatars.Contains(uservm.Avatar))
+        {
+            ModelState.AddModelError("Avatar", "Invalid avatar selected.");
+        }
+
         if (!ModelState.IsValid)
         {
             return View("EditProfile", uservm);
         }
-        ApplicationUser user = await userManager.GetUserAsync(User);
+
+        // ApplicationUser user = await userManager.GetUserAsync(User);
+        
+        ApplicationUser user = await userManager.Users
+            .FirstOrDefaultAsync(u => u.Id == userManager.GetUserId(User));
+        
         if (user == null)
-        {
             return RedirectToAction("Login", "Account");
-        }
 
         user.FirstName = uservm.FirstName;
-        user. LastName = uservm.LastName;
-        user.UserName = uservm.UserName;
-        user. Email = uservm.Email;
-        user. PhoneNumber = uservm.Phone;
-        var result = await userManager.UpdateAsync(user);
+        user.LastName  = uservm.LastName;
+        user.UserName  = uservm.UserName;
+        user.Email     = uservm.Email;
+        user.PhoneNumber = uservm.Phone;
+        user.Avatar    = uservm.Avatar; 
 
+        var result = await userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors)
@@ -99,9 +137,9 @@ public class ProfileController : Controller
 
             return View("EditProfile", uservm);
         }
-
+        
+        await signInManager.RefreshSignInAsync(user);
         return RedirectToAction("GetProfile");
-
     }
 
 
@@ -191,7 +229,55 @@ public class ProfileController : Controller
 
     #region Add Avatar
 
-    
+    // [HttpGet]
+    // public async Task<IActionResult> ChoseAvatar()
+    // {
+    //     ApplicationUser user = await userManager.GetUserAsync(User);
+    //
+    //     var avatarPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar/");
+    //     ProfileViewModel model = new ProfileViewModel()
+    //     {
+    //         Avatars = Directory.GetFiles(avatarPath)
+    //             .Select(Path.GetFileName)
+    //             .ToList(),
+    //         Avatar = user?.Avatar
+    //     };
+    //     return View("ChoseAvatar", model);
+    //
+    // }
+    //
+    // [HttpPost]
+    // public async Task<IActionResult> ChoseAvatar(ProfileViewModel model)
+    // {
+    //     ApplicationUser user = await userManager.GetUserAsync(User);
+    //     if (user == null)
+    //     {
+    //         return RedirectToAction("Login", "Account");
+    //     }
+    //
+    //     if (!ModelState.IsValid)
+    //     {
+    //         return View("ChoseAvatar", model);
+    //     }
+    //
+    //     if (!model.Avatars.Contains(model.Avatar))
+    //     {
+    //         ModelState.AddModelError("", "Invalid avatar selected.");
+    //         return View("ChoseAvatar", model);
+    //     }
+    //     user.Avatar = model.Avatar;
+    //     var result = await userManager.UpdateAsync(user);
+    //     if (!result.Succeeded)
+    //     {
+    //         foreach (var error in result.Errors)
+    //         {
+    //             ModelState.AddModelError("", error.Description);
+    //         }
+    //
+    //         return View("ChoseAvatar", model);
+    //     }
+    //     return RedirectToAction("GetProfile");
+    // }
 
     #endregion
    

@@ -33,6 +33,8 @@
 
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/MyStyle.css" />
+
 </head>
 
 <body>
@@ -44,28 +46,28 @@
     <!-- Spinner End -->
     <!-- Navbar start -->
     <div class="container-fluid fixed-top">
-        @* <div class="container topbar bg-primary d-none d-lg-block"> *@
+        <div class="container topbar bg-primary d-none d-lg-block">
         @*     <div class="d-flex justify-content-between"> *@
         @*         <div class="top-info ps-2"> *@
         @*             <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small> *@
         @*             <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small> *@
         @*         </div> *@
-        @*         <div class="top-link pe-2"> *@
-        @*             <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a> *@
-        @*             <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a> *@
-        @*             <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a> *@
-        @*         </div> *@
+                <div class="top-link pe-2">
+                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                </div>
         @*     </div> *@
-        @* </div> *@
+        </div>
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Honey Hive</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link">Home</a>
                         <a href="shop.html" class="nav-item nav-link active">Shop</a>
                         <a href="cart.html" class="nav-item nav-link">Shop Cart</a>
                         <a href="chackout.html" class="nav-item nav-link">Chackout</a>
@@ -121,7 +123,28 @@
     <div class="container-fluid fruite py-5">
         <div class="container py-5">
             <h1 class="mb-4">Fresh fruits shop</h1>
+            <form asp-controller="Product" asp-action="Index" method="get">
+                <div class="row mb-4">
+                    <div class="col-lg-3 col-md-4">
+                        <div class="position-relative">
+                            <input name="search"
+                                   value="@Context.Request.Query["search"]"
+                                   class="form-control border-2 border-secondary py-2 px-3 rounded-pill"
+                                   type="search"
+                                   placeholder="Search">
 
+                            <button type="submit"
+                                    class="btn btn-primary border-2 border-secondary px-3 py-2 position-absolute rounded-pill text-white"
+                                    style="top:0; right:0;">
+                                🔍
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <br />
             <div class="row g-4">
 
                 <!-- Categories -->

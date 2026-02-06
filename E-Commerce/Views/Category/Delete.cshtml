@@ -1,0 +1,19 @@
+﻿@model E_Commerce.Models.Category
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+
+<div>
+    <h4>@Model?.Name</h4>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="IndexAdmin" asp-controller="Home" class="btn btn-secondary">Cancel</a>
+</form>

@@ -28,38 +28,22 @@ namespace E_Commerce.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            Category category = new Category();
-            return View("Create",category);
-
+            return View();
         }
+
         [HttpPost]
-        public IActionResult Save(Category category )
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category category)
         {
             ModelState.Remove("Products");
+
             if (!ModelState.IsValid)
-            {
+                return View(category);
 
-
-                if (category.Id == 0)
-                {
-                    return View("Create", category);
-                }
-                else
-                {
-                    return View("Edit", category);
-                }
-            }
-
-            if (category.Id == 0)
-            {
-                _categoryRepository.Add(category);
-            }
-            else
-            {
-                _categoryRepository.Edit(category);
-            }
+            _categoryRepository.Add(category);
             _categoryRepository.Save();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("IndexAdmin", "Home");
         }
 
 
@@ -82,25 +66,32 @@ namespace E_Commerce.Controllers
                 return View();
             }
         }
-
-        // GET: CategoryController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public IActionResult Delete(int id)
         {
-            return View();
+            var category = _categoryRepository.GetById(id);
+
+            if (category == null)
+                return NotFound();
+
+            return View(category);
         }
 
-        // POST: CategoryController/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var category = _categoryRepository.GetById(id);
+
+            if (category == null)
+                return NotFound();
+
+            _categoryRepository.Delete(id);
+            _categoryRepository.Save();
+
+            return RedirectToAction("IndexAdmin", "Home");
         }
+
     }
 }

@@ -74,28 +74,34 @@
                     </div>
 
                     <!-- User Dropdown -->
+                    
                     <div class="d-flex align-items-center">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <div class="dropdown">
-                                <a href="#" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user fa-2x"></i>
+                                <a href="#" class="d-block text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/img/Avatar/@(string.IsNullOrEmpty(User.FindFirst("Avatar")?.Value) ? "default.jpg" : User.FindFirst("Avatar")?.Value)"
+                                         alt="Profile Avatar"
+                                         class="rounded-circle border border-2 border-white shadow-sm"
+                                         style="width: 45px; height: 45px; object-fit: cover;"
+                                         onerror="this.src='~/img/Avatar/default.jpg'">
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
+
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
                                     <li>
-                                        <a class="dropdown-item" asp-controller="Profile" asp-action="GetProfile">
-                                            <i class="fas fa-user-circle me-2"></i>My Profile
+                                        <a class="dropdown-item fw-semibold" asp-controller="Profile" asp-action="GetProfile">
+                                            <i class="fas fa-user-circle me-2 text-primary"></i> My Profile
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders">
-                                            <i class="fas fa-shopping-bag me-2"></i>My Orders
+                                        <a class="dropdown-item fw-semibold" asp-controller="Order" asp-action="MyOrders">
+                                            <i class="fas fa-shopping-bag me-2 text-warning"></i> My Orders
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut">
-                                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                        <a class="dropdown-item text-danger fw-semibold" asp-controller="Account" asp-action="LogOut">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
                                         </a>
                                     </li>
                                 </ul>
@@ -108,6 +114,7 @@
                             </a>
                         }
                     </div>
+                    
                 </div>
             </nav>
         </div>
