@@ -21,7 +21,7 @@ namespace E_Commerce
 
             });
             // Sara (19-33)
-            //1
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             //2
             //3
             //4
@@ -60,7 +60,6 @@ namespace E_Commerce
             // Arwa (51-65)
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IProductVariantRepository, ProductVariantRepository>();
             //3
             //4

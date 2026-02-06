@@ -5,6 +5,9 @@ namespace E_Commerce.IRepository
 {
     public interface IReviewRepository : IRepository<ProductReview>
     {
-        
+        public IEnumerable<ProductReview> GetReviewsByProductId(int productId);
+
+
+
     }
 }

@@ -19,6 +19,10 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\CategoryVM\" />
+<<<<<<< HEAD
+=======
+    <Folder Include="Views\Order\" />
+>>>>>>> 01-stayle
     <Folder Include="wwwroot\images\NewFolder\" />
   </ItemGroup>
 
