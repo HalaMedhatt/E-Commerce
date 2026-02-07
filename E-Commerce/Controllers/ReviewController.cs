@@ -18,7 +18,6 @@ public class ReviewController : Controller
         _userManager = userManager;
     }
 
-    // ================= GET =================
     [HttpGet]
     [Authorize]
     public IActionResult Create(int productId)
@@ -32,28 +31,23 @@ public class ReviewController : Controller
     }
 
 
-    // ================= POST =================
     [HttpPost]
     [Authorize]
     [ValidateAntiForgeryToken]
     public IActionResult Create(ReviewViewModel model)
     {
-        // لو البيانات غلط
         if (!ModelState.IsValid)
         {
             return View("Create", model);
         }
 
-        // نجيب اليوزر الحالي
         var userId = _userManager.GetUserId(User);
 
-        // أمان زيادة
         if (userId == null)
         {
             return RedirectToAction("Login", "Account");
         }
 
-        // نكوّن الريفيو
         var review = new ProductReview
         {
             ProductId = model.ProductId,
@@ -63,10 +57,8 @@ public class ReviewController : Controller
             CreatedAt = DateTime.Now
         };
 
-        // نحفظ
         _reviewRepository.Add(review);
 
-        // نرجع لصفحة المنتج
         return RedirectToAction(
             "Details",
             "Product",
