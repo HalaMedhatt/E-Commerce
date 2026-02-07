@@ -85,9 +85,11 @@ namespace E_Commerce
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+			builder.Services.AddHttpClient<IPaymobRepository, PaymobRepository>();
+			builder.Services.AddScoped<PaymobRepository>();
+			builder.Services.AddHttpClient<PaymobRepository>();
 
-
-            var app = builder.Build();
+			var app = builder.Build();
             app.UseSession();
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

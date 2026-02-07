@@ -8,13 +8,13 @@ using System.Security.Claims;
 
 namespace E_Commerce.Reposiory
 {
-    public class OrderRepository(ECommerceDbContext context, ICartRepository cartRepository) : IOrderRepository
+    public class OrderRepository(ECommerceDbContext context, ICartRepository cartRepository,IPaymobRepository paymobRepository) : IOrderRepository
     {
         public void Add(Order item)
         {
             context.Orders.Add(item);
         }
-        public int CreateOrderFromCart(string userId, CheckoutViewModel checkoutVM)
+        public async Task<int> CreateOrderFromCart(string userId, CheckoutViewModel checkoutVM)
         {
             var cart = cartRepository.GetCartByUserId(userId);
 
@@ -45,8 +45,16 @@ namespace E_Commerce.Reposiory
             {
                 payment.TransactionRef = Guid.NewGuid().ToString();
             }
-            context.Payments.Add(payment);   
-            foreach (var cartItem in cart.CartItems)
+            context.Payments.Add(payment);
+            Save();
+			if (checkoutVM.PaymentMethod != PaymentMethod.Cash)
+			{
+				var paymentToken = await paymobRepository.GetPaymentTokenAsync(order, payment);
+				payment.TransactionRef = paymentToken;
+				context.Payments.Update(payment);
+				Save();
+			}
+			foreach (var cartItem in cart.CartItems)
             {
                 var orderItem = new OrderItem
                 {

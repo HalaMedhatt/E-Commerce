@@ -2,15 +2,21 @@
 using E_Commerce.Models;
 using E_Commerce.Models.Enum;
 using E_Commerce.Reposiory;
+using E_Commerce.Repository;
 using E_Commerce.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace E_Commerce.Controllers
 {
-    public class OrderController(ECommerceDbContext context,IOrderRepository orderRepository, UserManager<ApplicationUser> userManager) : Controller
+    public class OrderController(ECommerceDbContext context,
+        IOrderRepository orderRepository,
+        UserManager<ApplicationUser> userManager,
+		IPaymobRepository paymobRepository,
+		IConfiguration configuration) : Controller
     {
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
@@ -47,17 +53,43 @@ namespace E_Commerce.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(CheckoutViewModel checkoutVM)
+        public async Task<IActionResult> Checkout(CheckoutViewModel checkoutVM)
         {
             try
             {
-                var userId = GetCurrentUserId().Result;
-                var orderId = orderRepository.CreateOrderFromCart(userId, checkoutVM);
+                var userId = await GetCurrentUserId();
+                var orderId = await orderRepository.CreateOrderFromCart(userId, checkoutVM);
+				// إذا كانت طريقة الدفع غير نقدي، نعيد توجيه المستخدم إلى صفحة دفع Paymob
+				if (checkoutVM.PaymentMethod != PaymentMethod.Cash)
+				{
+					// الحصول على الطلب لاستخراج رمز الدفع
+					var order = orderRepository.GetById(orderId);
+					var paymentToken = order.Payment.TransactionRef;
 
-                return RedirectToAction("Details", new { id = orderId });
+					// بناء رابط دفع Paymob
+					var iframeId = configuration["Paymob:IframeId"];
+					var paymobUrl = $"https://accept.paymob.com/api/acceptance/iframes/{iframeId}?payment_token={paymentToken}";
+
+					return Redirect(paymobUrl);
+				}
+				return RedirectToAction("Details", new { id = orderId });
             }
             catch (Exception ex)
             {
+                return RedirectToAction("Index", "Cart");
+            }
+        }
+        [HttpGet]
+        public IActionResult PaymobCallback([FromQuery] string id)
+        {
+            try
+            {
+                TempData["Success"] = "تم الدفع بنجاح!";
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                TempData["Error"] = "فشلت عملية الدفع";
                 return RedirectToAction("Index", "Cart");
             }
         }
