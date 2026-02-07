@@ -4,7 +4,9 @@
     ViewData["Title"] = "Admin Dashboard";
     Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
+
 <br />
+
 <main class="mt-5 pt-4">
     <div class="container-fluid">
 
@@ -25,7 +27,6 @@
                     </div>
 
                     <div class="card-body table-responsive">
-
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
@@ -39,39 +40,25 @@
                                 {
                                     <tr>
                                         <td>@category.Name</td>
-
                                         <td>
-                                            <a asp-controller="Category"
-                                               asp-action="Details"
-                                               asp-route-id="@category.Id"
-                                               class="btn btn-info btn-sm">
-                                                Details
-                                            </a>
+                                            <a asp-controller="Category" asp-action="Details" asp-route-id="@category.Id"
+                                               class="btn btn-info btn-sm">Details</a>
 
-                                            <a asp-controller="Category"
-                                               asp-action="Edit"
-                                               asp-route-id="@category.Id"
-                                               class="btn btn-warning btn-sm">
-                                                Edit
-                                            </a>
+                                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id"
+                                               class="btn btn-warning btn-sm">Edit</a>
 
-                                            <a asp-controller="Category"
-                                               asp-action="Delete"
-                                               asp-route-id="@category.Id"
+                                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id"
                                                class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Delete this category?')">
-                                                Delete
-                                            </a>
+                                               onclick="return confirm('Delete this category?')">Delete</a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-
                     </div>
+
                 </div>
             </div>
-
 
             <!-- ================= Products Card ================= -->
             <div class="col-lg-6">
@@ -88,7 +75,6 @@
                     </div>
 
                     <div class="card-body table-responsive">
-
                         <table class="table table-hover align-middle">
 
                             <thead class="table-light">
@@ -112,7 +98,6 @@
                                         </td>
 
                                         <td>@product.Name</td>
-
                                         <td>@product.Category?.Name</td>
 
                                         <td>
@@ -127,37 +112,49 @@
                                         </td>
 
                                         <td>
-                                            <a asp-controller="Product"
-                                               asp-action="Details"
-                                               asp-route-id="@product.Id"
-                                               class="btn btn-info btn-sm">
-                                                Details
-                                            </a>
+                                            @* <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id"
+                                               class="btn btn-info btn-sm">Details</a> *@
 
-                                            <a asp-controller="Product"
-                                               asp-action="Edit"
-                                               asp-route-id="@product.Id"
-                                               class="btn btn-warning btn-sm">
-                                                Edit
-                                            </a>
+                                            <a asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@product.Id"
+                                               class="btn btn-warning btn-sm">Edit</a>
 
-                                            <a asp-controller="Product"
-                                               asp-action="Delete"
-                                               asp-route-id="@product.Id"
+                                            @* <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
                                                class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Delete this product?')">
-                                                Delete
-                                            </a>
+                                               onclick="return confirm('Delete this product?')">Delete</a> *@
                                         </td>
                                     </tr>
                                 }
                             </tbody>
 
                         </table>
-
                     </div>
                 </div>
             </div>
+
+            <!-- ================= Pagination (Products Only) ================= -->
+            <div class="col-12 d-flex justify-content-end mt-2">
+                <nav aria-label="Products pagination">
+                    <ul class="pagination pagination-sm mb-0 d-flex">
+
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="IndexAdmin" asp-route-page="@(ViewBag.CurrentPage - 1)">‹</a>
+                        </li>
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                <a class="page-link" asp-action="IndexAdmin" asp-route-page="@i">@i</a>
+                            </li>
+                        }
+
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link" asp-action="IndexAdmin" asp-route-page="@(ViewBag.CurrentPage + 1)">›</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
 
         </div>
     </div>

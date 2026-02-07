@@ -6,6 +6,7 @@
 }
 
 <!-- Shop Start-->
+
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
         <div class="tab-class text-center">
@@ -77,8 +78,8 @@
                                             <p>@product.BriefDescription</p>
 
                                         </div>
-                                       
-                                        
+
+
 
                                     </div>
                                 </a>
@@ -96,7 +97,7 @@
                     <div id="tab-@category.Id" class="tab-pane fade p-0">
                         <div class="row g-4">
 
-                            @foreach (var product in ViewBag.Products)
+                            @foreach (var product in ((IEnumerable<Product>)ViewBag.Products).Take(8))
                             {
                                 if (product.CategoryId == category.Id)
                                 {
@@ -140,6 +141,7 @@
     </div>
 
 </div>
+
 
 <!-- Service Section -->
 <div class="container-fluid service py-5">
@@ -235,43 +237,7 @@
 
 
 <!--Reviews Section-->
-<div class="container-fluid testimonial py-5">
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <h5 class="text-primary text-uppercase">Our Testimonial</h5>
-            <h1 class="display-5">Our Client Saying!</h1>
-        </div>
 
-        <div class="row g-4">
-
-            @foreach (var review in ((IEnumerable<ProductReview>)ViewBag.Reviews).Take(3))
-            {
-
-                <!-- Testimonial Item -->
-                <div class="col-lg-6">
-                    <div class="testimonial-item">
-                        <p class="testimonial-text">
-                           @review.Comment
-                        </p>
-
-                        <div class="testimonial-footer">
-                            <img src="img/testimonial-1.jpg" alt="">
-                            <div class="ms-3">
-                                <h5 class="mb-1">Client Name</h5>
-                                <span>Profession</span>
-                                <div class="testimonial-rating">
-                                    ★★★★★
-                                </div>
-                            </div>
-                            <i class="fa fa-quote-right quote-icon"></i>
-                        </div>
-                    </div>
-                </div>
-            }
-
-        </div>
-    </div>
-</div>
 
 
 }

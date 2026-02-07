@@ -21,24 +21,40 @@ namespace E_Commerce.Controllers
             _webHostEnvironment = webHostEnvironment;
             _reviewRepository = reviewRepository;
         }
-        public IActionResult Index()
-        {
+        public IActionResult Index() 
+        { 
             var categories = _categoryRepository.GetAll();
             ViewBag.Products = _productRepository.GetAll();
             ViewBag.Reviews = _reviewRepository.GetAll();
-            return View(categories);
+            return View(categories); 
         }
 
         public IActionResult Privacy()
         {
             return View();
         }
-        public IActionResult IndexAdmin()
+        public IActionResult IndexAdmin(int page = 1)
         {
+            int pageSize = 5;
+
+            var allProducts = _productRepository.GetAll();
+
+            int totalProducts = allProducts.Count();
+            int totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
+
+            var products = allProducts
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.Products = products;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
             var categories = _categoryRepository.GetAll();
-            ViewBag.Products = _productRepository.GetAll();
             return View(categories);
         }
+
         public IActionResult Categories()
         {
 
