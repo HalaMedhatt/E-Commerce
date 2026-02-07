@@ -167,3 +167,18 @@
         background: var(--bs-secondary);
         color: var(--bs-white);
     }
+
+/* FORCE FIX PAGINATION FROM TEMPLATE */
+.pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+}
+
+    .pagination .page-item {
+        display: inline-block !important;
+    }
+
+    .pagination .page-link {
+        width: auto !important;
+    }

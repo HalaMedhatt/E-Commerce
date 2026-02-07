@@ -1,0 +1,111 @@
+﻿@model E_Commerce.Models.Product
+
+@{
+    ViewData["Title"] = "UpdateProduct";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
+
+
+}
+@section UpdateProduct{
+
+
+<div class="d-flex justify-content-center mt-4">
+    <div class="col-lg-8">
+
+        <h2 class="mb-4">Update Product</h2>
+
+        <form asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All"></div>
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label asp-for="Id" class="form-label"></label>
+                <input asp-for="Id" class="form-control" readonly/>
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.DefualtImageUrl))
+            {
+                <div class="mb-3">
+                    <img src="/images/@Model.DefualtImageUrl"
+                         style="max-width:200px; border-radius:8px;" />
+                </div>
+
+
+            }
+
+                <div class="mb-3">
+                    <label>Change Image</label>
+                    <input type="hidden" asp-for="DefualtImageUrl" />
+                    <input type="file" name="image" class="form-control" />
+                </div>
+
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="BriefDescription" class="form-label"></label>
+                <input asp-for="BriefDescription" class="form-control" />
+                <span asp-validation-for="BriefDescription" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="IsActive" class="form-check-label"></label>
+                <input asp-for="IsActive" class="form-check-input ms-2" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label">Category</label>
+                <select asp-for="CategoryId"
+                        asp-items="ViewBag.Categories"
+                        class="form-select">
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                    @foreach(var variant in Model.Variants)
+                    {
+                        
+                        <div class="border p-3 mb-2 rounded">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label>Color</label>
+                                    <input asp-for="@variant.Size" class="form-control" />
+                                </div>
+
+                                <div class="col">
+                                    <label>Size</label>
+                                    <input asp-for="@variant.Price" class="form-control" />
+                                </div>
+
+                                <div class="col">
+                                    <label>Price</label>
+                                    <input asp-for="@variant.SalePrice" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                Update
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                Cancel
+            </a>
+        </form>
+
+    </div>
+</div>
+
+
+}
