@@ -91,6 +91,19 @@ namespace E_Commerce.Controllers
             return RedirectToAction("Index", "Product");
         }
 
+        public IActionResult UpdateVrainant(int productId)
+        {
+            var product = _productRepository.GetById(productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
 
+            ViewBag.ProductName = product.Name;
+            ViewBag.ProductId = productId;
+
+            return View(new ProductVariant());
+
+        }
     }
 }
