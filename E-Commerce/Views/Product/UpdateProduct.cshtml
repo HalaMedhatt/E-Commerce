@@ -68,6 +68,14 @@
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
+
+            <div class="mb-3 d-flex justify-content-between">
+                    <a asp-action="AddVariant" asp-controller="ProductVariant" asp-route-productId="@Model.Id" class="btn btn-danger ms-2">
+                        Add Variant
+                    </a>
+
+            </div>
+
             <div class="mb-3">
                     @foreach(var variant in Model.Variants)
                     {
@@ -76,17 +84,19 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <label>Color</label>
+                                    <label>Size</label>
                                     <input asp-for="@variant.Size" class="form-control" />
                                 </div>
 
                                 <div class="col">
-                                    <label>Size</label>
+
+                                    <label>Price</label>
                                     <input asp-for="@variant.Price" class="form-control" />
                                 </div>
 
                                 <div class="col">
-                                    <label>Price</label>
+
+                                    <label>Sale Price</label>
                                     <input asp-for="@variant.SalePrice" class="form-control" />
                                 </div>
                             </div>
