@@ -2,6 +2,7 @@
 using E_Commerce.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace E_Commerce.Repository
 {
@@ -12,13 +13,13 @@ namespace E_Commerce.Repository
             context.Carts.Add(item);
         }
 
-        public bool AddToCart(string userId, int productVariantId, int quantity = 1)
+        public async Task<bool> AddToCartAsync(string userId, int productVariantId, int quantity = 1)
         {
             userId ??= GetCartUserId();
             bool isSession = userId.StartsWith("SESSION_");
 
            
-            Cart cart = GetCartByUserId(userId);
+            Cart cart =await GetCartByUserIdAsync(userId);
 
             if (cart == null)
             {
@@ -114,7 +115,7 @@ namespace E_Commerce.Repository
             }
         }
 
-        public Cart GetCartByUserId(string userId = null)
+        public async Task<Cart> GetCartByUserIdAsync(string userId = null)
         {
             userId ??= GetCartUserId();
 
@@ -149,9 +150,9 @@ namespace E_Commerce.Repository
             }
         }
 
-        public void ClearCart(string userId)
+        public async void ClearCart(string userId)
         {
-            var cart = GetCartByUserId(userId);
+            var cart =await GetCartByUserIdAsync(userId);
             if (cart != null)
             {
                 context.CartItems.RemoveRange(cart.CartItems);
@@ -163,25 +164,25 @@ namespace E_Commerce.Repository
             throw new NotImplementedException();
         }
 
-        public int GetCartItemCount(string userId)
+        public async Task<int> GetCartItemCountAsync(string userId)
         {
-            var cart = GetCartByUserId(userId);
+            var cart =await GetCartByUserIdAsync(userId);
             return cart?.CartItems?.Sum(ci => ci.Quantity) ?? 0;
         }
 
-        public decimal GetCartTotal(string userId)
+        public async Task<decimal> GetCartTotalAsync(string userId)
         {
-            var cart = GetCartByUserId(userId);
+            var cart = await GetCartByUserIdAsync(userId);
 
             if (cart == null || cart.CartItems == null || !cart.CartItems.Any())
                 return 0;
 
             return cart.CartItems.Sum(ci => ci.ProductVariant.Price * ci.Quantity);
         }
-        public void MergeCarts(string sessionUserId, string authenticatedUserId)
+        public async void MergeCarts(string sessionUserId, string authenticatedUserId)
         {
-            var sessionCart = GetCartByUserId(sessionUserId);
-            var userCart = GetCartByUserId(authenticatedUserId);
+            var sessionCart = await GetCartByUserIdAsync(sessionUserId);
+            var userCart = await GetCartByUserIdAsync(authenticatedUserId);
 
             if (sessionCart == null || !sessionCart.CartItems.Any())
                 return;

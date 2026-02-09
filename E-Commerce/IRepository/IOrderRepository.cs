@@ -7,9 +7,9 @@ namespace E_Commerce.IRepository
 {
     public interface IOrderRepository: IRepository<Order>
     {
-        Task<int> CreateOrderFromCart(string userId, CheckoutViewModel CheckoutVM);
-        bool UpdateOrderStatus(int orderId, OrderStatus status);
-        bool CancelOrder(int orderId, string userId);
-        List<Order> GetByUserId(string userId);
+        Task<int> CreateOrderFromCartAsync(string userId, CheckoutViewModel CheckoutVM);
+        Task<bool> UpdateOrderStatusAsync(int orderId, OrderStatus status);
+        Task<bool> CancelOrderAsync(int orderId, string userId);
+        //List<Order> GetByUserId(string userId);
     }
 }

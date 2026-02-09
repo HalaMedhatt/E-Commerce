@@ -58,7 +58,7 @@ namespace E_Commerce.Controllers
 			try
 			{
 				var userId = await GetCurrentUserId();
-				var orderId = await orderRepository.CreateOrderFromCart(userId, checkoutVM);
+				var orderId = await orderRepository.CreateOrderFromCartAsync(userId, checkoutVM);
 				if (checkoutVM.PaymentMethod != PaymentMethod.Cash)
 				{
 					var order = orderRepository.GetById(orderId);
@@ -79,9 +79,9 @@ namespace E_Commerce.Controllers
 
 		[Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult UpdateStatus(int id, OrderStatus status)
+        public async Task<IActionResult> UpdateStatus(int id, OrderStatus status)
         {
-            var success = orderRepository.UpdateOrderStatus(id, status);
+            var success = await orderRepository.UpdateOrderStatusAsync(id, status);
 
             if (!success)
             {
@@ -91,10 +91,10 @@ namespace E_Commerce.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cancel(int id)
+        public async Task<IActionResult> Cancel(int id)
         {
             var userId = GetCurrentUserId().Result;
-            var success = orderRepository.CancelOrder(id, userId);
+            var success = await orderRepository.CancelOrderAsync(id, userId);
 
             if (!success)
             {

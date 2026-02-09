@@ -15,9 +15,9 @@ namespace E_Commerce.Reposiory
 		{
 			context.Orders.Add(item);
 		}
-		public async Task<int> CreateOrderFromCart(string userId, CheckoutViewModel checkoutVM)
+		public async Task<int> CreateOrderFromCartAsync(string userId, CheckoutViewModel checkoutVM)
 		{
-			var cart = cartRepository.GetCartByUserId(userId);
+			var cart = await cartRepository.GetCartByUserIdAsync(userId);
 
 			if (cart == null || !cart.CartItems.Any())
 			{
@@ -30,7 +30,7 @@ namespace E_Commerce.Reposiory
 				UserId = userId,
 				ShippingAddressId = checkoutVM.ShippingAddressId,
 				Status = OrderStatus.Pending,
-				TotalCost = cartRepository.GetCartTotal(userId)
+				TotalCost = await cartRepository.GetCartTotalAsync(userId)
 			};
 			Add(order);
 			Save();
@@ -72,7 +72,7 @@ namespace E_Commerce.Reposiory
 			return order.Id;
 		}
 
-		public bool UpdateOrderStatus(int orderId, OrderStatus status)
+		public async Task<bool> UpdateOrderStatusAsync(int orderId, OrderStatus status)
 		{
 			var order = GetById(orderId);
 			if (order == null)
@@ -87,7 +87,7 @@ namespace E_Commerce.Reposiory
 			return true;
 		}
 
-		public bool CancelOrder(int orderId, string userId)
+		public async Task<bool> CancelOrderAsync(int orderId, string userId)
 		{
 			var order = GetById(orderId);
 			if (order == null || order.UserId != userId)

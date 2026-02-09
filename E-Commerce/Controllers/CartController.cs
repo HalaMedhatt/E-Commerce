@@ -9,15 +9,15 @@ namespace E_Commerce.Controllers
 {
     public class CartController(ICartRepository cartRepository) : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            Cart cart = cartRepository.GetCartByUserId(null);
+            Cart cart = await cartRepository.GetCartByUserIdAsync(null);
             return View("Index",cart);
         }
        // [HttpPost]
-        public IActionResult AddToCart(int productVariantId, int quantity = 1)
+        public async Task<IActionResult> AddToCart(int productVariantId, int quantity = 1)
         {
-            cartRepository.AddToCart(null, productVariantId, quantity);
+            await cartRepository.AddToCartAsync(null, productVariantId, quantity);
             return RedirectToAction("Index","Home");
         }
         [HttpPost]
