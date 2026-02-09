@@ -18,6 +18,18 @@ public class ReviewController : Controller
         _userManager = userManager;
     }
 
+
+    [HttpGet]
+    public IActionResult Index(int productId)
+    {
+        var reviews = _reviewRepository.GetReviewsByProductId(productId).ToList();
+
+        ViewBag.ProductId = productId;
+
+        return View("_IndexRewiewPartial", reviews);
+    }
+
+
     [HttpGet]
     [Authorize]
     public IActionResult Create(int productId)
@@ -27,7 +39,7 @@ public class ReviewController : Controller
             ProductId = productId
         };
 
-        return View("Create",model);
+        return View("_AddReviewsPartial", model);
     }
 
 
@@ -36,9 +48,10 @@ public class ReviewController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Create(ReviewViewModel model)
     {
+        ModelState.Remove("UserName");
         if (!ModelState.IsValid)
         {
-            return View("Create", model);
+            return View("_AddReviewsPartial", model);
         }
 
         var userId = _userManager.GetUserId(User);

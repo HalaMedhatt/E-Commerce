@@ -1,0 +1,130 @@
+﻿@model E_Commerce.ViewModels.ReviewViewModel
+
+
+@{
+    ViewData["Title"] = "Add Review";
+}
+
+<!-- Reviews -->
+    <form asp-action="Create" asp-controller="Review" method="post">
+        <div asp-validation-summary="All"></div>
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="ProductId" value="@Model.ProductId" />
+
+        <div class="row g-3">
+
+            <!-- Rating Stars -->
+            <div class="col-12">
+                <div class="rating-stars mb-3">
+                    @* <label class="d-block mb-2">Rating *</label> *@
+                    <div class="stars-container" data-rating="0">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star" data-value="@i">☆</span>
+                        }
+                    </div>
+                    <input type="hidden" asp-for="Rating" id="selectedRating" value="0" />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Comment -->
+            <div class="col-12">
+                <textarea asp-for="Comment"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Your Review *"
+                          required></textarea>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">
+                    Submit Review
+                </button>
+            </div>
+
+        </div>
+    </form>
+<style>
+    .rating-stars .stars-container {
+        display: inline-flex;
+        font-size: 2rem;
+        cursor: pointer;
+        direction: ltr;
+    }
+
+    .rating-stars .star {
+        color: #ddd;
+        margin-right: 5px;
+        transition: all 0.2s ease;
+    }
+
+    .rating-stars .star.hovered {
+        color: #ffc107 !important;
+        transform: scale(1.1);
+    }
+
+    .rating-stars .star.selected {
+        color: #ffc107;
+    }
+
+    .rating-stars .star.selected.hovered {
+        color: #ffc107 !important;
+    }
+</style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        const hiddenInput = document.getElementById('selectedRating');
+        
+        let currentRating = parseInt(hiddenInput.value) || 0;
+
+        updateStars(currentRating);
+
+        stars.forEach(star => {
+            star.addEventListener('mouseenter', function() {
+                const hoverValue = parseInt(this.getAttribute('data-value'));
+                
+                stars.forEach((s, index) => {
+                    if (index < hoverValue) {
+                        s.classList.add('hovered');
+                        s.classList.remove('selected');
+                        s.textContent = '★';
+                    } else {
+                        s.classList.remove('hovered');
+                        s.classList.remove('selected');
+                        s.textContent = '☆';
+                    }
+                });
+            });
+
+            star.addEventListener('mouseleave', function() {
+                stars.forEach(s => s.classList.remove('hovered'));
+                updateStars(currentRating);
+            });
+
+            star.addEventListener('click', function() {
+                currentRating = parseInt(this.getAttribute('data-value'));
+                hiddenInput.value = currentRating;
+                updateStars(currentRating);
+            });
+        });
+
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                const starValue = index + 1;
+                
+                if (starValue <= rating) {
+                    star.classList.add('selected');
+                    star.textContent = '★';
+                } else {
+                    star.classList.remove('selected');
+                    star.textContent = '☆';
+                }
+            });
+        }
+    });
+</script>

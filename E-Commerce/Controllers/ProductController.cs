@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace E_Commerce.Controllers
 {
@@ -18,15 +17,18 @@ namespace E_Commerce.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IProductVariantRepository _productVariantRepository;
-        public ProductController(IProductRepository productRepository, 
+        private readonly IReviewRepository _reviewRepository;
+        public ProductController(IProductRepository productRepository,
             ICategoryRepository categoryRepository,
             IWebHostEnvironment webHostEnvironment,
-            IProductVariantRepository productVariantRepository)
+            IProductVariantRepository productVariantRepository,
+            IReviewRepository reviewRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
             _webHostEnvironment = webHostEnvironment;
             _productVariantRepository = productVariantRepository;
+            _reviewRepository = reviewRepository;
         }
 
         //public IActionResult Index()
@@ -46,8 +48,8 @@ namespace E_Commerce.Controllers
         {
             var model = new HomeViewModel();
 
-            model.Categories = _categoryRepository.GetAll() ;
-            var productsQuery = _productRepository.GetAll().AsQueryable() ;
+            model.Categories = _categoryRepository.GetAll();
+            var productsQuery = _productRepository.GetAll().AsQueryable();
 
 
 
@@ -70,75 +72,26 @@ namespace E_Commerce.Controllers
             return View(model);
         }
 
+
+
+
         public IActionResult Details(int id)
         {
-            return _productRepository.GetById(id) is var product && product != null
-                ? View(product)
-                : NotFound();
-        }
-
-        [HttpGet]
-        public IActionResult UpdateProduct(int id)
-        {
-            var categories = _categoryRepository.GetAll();
-
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
-
-            return _productRepository.GetById(id) is var product && product != null
-                ? View(product)
-                : NotFound();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult UpdateProduct(int id, Product model, IFormFile image)
-        {
             var product = _productRepository.GetById(id);
+
             if (product == null)
                 return NotFound();
 
-            ModelState.Remove("Category");
-            ModelState.Remove("Variants");
-            ModelState.Remove("Images");
-            ModelState.Remove("Reviews");
-            ModelState.Remove("DefualtImageUrl");
-            ModelState.Remove("Image");
+            var productReviews = _reviewRepository.GetReviewsByProductId(id).ToList();
 
-            if (!ModelState.IsValid)
+            var viewModel = new ProductDetailsViewModel
             {
-                ViewBag.Categories = new SelectList(
-                    _categoryRepository.GetAll(), "Id", "Name"
-                );
-                return View(model);
-            }
+                Product = product,
+                Reviews = productReviews
+            };
 
-
-            if (image != null && image.Length > 0)
-            {
-                var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    image.CopyTo(stream);
-                }
-
-                product.DefualtImageUrl = fileName;
-            }
-
-       
-
-            product.Name = model.Name;
-            product.Description = model.Description;
-            product.BriefDescription = model.BriefDescription;
-            product.IsActive = model.IsActive;
-            product.CategoryId = model.CategoryId; 
-
-            _productRepository.Edit(product);
-            _productRepository.Save();
-
-            return RedirectToAction("IndexAdmin","Home", new { id = product.Id });
+            return View(viewModel);
         }
-
 
 
 
@@ -206,7 +159,6 @@ namespace E_Commerce.Controllers
 
             return View(product);
         }
-        
 
 
     }

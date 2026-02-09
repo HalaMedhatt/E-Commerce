@@ -8,7 +8,7 @@ namespace E_Commerce.Models
         [Range(1, 5)]
         public int Rating { get; set; }
         public string? Comment { get; set; }
-        public DateTime CreatedAt { get; set; }= DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public int ProductId { get; set; }
         public Product Product { get; set; }

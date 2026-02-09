@@ -27,7 +27,7 @@ namespace E_Commerce.Repository
             _context.Products.Update(item);
         }
 
-        public  List<Product> GetAll()
+        public List<Product> GetAll()
         {
             return _context.Products
                 .Include(Product => Product.Category)
@@ -39,11 +39,12 @@ namespace E_Commerce.Repository
         public Product GetById(int id)
         {
             return _context.Products
+                .Include(p => p.Reviews)
                 .Include(p => p.Category)
                 .Include(p => p.Variants)
                 .Include(p => p.Images)
-                .FirstOrDefault(p=>p.Id==id);
-                
+                .FirstOrDefault(p => p.Id == id);
+
 
         }
 

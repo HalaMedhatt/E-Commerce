@@ -9,7 +9,7 @@ namespace E_Commerce.Repository
         private readonly ECommerceDbContext _context;
         public ReviewRepository(ECommerceDbContext context)
         {
-            _context = context;  
+            _context = context;
         }
         public void Add(ProductReview item)
         {
@@ -30,7 +30,7 @@ namespace E_Commerce.Repository
         public List<ProductReview> GetAll()
         {
             return _context.ProductReviews
-                .Include(p =>p.Product)
+                .Include(p => p.Product)
                 .Include(u => u.User)
                 .ToList();
         }
@@ -39,7 +39,7 @@ namespace E_Commerce.Repository
         {
             return _context.ProductReviews
                 .Include(p => p.Product)
-                .Include(u => u.User)
+                .Include(p => p.User)
                 .FirstOrDefault(p => p.Id == id);
         }
         public IEnumerable<ProductReview> GetReviewsByProductId(int productId)
@@ -49,7 +49,7 @@ namespace E_Commerce.Repository
                 .Include(r => r.User)
                 .Where(r => r.ProductId == productId)
                 .OrderByDescending(r => r.CreatedAt)
-                .ToList(); 
+                .ToList();
         }
 
         public void Save()

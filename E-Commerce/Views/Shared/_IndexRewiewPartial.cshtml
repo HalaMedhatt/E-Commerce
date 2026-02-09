@@ -1,0 +1,345 @@
+﻿@model IEnumerable<E_Commerce.Models.ProductReview>
+
+@{
+    var reviews = Model?.ToList();
+    var reviewsToShow = 3; 
+    var hasMoreReviews = reviews != null && reviews.Count > reviewsToShow;
+}
+
+@if (reviews != null && reviews.Any())
+{
+    <!-- Statistics Summary -->
+    <div class="review-statistics mb-4">
+        @{
+            var averageRating = reviews.Average(r => r.Rating);
+            var totalReviews = reviews.Count;
+            var positiveReviews = reviews.Count(r => r.Rating >= 4);
+        }
+        
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h3 class="display-5 text-primary">@averageRating.ToString("0.0")</h3>
+                        <div class="text-warning mb-2">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span style="font-size: 1.5rem;">
+                                    @(i <= Math.Round(averageRating) ? "★" : "☆")
+                                </span>
+                            }
+                        </div>
+                        <p class="text-muted mb-0">Average Rating</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h3 class="display-5 text-success">@totalReviews</h3>
+                        <div class="mb-2">
+                            <i class="fas fa-comments fa-2x text-success"></i>
+                        </div>
+                        <p class="text-muted mb-0">Total Reviews</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h3 class="display-5 text-warning">@positiveReviews</h3>
+                        <div class="mb-2">
+                            <i class="fas fa-thumbs-up fa-2x text-warning"></i>
+                        </div>
+                        <p class="text-muted mb-0">Positive Reviews</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews List -->
+    <div class="reviews-list">
+        <h5 class="mb-3">Customer Reviews</h5>
+        
+        <!-- أول 3 reviews -->
+        <div id="visibleReviews">
+            @foreach (var review in reviews.Take(reviewsToShow)) 
+            {
+                <div class="review-item card mb-3 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- User Info & Rating -->
+                            <div class="col-md-8">
+                                <div class="d-flex align-items-start mb-2">
+                                    <!-- User Avatar -->
+                                    <div class="me-3">
+                                        @if (review.User.Avatar != null)
+                                        {
+                                            <img src="~/img/Avatar/@review.User.Avatar" 
+                                                 class="rounded-circle" 
+                                                 style="width: 50px; height: 50px; object-fit: cover;" 
+                                                 alt="User Avatar">
+                                        }
+                                        else
+                                        {
+                                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" 
+                                                 style="width: 50px; height: 50px; background-color: #6c757d;">
+                                                <span class="text-white fw-bold" style="font-size: 1.2rem;">
+                                                    @(review.User?.FirstName?.FirstOrDefault() ?? 'U')
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                    
+                                    <!-- User Details -->
+                                    <div>
+                                        <h6 class="mb-1 fw-bold">
+                                            @(review.User != null ? 
+                                              $"{review.User.FirstName} {review.User.LastName}" : 
+                                              "Anonymous User")
+                                        </h6>
+                                        <small class="text-muted">
+                                            <i class="far fa-calendar me-1"></i>
+                                            @review.CreatedAt.ToString("MMMM dd, yyyy")
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Rating Stars -->
+                                <div class="mb-3">
+                                    <div class="text-warning" style="font-size: 1.3rem;">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <span>@(i <= review.Rating ? "★" : "☆")</span>
+                                        }
+                                    </div>
+                                    <span class="text-muted ms-2 fw-bold">@review.Rating out of 5</span>
+                                </div>
+                                
+                                <!-- Review Comment -->
+                                <div class="review-comment">
+                                    <p class="mb-0" style="line-height: 1.6;">@review.Comment</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Review Metadata -->
+                            <div class="col-md-4">
+                                <div class="d-flex flex-column h-100">
+                                    <div class="mt-auto text-end">
+                                        <small class="text-muted">
+                                            <i class="far fa-clock me-1"></i>
+                                            @review.CreatedAt.ToString("hh:mm tt")
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (hasMoreReviews)
+        {
+            <div id="hiddenReviews" style="display: none;">
+                @foreach (var review in reviews.Skip(reviewsToShow)) 
+                {
+                    <div class="review-item card mb-3 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- User Info & Rating -->
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-start mb-2">
+                                        <!-- User Avatar -->
+                                        <div class="me-3">
+                                            @if (review.User.Avatar != null)
+                                            {
+                                                <img src="~/img/Avatar/@review.User.Avatar" 
+                                                     class="rounded-circle" 
+                                                     style="width: 50px; height: 50px; object-fit: cover;" 
+                                                     alt="User Avatar">
+                                            }
+                                            else
+                                            {
+                                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" 
+                                                     style="width: 50px; height: 50px; background-color: #6c757d;">
+                                                    <span class="text-white fw-bold" style="font-size: 1.2rem;">
+                                                        @(review.User?.FirstName?.FirstOrDefault() ?? 'U')
+                                                    </span>
+                                                </div>
+                                            }
+                                        </div>
+                                        
+                                        <!-- User Details -->
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">
+                                                @(review.User != null ? 
+                                                  $"{review.User.FirstName} {review.User.LastName}" : 
+                                                  "Anonymous User")
+                                            </h6>
+                                            <small class="text-muted">
+                                                <i class="far fa-calendar me-1"></i>
+                                                @review.CreatedAt.ToString("MMMM dd, yyyy")
+                                            </small>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Rating Stars -->
+                                    <div class="mb-3">
+                                        <div class="text-warning" style="font-size: 1.3rem;">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <span>@(i <= review.Rating ? "★" : "☆")</span>
+                                            }
+                                        </div>
+                                        <span class="text-muted ms-2 fw-bold">@review.Rating out of 5</span>
+                                    </div>
+                                    
+                                    <!-- Review Comment -->
+                                    <div class="review-comment">
+                                        <p class="mb-0" style="line-height: 1.6;">@review.Comment</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Review Metadata -->
+                                <div class="col-md-4">
+                                    <div class="d-flex flex-column h-100">
+                                        <div class="mt-auto text-end">
+                                            <small class="text-muted">
+                                                <i class="far fa-clock me-1"></i>
+                                                @review.CreatedAt.ToString("hh:mm tt")
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (hasMoreReviews)
+        {
+            <div class="text-center mt-4">
+                <button id="toggleReviewsBtn" class="btn btn-outline-primary">
+                    <i class="fas fa-eye me-2"></i>
+                    View More Reviews (@(reviews.Count - reviewsToShow) more)
+                </button>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <i class="far fa-comments fa-4x text-muted"></i>
+        </div>
+        <h4 class="text-muted mb-3">No Reviews Yet</h4>
+        <p class="text-muted mb-4">Be the first to share your thoughts about this product!</p>
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a href="#" class="btn btn-primary be-first-reviewer">
+                <i class="fas fa-edit me-2"></i>
+                Be the First Reviewer
+            </a>
+        }
+        else
+        {
+            <a asp-area="Identity" asp-page="/Account/Login" 
+               class="btn btn-primary">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Login to Add Review
+            </a>
+        }
+    </div>
+}
+
+<style>
+    .review-item {
+        transition: transform 0.2s;
+    }
+    
+    .review-item:hover {
+        transform: translateY(-2px);
+    }
+    
+    .review-statistics .card {
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .review-statistics .card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .rounded-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .review-comment {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease-in;
+    }
+    
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('toggleReviewsBtn');
+        const hiddenReviews = document.getElementById('hiddenReviews');
+        
+        if (toggleBtn && hiddenReviews) {
+            let isExpanded = false;
+            
+            toggleBtn.addEventListener('click', function() {
+                if (!isExpanded) {
+                    hiddenReviews.style.display = 'block';
+                    hiddenReviews.classList.add('fade-in');
+                    
+                    this.innerHTML = '<i class="fas fa-eye-slash me-2"></i> Show Less';
+                    
+                    isExpanded = true;
+                } else {
+                    hiddenReviews.style.display = 'none';
+                    
+                    this.innerHTML = '<i class="fas fa-eye me-2"></i> View More Reviews (@(reviews.Count - reviewsToShow) more)';
+                    
+                    isExpanded = false;
+                    
+                    document.querySelector('.reviews-list').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        }
+        
+        const beFirstBtn = document.querySelector('.be-first-reviewer');
+        if (beFirstBtn) {
+            beFirstBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#reviewForm').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
+</script>
