@@ -1,4 +1,5 @@
 ﻿using E_Commerce.IRepository;
+using E_Commerce.Migrations;
 using E_Commerce.Models;
 using E_Commerce.Models.Enum;
 using E_Commerce.Repository;
@@ -49,8 +50,9 @@ namespace E_Commerce.Reposiory
             Save();
 			if (checkoutVM.PaymentMethod != PaymentMethod.Cash)
 			{
-				var paymentToken = await paymobRepository.GetPaymentTokenAsync(order, payment);
+				var (paymobOrderId, paymentToken) = await paymobRepository.GetPaymentTokenAsync(order, payment);
 				payment.TransactionRef = paymentToken;
+				payment.PaymobOrderId = paymobOrderId;
 				context.Payments.Update(payment);
 				Save();
 			}

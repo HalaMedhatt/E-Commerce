@@ -7,18 +7,12 @@ namespace E_Commerce.Repository
 {
     public class PaymobRepository (IConfiguration _configuration, HttpClient _httpClient) : IPaymobRepository
     {
-        public async Task<string> GetPaymentTokenAsync(Order order, Payment payment)
-        {
-			// Authentication Token
+		public async Task<(string paymobOrderId, string paymentToken)> GetPaymentTokenAsync(Order order, Payment payment)
+		{
 			var authToken = await GetAuthTokenAsync();
-
-			// Order Registration
-			var orderId = await RegisterOrderAsync(authToken, order);
-
-			// Payment Key
-			var paymentKey = await GetPaymentKeyAsync(authToken, order, orderId, payment);
-
-			return paymentKey;
+			var paymobOrderId = await RegisterOrderAsync(authToken, order);
+			var paymentToken = await GetPaymentKeyAsync(authToken, order, paymobOrderId, payment);
+			return (paymobOrderId, paymentToken);
 		}
 		private async Task<string> GetAuthTokenAsync()
 		{

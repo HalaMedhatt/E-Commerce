@@ -79,22 +79,8 @@ namespace E_Commerce.Controllers
                 return RedirectToAction("Index", "Cart");
             }
         }
-        [HttpGet]
-        public IActionResult PaymobCallback([FromQuery] string id)
-        {
-            try
-            {
-                TempData["Success"] = "تم الدفع بنجاح!";
-                return RedirectToAction("Index", "Home");
-            }
-            catch
-            {
-                TempData["Error"] = "فشلت عملية الدفع";
-                return RedirectToAction("Index", "Cart");
-            }
-        }
 
-        [Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult UpdateStatus(int id, OrderStatus status)
         {
