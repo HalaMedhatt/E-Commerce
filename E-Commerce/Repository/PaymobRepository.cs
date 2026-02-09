@@ -7,12 +7,18 @@ namespace E_Commerce.Repository
 {
     public class PaymobRepository (IConfiguration _configuration, HttpClient _httpClient) : IPaymobRepository
     {
-		public async Task<(string paymobOrderId, string paymentToken)> GetPaymentTokenAsync(Order order, Payment payment)
+		public async Task<string> GetPaymentTokenAsync(Order order, Payment payment)
 		{
+			// Authentication Token
 			var authToken = await GetAuthTokenAsync();
-			var paymobOrderId = await RegisterOrderAsync(authToken, order);
-			var paymentToken = await GetPaymentKeyAsync(authToken, order, paymobOrderId, payment);
-			return (paymobOrderId, paymentToken);
+
+			// Order Registration
+			var orderId = await RegisterOrderAsync(authToken, order);
+
+			// Payment Key
+			var paymentKey = await GetPaymentKeyAsync(authToken, order, orderId, payment);
+
+			return paymentKey;
 		}
 		private async Task<string> GetAuthTokenAsync()
 		{
@@ -36,9 +42,9 @@ namespace E_Commerce.Repository
 			{
 				auth_token = authToken,
 				delivery_needed = "false",
-				amount_cents = (int)(order.TotalCost * 100), // تحويل المبلغ إلى قروش
+				amount_cents = (int)(order.TotalCost * 100),
 				currency = "EGP",
-				items = new object[] { } // يمكن إضافة تفاصيل العناصر هنا إذا لزم الأمر
+				items = new object[] { } 
 			};
 
 			var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
@@ -57,7 +63,7 @@ namespace E_Commerce.Repository
 			{
 				auth_token = authToken,
 				amount_cents = (int)(order.TotalCost * 100),
-				expiration = 3600, // صلاحية الرمز بالثواني
+				expiration = 3600, 
 				order_id = orderId,
 				billing_data = new
 				{
@@ -88,11 +94,9 @@ namespace E_Commerce.Repository
 			return data.token;
 		}
 		public async Task<bool> ConfirmPaymentAsync(string paymentToken, decimal amount)
-        {
-			// يمكن استخدام هذه الطريقة للتحقق من حالة الدفع إذا لزم الأمر
-			// قد تحتاج إلى تعديلها بناءً على متطلبات Paymob
+		{
 			return await Task.FromResult(true);
 		}
 
-    }
+	}
 }

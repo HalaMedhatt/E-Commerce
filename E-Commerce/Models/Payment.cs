@@ -9,7 +9,6 @@ namespace E_Commerce.Models
         public PaymentMethod PaymentMethod { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public string TransactionRef { get; set; } = string.Empty;
-		public string PaymobOrderId { get; set; } = string.Empty;
 		public DateTime PaymentDate { get; set; }
 
         public int OrderId { get; set; }

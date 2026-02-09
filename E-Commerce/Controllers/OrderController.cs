@@ -53,32 +53,29 @@ namespace E_Commerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout(CheckoutViewModel checkoutVM)
-        {
-            try
-            {
-                var userId = await GetCurrentUserId();
-                var orderId = await orderRepository.CreateOrderFromCart(userId, checkoutVM);
-				// إذا كانت طريقة الدفع غير نقدي، نعيد توجيه المستخدم إلى صفحة دفع Paymob
+		public async Task<IActionResult> Checkout(CheckoutViewModel checkoutVM)
+		{
+			try
+			{
+				var userId = await GetCurrentUserId();
+				var orderId = await orderRepository.CreateOrderFromCart(userId, checkoutVM);
 				if (checkoutVM.PaymentMethod != PaymentMethod.Cash)
 				{
-					// الحصول على الطلب لاستخراج رمز الدفع
 					var order = orderRepository.GetById(orderId);
 					var paymentToken = order.Payment.TransactionRef;
 
-					// بناء رابط دفع Paymob
 					var iframeId = configuration["Paymob:IframeId"];
 					var paymobUrl = $"https://accept.paymob.com/api/acceptance/iframes/{iframeId}?payment_token={paymentToken}";
 
 					return Redirect(paymobUrl);
 				}
 				return RedirectToAction("Details", new { id = orderId });
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Cart");
-            }
-        }
+			}
+			catch (Exception ex)
+			{
+				return RedirectToAction("Index", "Cart");
+			}
+		}
 
 		[Authorize(Roles = "Admin")]
         [HttpPost]
