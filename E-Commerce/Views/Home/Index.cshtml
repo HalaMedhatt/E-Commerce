@@ -97,7 +97,7 @@
                     <div id="tab-@category.Id" class="tab-pane fade p-0">
                         <div class="row g-4">
 
-                            @foreach (var product in ViewBag.Products)
+                            @foreach (var product in ((IEnumerable<Product>)ViewBag.Products).Take(8))
                             {
                                 if (product.CategoryId == category.Id)
                                 {
@@ -120,7 +120,7 @@
 
                                                 <div class="product-content">
                                                     <h4>@product.Name</h4>
-                                                    <p>@product.Description</p>
+                                                    <p>@product.BriefDescription</p>
                                                 </div>
 
 

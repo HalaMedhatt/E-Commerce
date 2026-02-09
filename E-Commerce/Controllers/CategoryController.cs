@@ -2,6 +2,8 @@
 using E_Commerce.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace E_Commerce.Controllers
 {
@@ -9,9 +11,11 @@ namespace E_Commerce.Controllers
     {
 
         private readonly ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly IProductRepository _productRepository;
+        public CategoryController(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
             _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
         public ActionResult Index()
         {
@@ -77,6 +81,13 @@ namespace E_Commerce.Controllers
             return View(category);
         }
 
+        public bool CategoryHasProducts(int categoryId)
+        {
+            return _productRepository.GetAll().Any(p=> p.CategoryId == categoryId);
+        }
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
@@ -87,11 +98,26 @@ namespace E_Commerce.Controllers
             if (category == null)
                 return NotFound();
 
-            _categoryRepository.Delete(id);
-            _categoryRepository.Save();
+            if (CategoryHasProducts(id))
+            {
+                TempData["Error"] = "You can't delete this category because it contains products.";
+                return RedirectToAction(nameof(Delete), new { id });
+            }
+
+            try
+            {
+                _categoryRepository.Delete(id);
+                _categoryRepository.Save();
+            }
+            catch
+            {
+                TempData["Error"] = "Something went wrong while deleting the category.";
+                return RedirectToAction(nameof(Delete), new { id });
+            }
 
             return RedirectToAction("IndexAdmin", "Home");
         }
+
 
     }
 }
