@@ -3,48 +3,42 @@
    ================================ */
 
 :root {
-    /* Honey Color Palette */
-    --honey-gold: #F5A623;
-    --honey-amber: #E8952C;
-    --honey-dark: #C77E1B;
-    --honey-light: #FFD93D;
-    --honey-cream: #FFF8E7;
-    --honey-pale: #FFFBF0;
-
+    /* Original Project Color Palette */
+    --primary-gold: #EFBF04;
+    --secondary-gold: #C2B067;
+    --dark-gold: #856A00;
+    --brown-dark: #403301;
+    /* Golden Shades */
+    --gold-light: #FFD93D;
+    --gold-pale: #FFF8E7;
+    --gold-cream: #FFFBF0;
     /* Complementary Colors */
-    --brown-dark: #5D4037;
     --brown-medium: #795548;
     --brown-light: #8D6E63;
-
     /* Neutrals */
     --white: #FFFFFF;
-    --gray-100: #F8F9FA;
+    --gray-100: #F4F6F8;
     --gray-200: #E9ECEF;
     --gray-400: #CED4DA;
     --gray-600: #6C757D;
     --gray-800: #343A40;
     --black: #1A1A1A;
-
     /* Status Colors */
-    --success: #28A745;
-    --error: #DC3545;
-    --warning: #FFC107;
-
+    --success: #198754;
+    --error: #dc3545;
+    --warning: #ffc107;
     /* Typography */
     --font-family: 'Poppins', sans-serif;
-
     /* Shadows */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
-    --shadow-honey: 0 4px 20px rgba(245, 166, 35, 0.3);
-
+    --shadow-gold: 0 4px 20px rgba(239, 191, 4, 0.3);
     /* Border Radius */
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
     --radius-full: 50%;
-
     /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
@@ -68,17 +62,19 @@ html {
 
 body {
     font-family: var(--font-family);
-    background: var(--honey-cream);
-    color: var(--gray-800);
+    background: var(--primary-gold);
+    color: var(--brown-dark);
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
 }
-
 a {
     text-decoration: none;
-    color: inherit;
+    color: var(--dark-gold);
     transition: var(--transition-fast);
+}
+a:hover {
+    color: var(--brown-dark);
 }
 
 /* ================================
@@ -97,7 +93,7 @@ a {
 
 .auth-branding {
     flex: 1;
-    background: linear-gradient(135deg, var(--honey-gold) 0%, var(--honey-amber) 50%, var(--honey-dark) 100%);
+    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 50%, var(--dark-gold) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -267,10 +263,9 @@ a {
 }
 
 .back-home:hover {
-    color: var(--honey-amber);
+    color: var(--primary-gold);
     transform: translateX(-3px);
 }
-
 /* ================================
    AUTH CARD STYLES
    ================================ */
@@ -353,13 +348,13 @@ a {
 }
 
 .form-control:focus {
-    border-color: var(--honey-gold);
-    box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.15);
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 4px rgba(239, 191, 4, 0.15);
 }
 
 .form-control:focus + i,
 .input-wrapper:focus-within i {
-    color: var(--honey-amber);
+    color: var(--primary-gold);
 }
 
 .form-control.error {
@@ -412,12 +407,11 @@ a {
     gap: 10px;
     margin-bottom: 20px;
 }
-
 .form-check-input {
     width: 18px;
     height: 18px;
     margin-top: 2px;
-    accent-color: var(--honey-amber);
+    accent-color: var(--primary-gold);
     cursor: pointer;
 }
 
@@ -428,15 +422,13 @@ a {
 }
 
 .form-check-label a {
-    color: var(--honey-amber);
+    color: var(--primary-gold);
     font-weight: 500;
 }
-
 .form-check-label a:hover {
-    color: var(--honey-dark);
+    color: var(--dark-gold);
     text-decoration: underline;
 }
-
 /* Remember & Forgot */
 .form-options {
     display: flex;
@@ -447,12 +439,12 @@ a {
 
 .forgot-link {
     font-size: 0.9rem;
-    color: var(--honey-amber);
+    color: var(--primary-gold);
     font-weight: 500;
 }
 
 .forgot-link:hover {
-    color: var(--honey-dark);
+    color: var(--dark-gold);
     text-decoration: underline;
 }
 
@@ -482,23 +474,23 @@ a {
 
 /* Primary Button - Honey Style */
 .btn-primary {
-    background: linear-gradient(135deg, var(--honey-gold) 0%, var(--honey-amber) 100%);
-    color: var(--white);
-    box-shadow: var(--shadow-honey);
+    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+    color: var(--brown-dark);
+    box-shadow: var(--shadow-gold);
     position: relative;
     overflow: hidden;
 }
 
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: 0.5s;
-}
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: 0.5s;
+    }
 
 .btn-primary:hover::before {
     left: 100%;
@@ -524,27 +516,26 @@ a {
     pointer-events: none;
 }
 
-.btn-loading .spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: var(--white);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
+    .btn-loading .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: var(--brown-dark);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
 
 /* Secondary Button */
 .btn-secondary {
     background: var(--white);
-    color: var(--gray-800);
+    color: var(--brown-dark);
     border: 2px solid var(--gray-200);
 }
 
-.btn-secondary:hover {
-    border-color: var(--honey-gold);
-    color: var(--honey-amber);
-}
-
+    .btn-secondary:hover {
+        border-color: var(--primary-gold);
+        color: var(--primary-gold);
+    }
 /* ================================
    SOCIAL LOGIN
    ================================ */
@@ -601,14 +592,15 @@ a {
     height: 20px;
 }
 
-.btn-google:hover {
-    border-color: #DB4437;
-    color: #DB4437;
+.auth-switch a {
+    color: var(--primary-gold);
+    font-weight: 600;
+    margin-left: 5px;
 }
 
-.btn-facebook:hover {
-    border-color: #4267B2;
-    color: #4267B2;
+.auth-switch a:hover {
+    color: var(--dark-gold);
+    text-decoration: underline;
 }
 
 /* ================================
@@ -625,13 +617,13 @@ a {
 }
 
 .auth-switch a {
-    color: var(--honey-amber);
+    color: var(--primary-gold);
     font-weight: 600;
     margin-left: 5px;
 }
 
 .auth-switch a:hover {
-    color: var(--honey-dark);
+    color: var(--dark-gold);
     text-decoration: underline;
 }
 
@@ -664,9 +656,8 @@ a {
 }
 
 .footer-links a:hover {
-    color: var(--honey-amber);
+    color: var(--primary-gold);
 }
-
 .footer-links .divider {
     color: var(--gray-400);
     margin: 0;
@@ -694,10 +685,9 @@ a {
 }
 
 .drip-path {
-    fill: var(--honey-gold);
+    fill: var(--primary-gold);
     opacity: 0.3;
 }
-
 /* ================================
    ALERTS
    ================================ */

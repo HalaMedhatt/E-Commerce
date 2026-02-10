@@ -32,7 +32,7 @@
                 </span>
             </p>
             <h4 class="text-success mb-3" id="productPrice">
-                @Model.Product.Variants.First().Price $
+                @Model.Product.Variants.First().Price EGP
             </h4>
 
              @if (Model.Product.Variants != null && Model.Product.Variants.Any())
@@ -67,7 +67,6 @@
                 @Model.Product.BriefDescription
             </p>
 
-            @* Add To Cart Button *@
             <!-- Quantity & Add to Cart -->
             <div class="mb-3">
                 <h6 class="fw-bold">Quantity</h6>
@@ -185,7 +184,7 @@
 
                 selectedVariantId = this.getAttribute('data-variant-id');
                 const price = this.getAttribute('data-price');
-                productPriceElement.textContent = price + ' $';
+                            productPriceElement.textContent = price + ' EGP';
 
                 selectedVariantInput.value = selectedVariantId;
             });
@@ -244,7 +243,7 @@
 
                             selectedVariantId = this.getAttribute('data-variant-id');
                             const price = this.getAttribute('data-price');
-                            productPriceElement.textContent = price + ' $';
+                            productPriceElement.textContent = price + ' EGP';
                         });
                     });
 

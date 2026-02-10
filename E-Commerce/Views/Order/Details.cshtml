@@ -6,7 +6,9 @@
     Layout = "_Cart";
 }
 
-
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Order Details</h1>
+</div>
 <div class="container py-4">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -89,7 +91,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
                         <span>Subtotal:</span>
-                        <span>$@Model.TotalCost.ToString("0.00") EGP</span>
+                        <span>@Model.TotalCost.ToString("0.00") EGP</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Shipping:</span>
@@ -99,7 +101,7 @@
                     <hr>
                     <div class="d-flex justify-content-between">
                         <strong>Total:</strong>
-                        <strong>$@((Model.TotalCost + 50).ToString("0.00"))</strong>
+                        <strong>@((Model.TotalCost + 50).ToString("0.00"))</strong>
                     </div>
                 </div>
             </div>
