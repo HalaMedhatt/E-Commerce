@@ -138,8 +138,18 @@ public class ProfileController : Controller
             return View("EditProfile", uservm);
         }
         
-        await signInManager.RefreshSignInAsync(user);
+        await signInManager.SignOutAsync();
+
+        var claims = new List<Claim>
+        {
+            new Claim("Avatar", user.Avatar ?? "default.jpg"),
+            new Claim("FullName", $"{user.FirstName} {user.LastName}")
+        };
+
+        await signInManager.SignInWithClaimsAsync(user, isPersistent: false, claims);
+
         return RedirectToAction("GetProfile");
+
     }
 
 

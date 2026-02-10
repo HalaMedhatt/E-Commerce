@@ -46,11 +46,11 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
-                 //await userManager.AddToRoleAsync(newUser, "Admin");
                 await userManager.AddToRoleAsync(newUser, "User");
                 
                 await signInManager.SignInWithClaimsAsync(newUser, false, 
                     new[] { new Claim("Avatar", newUser.Avatar ?? "default.jpg") });
+                
                 
                 return RedirectToAction("Index", "Home");
             }
