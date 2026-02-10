@@ -38,17 +38,17 @@ namespace E_Commerce.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize]
-        [HttpPost]
-        public IActionResult MergeCart()
-        {
-            var sessionId = HttpContext.Session.GetString("CartSessionId");
-            if (!string.IsNullOrEmpty(sessionId))
-            {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                cartRepository.MergeCarts($"SESSION_{sessionId}", userId);
-            }
-            return RedirectToAction("Index");
-        }
+        //[Authorize]
+        //[HttpPost]
+        //public IActionResult MergeCart()
+        //{
+        //    var sessionId = HttpContext.Session.GetString("CartSessionId");
+        //    if (!string.IsNullOrEmpty(sessionId))
+        //    {
+        //        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //        cartRepository.MergeCarts($"SESSION_{sessionId}", userId);
+        //    }
+        //    return RedirectToAction("Index");
+        //}
     }
 }

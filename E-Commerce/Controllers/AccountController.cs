@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using E_Commerce.IRepository;
 using E_Commerce.Models;
 using E_Commerce.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -10,11 +11,12 @@ public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
-
-    public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
+    private readonly ICartRepository cartRepository;
+	public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager,ICartRepository _cartRepository)
     {
         userManager = _userManager;
         signInManager = _signInManager;
+        cartRepository= _cartRepository;
     }
 
     #region Register
@@ -102,8 +104,13 @@ public class AccountController : Controller
                 {
                     await signInManager.SignInWithClaimsAsync(user, model.RememberMe, 
                         new List<Claim> { new Claim("Avatar", user.Avatar ?? "default.jpg") });
-
-                    return RedirectToAction("Index", "Home");
+					var sessionId = HttpContext.Session.GetString("CartSessionId");
+					if (!string.IsNullOrEmpty(sessionId))
+					{
+						var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+						cartRepository.MergeCarts($"SESSION_{sessionId}", userId);
+					}
+					return RedirectToAction("Index", "Home");
                 }
             }
 
