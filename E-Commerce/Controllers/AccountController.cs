@@ -72,9 +72,12 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult LogIn()
     {
+        
         return View("LogIn");
     }
-
+    
+    
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogIn(LoginViewModel model)
@@ -82,23 +85,34 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             ApplicationUser user = await userManager.FindByEmailAsync(model.Email);
+        
             if (user != null)
             {
-                bool correct = await userManager.CheckPasswordAsync(user, model.Password);
-                if (correct)
+                if (user.IsDeleted && model.ReactivateAccount)
                 {
+                    user.IsDeleted = false;
+                    user.DeletedAt = null; 
+                    await userManager.UpdateAsync(user);
                     
+                }
+
+                bool correct = await userManager.CheckPasswordAsync(user, model.Password);
+
+                if (correct && !user.IsDeleted)
+                {
                     await signInManager.SignInWithClaimsAsync(user, model.RememberMe, 
                         new List<Claim> { new Claim("Avatar", user.Avatar ?? "default.jpg") });
-                    
+
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ModelState.AddModelError("", "Invalid Account");
+
+            ModelState.AddModelError("", "Invalid Account or Account Deleted");
         }
+
         return View("LogIn", model);
     }
-    
+
 
     #endregion
 

@@ -210,6 +210,7 @@ public class ProfileController : Controller
 
     #region Delete Account
     
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteAccount()
@@ -218,77 +219,21 @@ public class ProfileController : Controller
 
         if (user == null)
             return RedirectToAction("Login", "Account");
-        
+
+        user.IsDeleted = true;
+        user.DeletedAt = DateTime.UtcNow;
+
+        await userManager.UpdateAsync(user);
+
         await signInManager.SignOutAsync();
 
-        IdentityResult result = await userManager.DeleteAsync(user);
-        if (result.Succeeded)
-        {
-            return RedirectToAction("Login", "Account");
-        }
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError("", error.Description);
-        }
-        
-        return RedirectToAction("GetProfile", "Profile");
+        return RedirectToAction("Login", "Account");
     }
+
     
 
     #endregion
 
-    #region Add Avatar
-
-    // [HttpGet]
-    // public async Task<IActionResult> ChoseAvatar()
-    // {
-    //     ApplicationUser user = await userManager.GetUserAsync(User);
-    //
-    //     var avatarPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar/");
-    //     ProfileViewModel model = new ProfileViewModel()
-    //     {
-    //         Avatars = Directory.GetFiles(avatarPath)
-    //             .Select(Path.GetFileName)
-    //             .ToList(),
-    //         Avatar = user?.Avatar
-    //     };
-    //     return View("ChoseAvatar", model);
-    //
-    // }
-    //
-    // [HttpPost]
-    // public async Task<IActionResult> ChoseAvatar(ProfileViewModel model)
-    // {
-    //     ApplicationUser user = await userManager.GetUserAsync(User);
-    //     if (user == null)
-    //     {
-    //         return RedirectToAction("Login", "Account");
-    //     }
-    //
-    //     if (!ModelState.IsValid)
-    //     {
-    //         return View("ChoseAvatar", model);
-    //     }
-    //
-    //     if (!model.Avatars.Contains(model.Avatar))
-    //     {
-    //         ModelState.AddModelError("", "Invalid avatar selected.");
-    //         return View("ChoseAvatar", model);
-    //     }
-    //     user.Avatar = model.Avatar;
-    //     var result = await userManager.UpdateAsync(user);
-    //     if (!result.Succeeded)
-    //     {
-    //         foreach (var error in result.Errors)
-    //         {
-    //             ModelState.AddModelError("", error.Description);
-    //         }
-    //
-    //         return View("ChoseAvatar", model);
-    //     }
-    //     return RedirectToAction("GetProfile");
-    // }
-
-    #endregion
+    
    
 }

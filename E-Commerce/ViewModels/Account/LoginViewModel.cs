@@ -11,4 +11,8 @@ public class LoginViewModel
     public string Password { get; set; }
 
     public bool RememberMe { get; set; }
+    [Display(Name = "Reactivate Account if deleted")]
+    public bool ReactivateAccount { get; set; }
+    
+    
 }
