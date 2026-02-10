@@ -14,7 +14,7 @@ namespace E_Commerce.Controllers
             Cart cart = await cartRepository.GetCartByUserIdAsync(null);
             return View("Index",cart);
         }
-       // [HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> AddToCart(int productVariantId, int quantity = 1)
         {
             await cartRepository.AddToCartAsync(null, productVariantId, quantity);

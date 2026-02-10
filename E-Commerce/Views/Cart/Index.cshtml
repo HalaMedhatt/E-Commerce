@@ -3,6 +3,9 @@
     ViewData["Title"] = "Index";
     Layout = "_cart";
 }
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Cart</h1>
+</div>
 <!-- Cart Page Start -->
 <div class="container-fluid py-5">
     <div class="container py-5">
@@ -36,7 +39,7 @@
                            <tr>
                             <th scope="row">
                                 <div class="d-flex align-items-center">
-                                            <img src="@item?.ProductVariant?.Product?.Images?.First().ImageUrl"
+                                            <img src="@item?.ProductVariant?.Product?.DefualtImageUrl"
                                                  class="img-fluid me-5 rounded-circle"
                                                  style="width: 80px; height: 80px; object-fit: cover;"
                                                  alt="@item.ProductVariant.Product.Name">

@@ -90,12 +90,49 @@
             </div>
 
 
-            <!-- Add To Cart -->
-<<<<<<< HEAD
-            <a  asp-route-id="@Model.Product.Id" class="add-to-cart new-style-btn"><i class="fa fa-shopping-bag"></i> Add to cart</a>
-=======
-            <a asp-route-id="@Model.Id" class="add-to-cart new-style-btn"><i class="fa fa-shopping-bag"></i> Add to cart</a>
->>>>>>> origin/Product-04
+            <!-- Alternative: Keep as link but add JavaScript onclick -->
+            <a href="#" id="addToCartBtn" class="add-to-cart new-style-btn">
+                <i class="fa fa-shopping-bag"></i> Add to cart
+            </a>
+
+            <script>
+                document.getElementById('addToCartBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const selectedVariant = document.querySelector('.variant-btn.active');
+                    const variantId = selectedVariant ? selectedVariant.dataset.variantId :
+                                      document.querySelector('.variant-btn')?.dataset.variantId;
+                    const quantity = document.getElementById('quantity').value;
+
+                    if (!variantId) {
+                        alert('Please select a size');
+                        return;
+                    }
+
+                    // Submit via fetch API
+                    fetch('/Cart/AddToCart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            productVariantId: parseInt(variantId),
+                            quantity: parseInt(quantity)
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Redirect or show success message
+                            //window.location.href = '/Cart/Index';
+                            alert(' add to cart');
+                        } else {
+                            alert('Failed to add to cart');
+                        }
+                    });
+                });
+            </script>
+
+
 
         </div>
     </div>
