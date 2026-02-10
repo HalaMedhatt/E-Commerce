@@ -67,75 +67,31 @@
                 @Model.Product.BriefDescription
             </p>
 
-            <!-- Quantity -->
-            <div class="d-flex align-items-center mb-4">
-                <button type="button"
-                        class="btn btn-outline-secondary"
-                        id="decreaseQty">
-                    −
-                </button>
-
-                <input type="text"
-                       id="quantity"
-                       class="form-control text-center mx-2"
-                       value="1"
-                       style="width:70px;"
-                       readonly />
-
-                <button type="button"
-                        class="btn btn-outline-secondary"
-                        id="increaseQty">
-                    +
-                </button>
+            @* Add To Cart Button *@
+            <!-- Quantity & Add to Cart -->
+            <div class="mb-3">
+                <h6 class="fw-bold">Quantity</h6>
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-secondary" id="decreaseQty">-</button>
+                    <input type="number" class="form-control text-center mx-2" id="quantity" name="quantity" value="1" min="1" style="width: 70px;" readonly>
+                    <button type="button" class="btn btn-outline-secondary" id="increaseQty">+</button>
+                </div>
             </div>
 
+            <!-- Form for Add to Cart -->
+            <form id="addToCartForm" method="post" asp-action="AddToCart" asp-controller="Cart">
+                <input type="hidden" name="productId" value="@Model.Product.Id" />
+                <input type="hidden" name="productVariantId" id="selectedVariantId" />
+                <input type="hidden" name="quantity" id="formQuantity" value="1" />
 
-            <!-- Alternative: Keep as link but add JavaScript onclick -->
-            <a href="#" id="addToCartBtn" class="add-to-cart new-style-btn">
-                <i class="fa fa-shopping-bag"></i> Add to cart
-            </a>
-
-            <script>
-                document.getElementById('addToCartBtn').addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    const selectedVariant = document.querySelector('.variant-btn.active');
-                    const variantId = selectedVariant ? selectedVariant.dataset.variantId :
-                                      document.querySelector('.variant-btn')?.dataset.variantId;
-                    const quantity = document.getElementById('quantity').value;
-
-                    if (!variantId) {
-                        alert('Please select a size');
-                        return;
-                    }
-
-                    // Submit via fetch API
-                    fetch('/Cart/AddToCart', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            productVariantId: parseInt(variantId),
-                            quantity: parseInt(quantity)
-                        })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Redirect or show success message
-                            //window.location.href = '/Cart/Index';
-                            alert(' add to cart');
-                        } else {
-                            alert('Failed to add to cart');
-                        }
-                    });
-                });
-            </script>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg" id="addToCartBtn">
+                        <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                    </button>
+                </div>
+            </form>
 
 
-
-        </div>
-    </div>
 
     <!-- Tabs -->
     <div class="row mt-5">
@@ -204,40 +160,165 @@
         </div>
     </div>
 </div>
+
 <script>
-    const buttons = document.querySelectorAll('.variant-btn');
-    const priceElement = document.getElementById('productPrice');
+    document.addEventListener('DOMContentLoaded', function () {
+        let selectedVariantId = null;
+        const variantButtons = document.querySelectorAll('.variant-btn');
+        const productPriceElement = document.getElementById('productPrice');
+        const quantityInput = document.getElementById('quantity');
+        const formQuantityInput = document.getElementById('formQuantity');
+        const selectedVariantInput = document.getElementById('selectedVariantId');
+        const decreaseBtn = document.getElementById('decreaseQty');
+        const increaseBtn = document.getElementById('increaseQty');
+        const addToCartForm = document.getElementById('addToCartForm');
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', function () {
+        variantButtons.forEach(button => {
+            button.addEventListener('click', function () {
+=                variantButtons.forEach(btn => {
+                    btn.classList.remove('active', 'btn-success');
+                    btn.classList.add('btn-outline-success');
+                });
 
-            buttons.forEach(b => b.classList.remove('active'));
+                this.classList.remove('btn-outline-success');
+                this.classList.add('active', 'btn-success');
 
-            this.classList.add('active');
+                selectedVariantId = this.getAttribute('data-variant-id');
+                const price = this.getAttribute('data-price');
+                productPriceElement.textContent = price + ' $';
 
+                selectedVariantInput.value = selectedVariantId;
+            });
+        });
 
-            priceElement.innerText = this.dataset.price + " $";
+        if (variantButtons.length > 0) {
+            variantButtons[0].click();
+        }
+
+        decreaseBtn.addEventListener('click', function () {
+            let currentQty = parseInt(quantityInput.value);
+            if (currentQty > 1) {
+                quantityInput.value = currentQty - 1;
+                formQuantityInput.value = currentQty - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', function () {
+            let currentQty = parseInt(quantityInput.value);
+            quantityInput.value = currentQty + 1;
+            formQuantityInput.value = currentQty + 1;
+        });
+
+        addToCartForm.addEventListener('submit', function (e) {
+            if (!selectedVariantId) {
+                e.preventDefault();
+                alert('Please select a size.');
+                return false;
+            }
+            return true;
         });
     });
-
-
-    const qtyInput = document.getElementById('quantity');
-    const increaseBtn = document.getElementById('increaseQty');
-    const decreaseBtn = document.getElementById('decreaseQty');
-
-    let quantity = 1;
-
-    increaseBtn.addEventListener('click', () => {
-        quantity++;
-        qtyInput.value = quantity;
-    });
-
-    decreaseBtn.addEventListener('click', () => {
-        if (quantity > 1) {
-            quantity--;
-            qtyInput.value = quantity;
-        }
-    });
-
-
 </script>
+
+
+@section Scripts {
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    let selectedVariantId = null;
+                    const variantButtons = document.querySelectorAll('.variant-btn');
+                    const productPriceElement = document.getElementById('productPrice');
+                    const quantityInput = document.getElementById('quantity');
+                    const decreaseBtn = document.getElementById('decreaseQty');
+                    const increaseBtn = document.getElementById('increaseQty');
+                    const addToCartBtn = document.getElementById('addToCartBtn');
+                    const productId = @Model.Product.Id;
+                    variantButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            variantButtons.forEach(btn => {
+                                btn.classList.remove('active', 'btn-success');
+                                btn.classList.add('btn-outline-success');
+                            });
+
+                            this.classList.remove('btn-outline-success');
+                            this.classList.add('active', 'btn-success');
+
+                            selectedVariantId = this.getAttribute('data-variant-id');
+                            const price = this.getAttribute('data-price');
+                            productPriceElement.textContent = price + ' $';
+                        });
+                    });
+
+                    if (variantButtons.length > 0) {
+                        variantButtons[0].click();
+                    }
+
+                    decreaseBtn.addEventListener('click', function () {
+                        let currentQty = parseInt(quantityInput.value);
+                        if (currentQty > 1) {
+                            quantityInput.value = currentQty - 1;
+                        }
+                    });
+
+                    increaseBtn.addEventListener('click', function () {
+                        let currentQty = parseInt(quantityInput.value);
+                        quantityInput.value = currentQty + 1;
+                    });
+
+                    addToCartBtn.addEventListener('click', async function () {
+                        if (!selectedVariantId) {
+                            alert('Please select a size.');
+                            return;
+                        }
+
+                        const quantity = quantityInput.value;
+
+                        const originalText = addToCartBtn.innerHTML;
+                        addToCartBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
+                        addToCartBtn.disabled = true;
+
+                        try {
+                            const response = await fetch('@Url.Action("AddToCart", "Cart")', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: `productId=${productId}&productVariantId=${selectedVariantId}&quantity=${quantity}`
+                            });
+
+                            if (response.ok) {
+                                showSuccessMessage('Product added to cart successfully!');
+                            } else {
+                                alert('Failed to add product to cart.');
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('An error occurred while adding to cart.');
+                        } finally {
+                            addToCartBtn.innerHTML = originalText;
+                            addToCartBtn.disabled = false;
+                        }
+                    });
+
+                    // دالة لعرض رسالة النجاح
+                    function showSuccessMessage(message) {
+                        // إنشاء عنصر الرسالة
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'alert alert-success alert-dismissible fade show position-fixed';
+                        messageDiv.style.top = '20px';
+                        messageDiv.style.right = '20px';
+                        messageDiv.style.zIndex = '9999';
+                        messageDiv.style.minWidth = '300px';
+                        messageDiv.innerHTML = `
+                            <strong>Success!</strong> ${message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        `;
+
+                        document.body.appendChild(messageDiv);
+
+                        setTimeout(() => {
+                            messageDiv.remove();
+                        }, 3000);
+                    }
+                });
+            </script>
+}

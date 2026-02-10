@@ -3,6 +3,7 @@ using E_Commerce.Models;
 using E_Commerce.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using System.Security.Claims;
 
 namespace E_Commerce.Controllers
@@ -15,12 +16,15 @@ namespace E_Commerce.Controllers
             return View("Index",cart);
         }
         //[HttpPost]
-        public async Task<IActionResult> AddToCart(int productVariantId, int quantity = 1)
+        public async Task<IActionResult> AddToCart(int productId, int productVariantId, int quantity = 1)
         {
-            await cartRepository.AddToCartAsync(null, productVariantId, quantity);
-            return RedirectToAction("Index","Home");
-        }
-        [HttpPost]
+			await cartRepository.AddToCartAsync(null, productVariantId, quantity);
+			//return RedirectToAction("Index","Home");
+
+			return RedirectToAction("Details", "Product", new { id = productId });
+
+		}
+		[HttpPost]
         public IActionResult RemoveFromCart(int cartItemId)
         {
             cartRepository.RemoveFromCart(cartItemId);
