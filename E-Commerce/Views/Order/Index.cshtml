@@ -88,7 +88,7 @@
                                     </td>
                                     <td>@order.CreatedAt.ToString("MMM dd, yyyy")</td>
                                     <td>@order.OrderItems.Sum(oi => oi.Quantity)</td>
-                                    <td><strong>$@order.TotalCost.ToString("0.00")</strong></td>
+                                    <td><strong>@order.TotalCost.ToString("0.00") EGP</strong></td>
                                     <td>
                                         <span class="badge @GetStatusBadgeClass(order.Status)">
                                             @order.Status

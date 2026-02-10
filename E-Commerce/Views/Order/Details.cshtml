@@ -138,16 +138,16 @@
                                  
                                     </div>
                                 </td>
-                                <td class="text-center">$@item.UnitPrice.ToString("0.00")</td>
+                                <td class="text-center">@item.UnitPrice.ToString("0.00") EGP</td>
                                 <td class="text-center">@item.Quantity</td>
-                                <td class="text-end">$@((item.UnitPrice * item.Quantity).ToString("0.00"))</td>
+                                <td class="text-end">@((item.UnitPrice * item.Quantity).ToString("0.00")) EGP</td>
                             </tr>
                         }
                     </tbody>
                     <tfoot class="table-light">
                         <tr>
                             <td colspan="3" class="text-end"><strong>Items Total:</strong></td>
-                            <td class="text-end"><strong>$@Model.TotalCost.ToString("0.00")</strong></td>
+                            <td class="text-end"><strong>@Model.TotalCost.ToString("0.00") EGP</strong></td>
                         </tr>
                     </tfoot>
                 </table>

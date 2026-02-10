@@ -52,9 +52,14 @@ public class AccountController : Controller
                 
                 await signInManager.SignInWithClaimsAsync(newUser, false, 
                     new[] { new Claim("Avatar", newUser.Avatar ?? "default.jpg") });
-                
-                
-                return RedirectToAction("Index", "Home");
+
+				var sessionId = HttpContext.Session.GetString("CartSessionId");
+				if (!string.IsNullOrEmpty(sessionId))
+				{
+					var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+					cartRepository.MergeCarts($"SESSION_{sessionId}", userId);
+				}
+				return RedirectToAction("Index", "Home");
             }
             foreach (var error in result.Errors)
             {
@@ -103,7 +108,7 @@ public class AccountController : Controller
                 if (correct && !user.IsDeleted)
                 {
                     await signInManager.SignInWithClaimsAsync(user, model.RememberMe, 
-                        new List<Claim> { new Claim("Avatar", user.Avatar ?? "default.jpg") });
+                    new List<Claim> { new Claim("Avatar", user.Avatar ?? "default.jpg") });
 					var sessionId = HttpContext.Session.GetString("CartSessionId");
 					if (!string.IsNullOrEmpty(sessionId))
 					{
