@@ -26,6 +26,12 @@
                     <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
                 </label>
             </div>
+            <div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="ReactivateAccount" />
+                    <label class="form-check-label" asp-for="ReactivateAccount">@Html.DisplayNameFor(model => model.ReactivateAccount)</label>
+                </div>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
