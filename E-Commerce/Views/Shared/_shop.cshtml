@@ -44,47 +44,89 @@
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
-    <!-- Navbar start -->
+   <!-- Navbar start -->
     <div class="container-fluid fixed-top">
         <div class="container topbar bg-primary d-none d-lg-block">
-        @*     <div class="d-flex justify-content-between"> *@
-        @*         <div class="top-info ps-2"> *@
-        @*             <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small> *@
-        @*             <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small> *@
-        @*         </div> *@
-                <div class="top-link pe-2">
-                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
-                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
-                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">Egypt, Damietta</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">HonyHive@Example.com</a></small>
                 </div>
-        @*     </div> *@
+                <div class="top-info ps-2">
+                </div>
+            </div>
         </div>
         <div class="container px-0">
-            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+            @* <nav class="navbar navbar-light bg-white navbar-expand-xl sticky-top"> *@
+            <nav class="navbar navbar-expand-lg sticky-top">
+
                 <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Honey Hive</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link">Home</a>
-                        <a href="shop.html" class="nav-item nav-link active">Shop</a>
-                        <a href="cart.html" class="nav-item nav-link">Shop Cart</a>
-                        <a href="chackout.html" class="nav-item nav-link">Chackout</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
-                        <a asp-controller="Home" asp-action="IndexAdmin" class="nav-item nav-link">Admin</a>
-
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
+                        <a asp-controller="Product" asp-action="Index" class="nav-item nav-link">Shop</a>
+                        <a  class="nav-item nav-link">Contact</a>
+                        <a  class="nav-item nav-link">About</a>
+                       @if(User.IsInRole("Admin")){
+                        <a asp-controller="Home" asp-action="IndexAdmin" class="nav-item nav-link">My Products</a>
+                        <a asp-controller="Order" asp-action="Index" class="nav-item nav-link">Orders</a>
+                       }
                     </div>
                     <div class="d-flex m-3 me-0">
                         <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                        <a href="#" class="position-relative me-4 my-auto">
+                        <a asp-action="Index" asp-controller="Cart" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                         </a>
-                        <a href="#" class="my-auto">
-                            <i class="fas fa-user fa-2x"></i>
-                        </a>
+                        
                     </div>
+                    
+                    @* //////////////////////// drop list *@
+                                   <!-- User Dropdown -->
+                    
+                    <div class="d-flex align-items-center">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <div class="dropdown">
+                                <a href="#" class="d-block text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/img/Avatar/@(string.IsNullOrEmpty(User.FindFirst("Avatar")?.Value) ? "default.jpg" : User.FindFirst("Avatar")?.Value)"
+                                         alt="Profile Avatar"
+                                         class="rounded-circle border border-2 border-white shadow-sm"
+                                         style="width: 45px; height: 45px; object-fit: cover;"
+                                         onerror="this.src='~/img/Avatar/default.jpg'">
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                                    <li>
+                                        <a class="dropdown-item fw-semibold" asp-controller="Profile" asp-action="GetProfile">
+                                            <i class="fas fa-user-circle me-2 text-primary"></i> My Profile
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item fw-semibold" asp-action="Index" asp-controller="Cart">
+                                            <i class="fas fa-shopping-bag me-2 text-warning"></i> My Orders
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item text-danger fw-semibold" asp-controller="Account" asp-action="LogOut">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-primary rounded-pill px-4">
+                                <i class="fas fa-sign-in-alt me-1"></i> Login
+                            </a>
+                        }
+                    </div>
+                    
+                    @* ///////////////////drop list ///////////////////// *@
                 </div>
             </nav>
         </div>
@@ -166,119 +208,7 @@
         </div>
     </div>
 
-    @*                             <div class="col-lg-12">
-                                    <h4 class="mb-3">Featured products</h4>
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                            <img src="/img/featur-1.jpg" class="img-fluid rounded" alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-2">Big Banana</h6>
-                                            <div class="d-flex mb-2">
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                            <img src="/img/featur-2.jpg" class="img-fluid rounded" alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-2">Big Banana</h6>
-                                            <div class="d-flex mb-2">
-                                                <i class="fa fa-star text-secondary"></i>
-
-
-                                                 <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                            <img src="/img/featur-3.jpg" class="img-fluid rounded" alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-2">Big Banana</h6>
-                                            <div class="d-flex mb-2">
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center my-4">
-                                        <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="position-relative">
-                                        <img src="/img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
-                                        <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                            <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-9">
-                            <div class="row g-4 justify-content-center">
-
-
-
-
-
-                                <div class="col-12">
-                                    <div class="pagination d-flex justify-content-center mt-5">
-                                        <a href="#" class="rounded">&laquo;</a>
-                                        <a href="#" class="active rounded">1</a>
-                                        <a href="#" class="rounded">2</a>
-                                        <a href="#" class="rounded">3</a>
-                                        <a href="#" class="rounded">4</a>
-                                        <a href="#" class="rounded">5</a>
-                                        <a href="#" class="rounded">6</a>
-                                        <a href="#" class="rounded">&raquo;</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>  *@
-    <!-- Fruits Shop End-->
-
-
-
-
-
-
-
-
-
-
-
+   
 
 
      <!-- Footer Start -->
@@ -293,10 +223,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        @* <div class="position-relative mx-auto"> *@
-                        @*     <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email"> *@
-                        @*     <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button> *@
-                        @* </div> *@
+                        
                     </div>
                     <div class="col-lg-3">
                         <div class="d-flex justify-content-end pt-3">
@@ -305,10 +232,7 @@
                                href="https://wa.me/201028781595" target="_blank">
                                 <i class="fab fa-whatsapp"></i>
                             </a>
-                            @* <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a> *@
-                            @* <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a> *@
-                            @* <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a> *@
-                            @* <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a> *@
+                            
                         </div>
                     </div>
                 </div>
@@ -321,18 +245,13 @@
                             Our honey is 100% pure, natural, and harvested with care from the finest local flowers. 
                             People love us for the rich taste, natural goodness, and health benefits that come straight from the hive to your table.
                         </p>
-                        @* <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a> *@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="d-flex flex-column text-start footer-item">
                         <h4 class="text-light mb-3">Shop Info</h4>
                         <a class="btn-link" href="">About Us</a>
-                        @* <a class="btn-link" href="">Contact Us</a> *@
-                        @* <a class="btn-link" href="">Privacy Policy</a> *@
-                        @* <a class="btn-link" href="">Terms & Condition</a> *@
-                        @* <a class="btn-link" href="">Return Policy</a> *@
-                        @* <a class="btn-link" href="">FAQs & Help</a> *@
+                        
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -341,9 +260,7 @@
                         <a class="btn-link" href="">My Account</a>
                         <a class="btn-link" href="">Shop details</a>
                         <a class="btn-link" href="">Shopping Cart</a>
-                        @* <a class="btn-link" href="">Wishlist</a> *@
-                        @* <a class="btn-link" href="">Order History</a> *@
-                        @* <a class="btn-link" href="">International Orders</a> *@
+                        
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -370,11 +287,7 @@
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Honey Hive</a>, All right reserved.</span>
                 </div>
-                @* <div class="col-md-6 my-auto text-center text-md-end text-white"> *@
-                @*     <!--/*** The author’s attribution link must remain intact in the template. ***/--> *@
-                @*     <!--/*** If you wish to remove this credit link, please purchase the Pro Version . ***/--> *@
-                @*     Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> *@
-                @* </div> *@
+                
             </div>
         </div>
     </div>

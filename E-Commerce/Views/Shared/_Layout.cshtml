@@ -46,13 +46,13 @@
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
-    <!-- Navbar start -->
+<!-- Navbar start -->
     <div class="container-fluid fixed-top">
         <div class="container topbar bg-primary d-none d-lg-block">
             <div class="d-flex justify-content-between">
                 <div class="top-info ps-2">
-                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, Minya</a></small>
-                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">HonyStor@Example.com</a></small>
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">Egypt, Damietta</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">HonyHive@Example.com</a></small>
                 </div>
                 <div class="top-info ps-2">
                 </div>
@@ -78,89 +78,43 @@
                        }
                     </div>
                     <div class="d-flex m-3 me-0">
-                        
-                        
-                        
-                        @* <form method="get" action=""> *@
-                        @*     <div class="position-relative"> *@
-                        @*         <input name="search" *@
-                        @*                value="@Context.Request.Query["search"]" *@
-                        @*                class="form-control border-2 border-secondary py-2 px-3 rounded-pill" *@
-                        @*                type="search" *@
-                        @*                placeholder="Search"> *@
-                        @* *@
-                        @*         <button type="submit" *@
-                        @*                 class="btn btn-primary border-2 border-secondary px-3 py-2 position-absolute rounded-pill text-white" *@
-                        @*                 style="top:0; right:0;"> *@
-                        @*             <i class="fas fa-search"></i> *@
-                        @*         </button> *@
-                        @*     </div> *@
-                        @* </form> *@
-
-
-                        <!-- زرار البحث في الـ Navbar -->
-                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
-                                data-bs-toggle="modal"
-                                data-bs-target="#searchModal">
-                            <i class="fas fa-search text-primary"></i>
-                        </button>
-
-                        <!-- مودال البحث -->
-                        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content p-3">
-                                    <div class="modal-header border-0">
-                                        <h5 class="modal-title" id="searchModalLabel">بحث</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="input-group">
-                                                <input type="search" class="form-control rounded-pill" placeholder="ابحث عن منتج...">
-                                                <button type="submit" class="btn btn-primary rounded-pill">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        @* <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button> *@
+                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                         <a asp-action="Index" asp-controller="Cart" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x"></i>
-                            @* <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> *@
                         </a>
-                        @* <a href="Profile/GetProfile" class="my-auto"> *@
-                        @*     <i class="fas fa-user fa-2x"></i> *@
-                        @* </a> *@
+                        
                     </div>
                     
                     @* //////////////////////// drop list *@
+                                   <!-- User Dropdown -->
+                    
                     <div class="d-flex align-items-center">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <div class="dropdown">
-                                <a  href="#" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user fa-2x"></i>
+                                <a href="#" class="d-block text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/img/Avatar/@(string.IsNullOrEmpty(User.FindFirst("Avatar")?.Value) ? "default.jpg" : User.FindFirst("Avatar")?.Value)"
+                                         alt="Profile Avatar"
+                                         class="rounded-circle border border-2 border-white shadow-sm"
+                                         style="width: 45px; height: 45px; object-fit: cover;"
+                                         onerror="this.src='~/img/Avatar/default.jpg'">
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
+
+                                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
                                     <li>
-                                        <a class="dropdown-item" asp-controller="Profile" asp-action="GetProfile">
-                                            <i class="fas fa-user-circle me-2"></i>My Profile
+                                        <a class="dropdown-item fw-semibold" asp-controller="Profile" asp-action="GetProfile">
+                                            <i class="fas fa-user-circle me-2 text-primary"></i> My Profile
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders">
-                                            <i class="fas fa-shopping-bag me-2"></i>My Orders
+                                        <a class="dropdown-item fw-semibold" asp-action="Index" asp-controller="Cart">
+                                            <i class="fas fa-shopping-bag me-2 text-warning"></i> My Orders
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut">
-                                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                        <a class="dropdown-item text-danger fw-semibold" asp-controller="Account" asp-action="LogOut">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
                                         </a>
                                     </li>
                                 </ul>
@@ -168,11 +122,12 @@
                         }
                         else
                         {
-                            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-primary rounded-pill px-4">
                                 <i class="fas fa-sign-in-alt me-1"></i> Login
                             </a>
                         }
                     </div>
+                    
                     @* ///////////////////drop list ///////////////////// *@
                 </div>
             </nav>
@@ -218,62 +173,7 @@
             </div>
         </div>
     </div>
-    <!-- Hero End -->
-    <!-- Featurs Section Start -->
-    @* <div class="container-fluid featurs py-5">
-        <div class="container py-5">
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-car-side fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>Free Shipping</h5>
-                            <p class="mb-0">Free on order over $300</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-user-shield fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>Security Payment</h5>
-                            <p class="mb-0">100% security payment</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-exchange-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>30 Day Return</h5>
-                            <p class="mb-0">30 day money guarantee</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fa fa-phone-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>24/7 Support</h5>
-                            <p class="mb-0">Support every time fast</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> *@
-    <!-- Featurs Section End -->
-    <!-- Fruits Shop Start-->
-    <!-- Fruits Shop Start-->
-
+    
     <main class="mt-5 pt-5">
         @RenderBody()
 
@@ -324,18 +224,13 @@
                             Our honey is 100% pure, natural, and harvested with care from the finest local flowers. 
                             People love us for the rich taste, natural goodness, and health benefits that come straight from the hive to your table.
                         </p>
-                        @* <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a> *@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="d-flex flex-column text-start footer-item">
                         <h4 class="text-light mb-3">Shop Info</h4>
                         <a class="btn-link" href="">About Us</a>
-                        @* <a class="btn-link" href="">Contact Us</a> *@
-                        @* <a class="btn-link" href="">Privacy Policy</a> *@
-                        @* <a class="btn-link" href="">Terms & Condition</a> *@
-                        @* <a class="btn-link" href="">Return Policy</a> *@
-                        @* <a class="btn-link" href="">FAQs & Help</a> *@
+                        
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -344,9 +239,7 @@
                         <a class="btn-link" href="">My Account</a>
                         <a class="btn-link" href="">Shop details</a>
                         <a class="btn-link" href="">Shopping Cart</a>
-                        @* <a class="btn-link" href="">Wishlist</a> *@
-                        @* <a class="btn-link" href="">Order History</a> *@
-                        @* <a class="btn-link" href="">International Orders</a> *@
+                        
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -373,11 +266,7 @@
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Honey Hive</a>, All right reserved.</span>
                 </div>
-                @* <div class="col-md-6 my-auto text-center text-md-end text-white"> *@
-                @*     <!--/*** The author’s attribution link must remain intact in the template. ***/--> *@
-                @*     <!--/*** If you wish to remove this credit link, please purchase the Pro Version . ***/--> *@
-                @*     Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> *@
-                @* </div> *@
+                
             </div>
         </div>
     </div>
