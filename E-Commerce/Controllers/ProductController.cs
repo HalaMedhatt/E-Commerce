@@ -45,43 +45,47 @@ namespace E_Commerce.Controllers
         //    return View(model);
 
         //}
-        public IActionResult Index(string? search, int page = 1)
+        public IActionResult Index(string? search, int? categoryId, int page = 1)
         {
-            int pageSize = 12; // عدد المنتجات لكل صفحة
-
-            var model = new HomeViewModel();
-
-            // جلب كل التصنيفات
-            model.Categories = _categoryRepository.GetAll();
+            int pageSize = 8;
 
             var productsQuery = _productRepository.GetAll().AsQueryable();
 
+            // 🔎 Search
             if (!string.IsNullOrWhiteSpace(search))
             {
                 productsQuery = productsQuery.Where(x =>
-                    (x.Name != null && x.Name.ToLower().Contains(search.ToLower())) ||
-                    (x.BriefDescription != null && x.BriefDescription.ToLower().Contains(search.ToLower()))
-                );
+                    x.Name.Contains(search));
             }
 
-            // حساب pagination
+            // 📂 Filter by Category
+            if (categoryId.HasValue)
+            {
+                productsQuery = productsQuery
+                    .Where(p => p.CategoryId == categoryId.Value);
+            }
+
             int totalProducts = productsQuery.Count();
-            int totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
+            int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
             var products = productsQuery
-                            .Skip((page - 1) * pageSize)
-                            .Take(pageSize)
-                            .ToList();
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
 
-            model.Products = products;
+            var model = new HomeViewModel
+            {
+                Categories = _categoryRepository.GetAll(),
+                Products = products
+            };
 
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
             ViewBag.Search = search;
+            ViewBag.CategoryId = categoryId;
 
             return View(model);
         }
-
 
 
 
