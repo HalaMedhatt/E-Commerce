@@ -16,15 +16,17 @@
                 <div class="d-flex justify-content-between fruite-name">
                     <a asp-action="Index"
                        asp-route-categoryId="@category.Id"
+                       asp-route-search="@ViewBag.Search"
+                       asp-route-page="1"
                        class="@(ViewBag.CategoryId == category.Id ? "fw-bold text-warning" : "")">
                         <i class="fas fa-apple-alt me-2"></i>@category.Name
                     </a>
                 </div>
             </li>
-
         }
     </ul>
 }
+
 
 
 @section shopContent

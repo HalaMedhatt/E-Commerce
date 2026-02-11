@@ -60,13 +60,11 @@ namespace E_Commerce.Controllers
                 );
             }
 
-            // 📂 Filter by Category
             if (categoryId.HasValue)
             {
                 productsQuery = productsQuery
                     .Where(p => p.CategoryId == categoryId.Value);
             }
-
             int totalProducts = productsQuery.Count();
             int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
