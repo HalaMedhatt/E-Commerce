@@ -88,7 +88,7 @@ namespace E_Commerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Finish(int productId)
         {
-            return RedirectToAction("Index", "Product");
+            return RedirectToAction("IndexAdmin", "Home");
         }
 
         public IActionResult UpdateVrainant(int productId)

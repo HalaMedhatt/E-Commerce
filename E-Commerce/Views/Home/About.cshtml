@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+    Layout = "~/Views/Shared/_cart.cshtml";
+}
+
+<style>
+    .about-hero {
+        background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('/img/about.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 0;
+        color: white;
+        text-align: center;
+    }
+
+    .about-section {
+        padding: 80px 0;
+    }
+
+    .about-card {
+        transition: 0.3s ease-in-out;
+        border: none;
+        border-radius: 15px;
+    }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+    .gold-text {
+        color: #d4a017;
+    }
+
+    .mission-box {
+        background: #fff8e1;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+</style>
+
+<!-- Hero Section -->
+
+        <div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">About Bee Natural Store</h1>
+        </div>
+    
+
+        @* <h1 class="display-3 fw-bold">About Bee Natural Store</h1> *@
+        @* <p class="lead">Discover our passion for natural bee products</p> *@
+<!-- About Content -->
+<div class="container about-section">
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <img src="~/img/about.jpg" class="img-fluid rounded-4 shadow-lg" alt="Bee Products">
+        </div>
+        <div class="col-md-6">
+            <h2 class="fw-bold gold-text mb-4">Welcome to Our Bee World 🐝</h2>
+            <p class="fs-5 text-muted">
+                At <strong>Bee Natural Store</strong>, we are passionate about delivering
+                high-quality, pure, and sustainable bee products directly to your home.
+            </p>
+            <p class="fs-5 text-muted">
+                Our journey started with a love for nature and the incredible work of bees.
+                Today, we proudly offer premium honey, royal jelly, bee pollen,
+                beeswax products, and more.
+            </p>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="row text-center g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="card about-card p-4 shadow">
+                <h4 class="gold-text mb-3">🍯 Premium Quality</h4>
+                <p class="text-muted">
+                    We carefully select and test all our honey and bee products
+                    to ensure purity and freshness.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card about-card p-4 shadow">
+                <h4 class="gold-text mb-3">🌱 Sustainable Sourcing</h4>
+                <p class="text-muted">
+                    We support ethical beekeeping practices that protect bees
+                    and the environment.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card about-card p-4 shadow">
+                <h4 class="gold-text mb-3">💛 Customer First</h4>
+                <p class="text-muted">
+                    Your satisfaction is our priority. We provide secure shopping
+                    and reliable delivery.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Mission -->
+    <div class="mission-box text-center">
+        <h3 class="fw-bold gold-text mb-3">Our Mission</h3>
+        <p class="lead text-muted">
+            To bring nature’s finest bee products to every home while supporting
+            sustainable and responsible beekeeping.
+        </p>
+    </div>
+
+</div>

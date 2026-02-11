@@ -67,13 +67,13 @@
 }
 
 .vesitable .vesitable-item {
-    width: 300px; 
-    height: 100%; 
-    flex: 0 0 auto; 
-    margin: 0 10px; 
+    width: 300px;
+    height: 100%;
+    flex: 0 0 auto;
+    margin: 0 10px;
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid #8bc34a;
+    border: 1px solid #EFBF04;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -126,12 +126,12 @@
     align-items: center;
     justify-content: center;
     padding: 6px 12px;
-    background-color: white; 
-    color: #8bc34a;
-    border: 1px solid var(--bs-secondary);
+    background-color: white;
+    color: #EFBF04;
+    border: 1px solid #EFBF04 !important;
     font-weight: 600;
-    font-size: 0.875rem; 
-    border-radius: 15px; 
+    font-size: 0.875rem;
+    border-radius: 15px;
     text-decoration: none;
     transition: 0.3s ease;
 }

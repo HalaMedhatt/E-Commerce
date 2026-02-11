@@ -58,7 +58,7 @@
             @* <nav class="navbar navbar-light bg-white navbar-expand-xl sticky-top"> *@
             <nav class="navbar navbar-expand-lg sticky-top">
 
-                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Honey Hive</h1></a>
+                <a asp-action="Index" asp-controller="Home" class="navbar-brand"><h1 class="text-primary display-6">Honey Hive</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
@@ -67,8 +67,9 @@
                         <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
                         <a asp-controller="Product" asp-action="Index" class="nav-item nav-link">Shop</a>
                         <a  class="nav-item nav-link">Contact</a>
-                        <a  class="nav-item nav-link">About</a>
-                       @if(User.IsInRole("Admin")){
+                        <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+                        @if (User.IsInRole("Admin"))
+                        {
                         <a asp-controller="Home" asp-action="IndexAdmin" class="nav-item nav-link">My Products</a>
                         <a asp-controller="Order" asp-action="Index" class="nav-item nav-link">Orders</a>
                        }

@@ -45,33 +45,43 @@ namespace E_Commerce.Controllers
         //    return View(model);
 
         //}
-        public IActionResult Index(string? search)
+        public IActionResult Index(string? search, int page = 1)
         {
+            int pageSize = 12; // عدد المنتجات لكل صفحة
+
             var model = new HomeViewModel();
 
+            // جلب كل التصنيفات
             model.Categories = _categoryRepository.GetAll();
+
             var productsQuery = _productRepository.GetAll().AsQueryable();
-
-
-
 
             if (!string.IsNullOrWhiteSpace(search))
             {
                 productsQuery = productsQuery.Where(x =>
-                    x.Name != null &&
-                    x.BriefDescription != null &&
-                    (
-                        x.Name.ToLower().Contains(search.ToLower()) ||
-                        x.BriefDescription.ToLower().Contains(search.ToLower())
-                    )
+                    (x.Name != null && x.Name.ToLower().Contains(search.ToLower())) ||
+                    (x.BriefDescription != null && x.BriefDescription.ToLower().Contains(search.ToLower()))
                 );
             }
 
+            // حساب pagination
+            int totalProducts = productsQuery.Count();
+            int totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
 
-            model.Products = productsQuery.ToList();
+            var products = productsQuery
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+
+            model.Products = products;
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.Search = search;
 
             return View(model);
         }
+
 
 
 
