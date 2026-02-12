@@ -12,6 +12,9 @@ namespace E_Commerce
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ApplicationUser>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
 
         }
         public DbSet<Product> Products { get; set; }

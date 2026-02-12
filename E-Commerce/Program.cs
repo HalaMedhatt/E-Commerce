@@ -38,10 +38,17 @@ namespace E_Commerce
             //15
             // Rania (35-49)
             //1
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<ECommerceDbContext>()
                 .AddDefaultTokenProviders();
+
             builder.Services.AddControllersWithViews();
+            
+            
+            
 
             //2
             //3

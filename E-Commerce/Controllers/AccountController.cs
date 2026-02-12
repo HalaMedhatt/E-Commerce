@@ -35,7 +35,9 @@ public class AccountController : Controller
         {
             ApplicationUser newUser = new ApplicationUser()
             {
-                UserName = model.UserName,
+                
+
+                UserName = model.Email,
                 FirstName =  model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
@@ -63,7 +65,10 @@ public class AccountController : Controller
             }
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("", error.Description);
+                if (error.Code == "DuplicateEmail")
+                    ModelState.AddModelError(nameof(model.Email), error.Description);
+                else
+                    ModelState.AddModelError("", error.Description);
             }
         }
         

@@ -10,10 +10,9 @@ public class RegisterViewModel
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
-    
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; }
-        
+    
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Password must be at least 8 characters and contain uppercase, lowercase, number and special character.")]
     public string Password { get; set; }
