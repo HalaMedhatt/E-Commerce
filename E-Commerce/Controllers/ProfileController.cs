@@ -177,7 +177,7 @@ public class ProfileController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangePassword(ProfileViewModel uservm)
     {
-        
+        ModelState.Remove("Avatars");
         ModelState.Remove("Email");
         ModelState.Remove("LastName");
         ModelState.Remove("UserName");
